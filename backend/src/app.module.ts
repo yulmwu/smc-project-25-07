@@ -4,6 +4,7 @@ import { CommentsModule } from './comments/comments.module'
 import { AppController } from './app.controller'
 
 @Module({
-    imports: [AppController, PostsModule, CommentsModule],
+    imports: [PostsModule, CommentsModule],
+    controllers: [AppController],
 })
 export class AppModule {}
