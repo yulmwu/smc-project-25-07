@@ -1,0 +1,100 @@
+import { Injectable } from '@nestjs/common'
+import { v4 as uuidv4 } from 'uuid'
+import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
+import { CreateCommentDto } from './dto/create-comment.dto'
+import { UpdateCommentDto } from './dto/update-comment.dto'
+import * as bcrypt from 'bcrypt'
+import { PutCommand, QueryCommand, GetCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb'
+
+@Injectable()
+export class CommentsService {
+    private readonly tableName = 'smc-07-comments'
+
+    constructor(private readonly dynamoDB: DynamoDBService) {}
+
+    async create(dto: CreateCommentDto) {
+        const hashedPassword = await bcrypt.hash(dto.password, 10)
+
+        const comment = {
+            id: uuidv4(),
+            postId: dto.postId,
+            author: dto.author,
+            password: hashedPassword,
+            content: dto.content,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+        }
+
+        await this.dynamoDB.client.send(
+            new PutCommand({
+                TableName: this.tableName,
+                Item: comment,
+            })
+        )
+
+        return { id: comment.id, author: comment.author, content: comment.content }
+    }
+
+    async findByPost(postId: number) {
+        const result = await this.dynamoDB.client.send(
+            new QueryCommand({
+                TableName: this.tableName,
+                IndexName: 'smc-07-comments-index-1', // GSI
+                KeyConditionExpression: 'postId = :postId',
+                ExpressionAttributeValues: {
+                    ':postId': postId,
+                },
+            })
+        )
+        return result.Items
+    }
+
+    async findOne(id: string) {
+        const result = await this.dynamoDB.client.send(
+            new GetCommand({
+                TableName: this.tableName,
+                Key: { id },
+            })
+        )
+        return result.Item
+    }
+
+    async update(id: string, dto: UpdateCommentDto) {
+        const existing = await this.findOne(id)
+        if (!existing) throw new Error('Comment not found')
+
+        const isMatch = await bcrypt.compare(dto.password, existing.password)
+        if (!isMatch) throw new Error('Invalid password')
+
+        await this.dynamoDB.client.send(
+            new UpdateCommand({
+                TableName: this.tableName,
+                Key: { id },
+                UpdateExpression: 'SET content = :content, updatedAt = :updatedAt',
+                ExpressionAttributeValues: {
+                    ':content': dto.content,
+                    ':updatedAt': new Date().toISOString(),
+                },
+            })
+        )
+
+        return { id }
+    }
+
+    async remove(id: string, password: string) {
+        const existing = await this.findOne(id)
+        if (!existing) throw new Error('Comment not found')
+
+        const isMatch = await bcrypt.compare(password, existing.password)
+        if (!isMatch) throw new Error('Invalid password')
+
+        await this.dynamoDB.client.send(
+            new DeleteCommand({
+                TableName: this.tableName,
+                Key: { id },
+            })
+        )
+
+        return { id }
+    }
+}
