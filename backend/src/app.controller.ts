@@ -20,4 +20,9 @@ export class AppController {
     getHealth(): string {
         return 'OK'
     }
+
+    @Get('/welcome')
+    getWelcome(): string {
+        return 'Welcome to the SMC Project!'
+    }
 }

@@ -13,7 +13,8 @@ export default function Home() {
                         </code>
                         .
                     </li>
-                    <li className='tracking-[-.01em]'>Save and see your changes instantly.</li>
+                    <li className='mb-2 tracking-[-.01em]'>Save and see your changes instantly.</li>
+                    <li className='tracking-[-.01em]'>Life is short, you need AWS</li>
                 </ol>
 
                 <div className='flex gap-4 items-center flex-col sm:flex-row'>
