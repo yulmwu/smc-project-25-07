@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-// 타입 정의
 export type Post = {
     id: number
     author: string
@@ -31,7 +30,7 @@ const api = axios.create({
     },
 })
 
-export async function getPosts(): Promise<Post[]> {
+export const getPosts = async (): Promise<Post[]> => {
     const res = await api.get<Post[]>('/posts')
     return res.data
 }

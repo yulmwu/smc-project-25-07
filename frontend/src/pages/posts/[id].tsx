@@ -3,6 +3,7 @@ import { getPost, getComments, Post, Comment, deletePost } from '@/lib/api'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import CommentForm from '@/components/CommentForm'
+import CommentItem from '@/components/CommentItem'
 
 export default function PostDetail({ post, comments }: { post: Post; comments: Comment[] }) {
     const router = useRouter()
@@ -59,15 +60,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                 <h2 className='text-2xl font-semibold mb-6'>댓글 ({comments.length})</h2>
                 <ul className='space-y-4'>
                     {comments.map((c) => (
-                        <li key={c.id} className='bg-gray-50 rounded-xl p-4 shadow-sm'>
-                            <div className='flex justify-between text-sm text-gray-600 mb-1'>
-                                <span>
-                                    작성자: <strong>{c.author}</strong>
-                                </span>
-                                <time>{c.createdAt.slice(0, 10)}</time>
-                            </div>
-                            <p className='text-gray-800 whitespace-pre-wrap'>{c.content}</p>
-                        </li>
+                        <CommentItem key={c.id} comment={c} />
                     ))}
                 </ul>
 
