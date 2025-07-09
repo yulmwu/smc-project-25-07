@@ -8,7 +8,7 @@ export type Post = {
     createdAt?: string
     updatedAt?: string
     password?: string
-    commentCount?: number // Add commentCount
+    commentCount?: number
 }
 
 export type Comment = {
@@ -20,7 +20,7 @@ export type Comment = {
     password?: string
 }
 
-export const BASE_URL = process.env.DEVELOPMENT ? 'http://localhost:3000/api' : 'https://chosun.rlawnsdud.shop/api'
+export const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api'
 
 const api = axios.create({
     baseURL: BASE_URL,

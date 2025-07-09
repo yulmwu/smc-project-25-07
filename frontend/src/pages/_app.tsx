@@ -3,7 +3,7 @@ import './globals.css'
 import { AppProps } from 'next/app'
 
 export default function App({ Component, pageProps }: AppProps) {
-    console.log(BASE_URL)
+    console.log("BASE_URL: ", BASE_URL)
 
     return (
         <>
