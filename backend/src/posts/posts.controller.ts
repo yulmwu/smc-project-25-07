@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Put, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Put, Delete, Query } from '@nestjs/common'
 import { PostsService } from './posts.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import { UpdatePostDto } from './dto/update-post.dto'
@@ -13,8 +13,8 @@ export class PostsController {
     }
 
     @Get()
-    findAll() {
-        return this.postsService.findAll()
+    findAll(@Query('cursor') cursor?: string, @Query('limit') limit?: string) {
+        return this.postsService.findAll(cursor ? parseInt(cursor, 10) : void 0, limit ? parseInt(limit, 10) : void 0)
     }
 
     @Get(':id')

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import * as bcrypt from 'bcrypt'
-import { PutCommand, GetCommand, ScanCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb'
+import { PutCommand, GetCommand, ScanCommand, UpdateCommand, DeleteCommand, QueryCommand } from '@aws-sdk/lib-dynamodb'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Invalid, NotFoundError } from 'src/common/errors'
 
@@ -31,9 +31,11 @@ export class PostsService {
 
     async create(createPostDto: CreatePostDto) {
         const hashedPassword = await bcrypt.hash(createPostDto.password, 10)
+        const id = await this.nextId()
 
         const post = {
-            id: await this.nextId(),
+            pk: 'posts',
+            id,
             author: createPostDto.author,
             password: hashedPassword,
             title: createPostDto.title,
@@ -56,19 +58,41 @@ export class PostsService {
         const result = await this.dynamoDB.client.send(
             new GetCommand({
                 TableName: this.tableName,
-                Key: { id },
+                Key: {
+                    pk: 'posts',
+                    id,
+                },
             })
         )
         return result.Item
     }
 
-    async findAll() {
-        const result = await this.dynamoDB.client.send(
-            new ScanCommand({
-                TableName: this.tableName,
-            })
-        )
-        return result.Items
+    async findAll(cursor?: number, limit = 20) {
+        if (limit < 1 || limit > 100) {
+            throw new Invalid('Limit must be between 1 and 100')
+        }
+
+        const params: any = {
+            TableName: this.tableName,
+            KeyConditionExpression: 'pk = :pk',
+            ExpressionAttributeValues: {
+                ':pk': 'posts',
+            },
+            Limit: limit,
+            ScanIndexForward: true,
+        }
+
+        if (cursor) {
+            params.KeyConditionExpression += ' AND id > :cursor'
+            params.ExpressionAttributeValues[':cursor'] = cursor
+        }
+
+        const result = await this.dynamoDB.client.send(new QueryCommand(params))
+
+        return {
+            items: result.Items,
+            nextCursor: result.LastEvaluatedKey ? result.LastEvaluatedKey.id : null,
+        }
     }
 
     async update(id: number, dto: UpdatePostDto) {
@@ -85,7 +109,7 @@ export class PostsService {
         await this.dynamoDB.client.send(
             new UpdateCommand({
                 TableName: this.tableName,
-                Key: { id },
+                Key: { pk: 'posts', id },
                 UpdateExpression: 'SET title = :title, content = :content, updatedAt = :updatedAt',
                 ExpressionAttributeValues: {
                     ':title': dto.title,
@@ -111,7 +135,7 @@ export class PostsService {
         await this.dynamoDB.client.send(
             new DeleteCommand({
                 TableName: this.tableName,
-                Key: { id },
+                Key: { pk: 'posts', id },
             })
         )
         return { id }
