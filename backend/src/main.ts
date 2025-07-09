@@ -7,7 +7,7 @@ const bootstrap = async () => {
     app.setGlobalPrefix('api')
     app.useGlobalFilters(new AllExceptionsFilter());
     app.enableCors({
-        origin: ['http://smc.rlawnsdud.shop', 'https://smc.rlawnsdud.shop', 'http://localhost:1234', 'https://localhost:1234'],
+        origin: ['http://chosun.rlawnsdud.shop', 'https://chosun.rlawnsdud.shop', 'http://localhost:1234', 'https://localhost:1234'],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
     });
