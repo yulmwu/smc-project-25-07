@@ -1,29 +1,80 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { getPosts, Post, PaginatedPosts } from '@/lib/api'
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([])
     const [nextCursor, setNextCursor] = useState<number | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter();
 
-    const fetchPosts = async (cursor?: number) => {
+    const fetchPosts = useCallback(async (cursor?: number) => {
         setIsLoading(true)
         try {
             const data: PaginatedPosts = await getPosts(cursor)
-            console.log('Fetched posts:', data)
-            setPosts(prevPosts => (cursor ? [...prevPosts, ...data.items] : data.items))
+            setPosts(prevPosts => {
+                const newPosts = data.items.filter(
+                    (newItem) => !prevPosts.some((existingItem) => existingItem.id === newItem.id)
+                );
+                return cursor ? [...prevPosts, ...newPosts] : data.items;
+            });
             setNextCursor(data.nextCursor)
         } catch (error) {
             console.error('Failed to fetch posts:', error)
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [])
 
     useEffect(() => {
-        fetchPosts()
-    }, [])
+        const savedState = sessionStorage.getItem('homeState')
+        if (savedState) {
+            const { posts, nextCursor, scrollY } = JSON.parse(savedState)
+            setPosts(posts)
+            setNextCursor(nextCursor)
+            setTimeout(() => window.scrollTo(0, scrollY), 0);
+            sessionStorage.removeItem('homeState');
+        } else {
+            fetchPosts()
+        }
+    }, [fetchPosts])
+
+    useEffect(() => {
+        const handleRouteChangeStart = () => {
+            const homeState = {
+                posts,
+                nextCursor,
+                scrollY: window.scrollY
+            }
+            sessionStorage.setItem('homeState', JSON.stringify(homeState))
+        }
+
+        router.events.on('routeChangeStart', handleRouteChangeStart)
+
+        return () => {
+            router.events.off('routeChangeStart', handleRouteChangeStart)
+        }
+    }, [router.events, posts, nextCursor])
+
+
+    const handleScroll = useCallback(() => {
+        if (
+            window.innerHeight + document.documentElement.scrollTop <
+                document.documentElement.offsetHeight - 100 ||
+            isLoading
+        ) {
+            return
+        }
+        if (nextCursor) {
+            fetchPosts(nextCursor)
+        }
+    }, [isLoading, nextCursor, fetchPosts])
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [handleScroll])
 
     return (
         <div className='max-w-3xl mx-auto p-6'>
@@ -49,15 +100,9 @@ export default function Home() {
                     </li>
                 ))}
             </ul>
-            {nextCursor && (
+            {isLoading && (
                 <div className='flex justify-center mt-8'>
-                    <button
-                        onClick={() => fetchPosts(nextCursor)}
-                        disabled={isLoading}
-                        className='bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-green-500 hover:to-blue-600 transition disabled:opacity-50'
-                    >
-                        {isLoading ? '로딩 중...' : '더 보기'}
-                    </button>
+                    <p className='text-gray-500'>로딩 중...</p>
                 </div>
             )}
         </div>

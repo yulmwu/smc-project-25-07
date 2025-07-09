@@ -33,7 +33,7 @@ export type PaginatedPosts = {
     nextCursor: number | null
 }
 
-export const getPosts = async (cursor?: number, limit: number = 5): Promise<PaginatedPosts> => {
+export const getPosts = async (cursor?: number, limit: number = 10): Promise<PaginatedPosts> => {
     const res = await api.get<PaginatedPosts>('/posts', {
         params: {
             cursor,
