@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }
 
     return (
-        <body className="bg-gray-100 text-gray-900">
+        <div className="bg-gray-100 text-gray-900 min-h-screen">
             {/* 모바일 왼쪽 사이드바 오버레이 */}
             <div
                 id="mobileSidebarOverlay"
@@ -92,6 +92,6 @@ export default function App({ Component, pageProps }: AppProps) {
                     </div>
                 </aside>
             </main>
-        </body>
+        </div>
     )
 }
