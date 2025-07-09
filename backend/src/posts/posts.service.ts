@@ -79,11 +79,11 @@ export class PostsService {
                 ':pk': 'posts',
             },
             Limit: limit,
-            ScanIndexForward: true,
+            ScanIndexForward: false,
         }
 
         if (cursor) {
-            params.KeyConditionExpression += ' AND id > :cursor'
+            params.KeyConditionExpression += ' AND id < :cursor'
             params.ExpressionAttributeValues[':cursor'] = cursor
         }
 
