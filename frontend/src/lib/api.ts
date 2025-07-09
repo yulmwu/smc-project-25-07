@@ -22,7 +22,7 @@ export type Comment = {
 
 export const BASE_URL = process.env.DEVELOPMENT
     ? 'http://localhost:3000/api'
-    : 'https://smc.rlawnsdud.shop/api'
+    : 'https://chosun.rlawnsdud.shop/api'
 
 const api = axios.create({
     baseURL: BASE_URL,
