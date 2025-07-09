@@ -4,6 +4,7 @@ import { CreatePostDto } from './dto/create-post.dto'
 import * as bcrypt from 'bcrypt'
 import { PutCommand, GetCommand, ScanCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb'
 import { UpdatePostDto } from './dto/update-post.dto'
+import { Invalid, NotFoundError } from 'src/common/errors'
 
 @Injectable()
 export class PostsService {
@@ -51,7 +52,7 @@ export class PostsService {
         return { id: post.id, author: post.author, title: post.title, content: post.content }
     }
 
-    async findOne(id: string) {
+    async findOne(id: number) {
         const result = await this.dynamoDB.client.send(
             new GetCommand({
                 TableName: this.tableName,
@@ -70,7 +71,17 @@ export class PostsService {
         return result.Items
     }
 
-    async update(id: string, dto: UpdatePostDto) {
+    async update(id: number, dto: UpdatePostDto) {
+        const post = await this.findOne(id)
+        if (!post) {
+            throw new NotFoundError(`Post with id ${id} not found`)
+        }
+
+        const isPasswordValid = await bcrypt.compare(dto.password, post.password)
+        if (!isPasswordValid) {
+            throw new Invalid(`Invalid password for post with id ${id}`)
+        }
+
         await this.dynamoDB.client.send(
             new UpdateCommand({
                 TableName: this.tableName,
@@ -86,15 +97,15 @@ export class PostsService {
         return { id }
     }
 
-    async remove(id: string, password: string) {
+    async remove(id: number, password: string) {
         const post = await this.findOne(id)
         if (!post) {
-            throw new Error('Post not found')
+            throw new NotFoundError(`Post with id ${id} not found`)
         }
 
         const isPasswordValid = await bcrypt.compare(password, post.password)
         if (!isPasswordValid) {
-            throw new Error('Invalid password')
+            throw new Invalid(`Invalid password for post with id ${id}`)
         }
 
         await this.dynamoDB.client.send(

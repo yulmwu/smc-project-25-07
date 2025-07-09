@@ -12,12 +12,12 @@ export class CommentsService {
 
     constructor(private readonly dynamoDB: DynamoDBService) {}
 
-    async create(dto: CreateCommentDto) {
+    async create(dto: CreateCommentDto, postId: number) {
         const hashedPassword = await bcrypt.hash(dto.password, 10)
 
         const comment = {
             id: uuidv4(),
-            postId: dto.postId,
+            postId: postId,
             author: dto.author,
             password: hashedPassword,
             content: dto.content,

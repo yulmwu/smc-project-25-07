@@ -19,16 +19,16 @@ export class PostsController {
 
     @Get(':id')
     findOne(@Param('id') id: string) {
-        return this.postsService.findOne(id)
+        return this.postsService.findOne(parseInt(id, 10))
     }
 
     @Put(':id')
     update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-        return this.postsService.update(id, updatePostDto)
+        return this.postsService.update(parseInt(id, 10), updatePostDto)
     }
 
     @Delete(':id')
     remove(@Param('id') id: string, @Body('password') password: string) {
-        return this.postsService.remove(id, password)
+        return this.postsService.remove(parseInt(id, 10), password)
     }
 }

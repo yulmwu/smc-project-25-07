@@ -7,15 +7,15 @@ import { UpdateCommentDto } from './dto/update-comment.dto'
 export class CommentsController {
     constructor(private readonly commentsService: CommentsService) {}
 
-    @Post()
-    create(@Body() dto: CreateCommentDto) {
-        return this.commentsService.create(dto)
-    }
-
     @Get('/post/:postId')
     findByPost(@Param('postId') postId: string) {
         const id = parseInt(postId, 10)
         return this.commentsService.findByPost(id)
+    }
+
+    @Post('/post/:postId')
+    create(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
+        return this.commentsService.create(dto, parseInt(postId, 10))
     }
 
     @Put(':id')
