@@ -1,12 +1,30 @@
-import { GetServerSideProps } from 'next'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { getPosts, Post } from '@/lib/api'
+import { getPosts, Post, PaginatedPosts } from '@/lib/api'
 
-interface HomeProps {
-    posts: Post[]
-}
+export default function Home() {
+    const [posts, setPosts] = useState<Post[]>([])
+    const [nextCursor, setNextCursor] = useState<number | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
 
-export default function Home({ posts }: HomeProps) {
+    const fetchPosts = async (cursor?: number) => {
+        setIsLoading(true)
+        try {
+            const data: PaginatedPosts = await getPosts(cursor)
+            console.log('Fetched posts:', data)
+            setPosts(prevPosts => (cursor ? [...prevPosts, ...data.items] : data.items))
+            setNextCursor(data.nextCursor)
+        } catch (error) {
+            console.error('Failed to fetch posts:', error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchPosts()
+    }, [])
+
     return (
         <div className='max-w-3xl mx-auto p-6'>
             <h1 className='text-4xl font-extrabold text-gray-900 mb-8'>익명 게시판</h1>
@@ -31,15 +49,17 @@ export default function Home({ posts }: HomeProps) {
                     </li>
                 ))}
             </ul>
+            {nextCursor && (
+                <div className='flex justify-center mt-8'>
+                    <button
+                        onClick={() => fetchPosts(nextCursor)}
+                        disabled={isLoading}
+                        className='bg-gradient-to-r from-green-400 to-blue-500 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-green-500 hover:to-blue-600 transition disabled:opacity-50'
+                    >
+                        {isLoading ? '로딩 중...' : '더 보기'}
+                    </button>
+                </div>
+            )}
         </div>
     )
-}
-
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-    const posts = await getPosts()
-    return {
-        props: {
-            posts,
-        },
-    }
 }

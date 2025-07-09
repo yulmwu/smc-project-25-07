@@ -72,7 +72,7 @@ export class PostsService {
             throw new Invalid('Limit must be between 1 and 100')
         }
 
-        const params: any = {
+        const params = {
             TableName: this.tableName,
             KeyConditionExpression: 'pk = :pk',
             ExpressionAttributeValues: {

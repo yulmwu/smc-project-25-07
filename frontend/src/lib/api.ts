@@ -19,9 +19,7 @@ export type Comment = {
     password?: string
 }
 
-export const BASE_URL = process.env.DEVELOPMENT
-    ? 'http://localhost:3000/api'
-    : 'https://chosun.rlawnsdud.shop/api'
+export const BASE_URL = process.env.DEVELOPMENT ? 'http://localhost:3000/api' : 'http://localhost:3000/api'
 
 const api = axios.create({
     baseURL: BASE_URL,
@@ -30,8 +28,19 @@ const api = axios.create({
     },
 })
 
-export const getPosts = async (): Promise<Post[]> => {
-    const res = await api.get<Post[]>('/posts')
+export type PaginatedPosts = {
+    items: Post[]
+    nextCursor: number | null
+}
+
+export const getPosts = async (cursor?: number, limit: number = 5): Promise<PaginatedPosts> => {
+    const res = await api.get<PaginatedPosts>('/posts', {
+        params: {
+            cursor,
+            limit,
+        },
+    })
+
     return res.data
 }
 
