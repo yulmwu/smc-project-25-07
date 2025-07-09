@@ -8,6 +8,7 @@ export type Post = {
     createdAt?: string
     updatedAt?: string
     password?: string
+    commentCount?: number // Add commentCount
 }
 
 export type Comment = {

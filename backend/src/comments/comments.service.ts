@@ -5,12 +5,16 @@ import { CreateCommentDto } from './dto/create-comment.dto'
 import { UpdateCommentDto } from './dto/update-comment.dto'
 import * as bcrypt from 'bcrypt'
 import { PutCommand, QueryCommand, GetCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb'
+import { PostsService } from '../posts/posts.service' // Import PostsService
 
 @Injectable()
 export class CommentsService {
     private readonly tableName = 'smc-07-comments'
 
-    constructor(private readonly dynamoDB: DynamoDBService) {}
+    constructor(
+        private readonly dynamoDB: DynamoDBService,
+        private readonly postsService: PostsService,
+    ) {}
 
     async create(dto: CreateCommentDto, postId: number) {
         const hashedPassword = await bcrypt.hash(dto.password, 10)
@@ -32,6 +36,8 @@ export class CommentsService {
             })
         )
 
+        await this.postsService.incrementCommentCount(postId);
+
         return { id: comment.id, author: comment.author, content: comment.content }
     }
 
@@ -39,7 +45,7 @@ export class CommentsService {
         const result = await this.dynamoDB.client.send(
             new QueryCommand({
                 TableName: this.tableName,
-                IndexName: 'smc-07-comments-index-1', // GSI
+                IndexName: 'smc-07-comments-index-1',
                 KeyConditionExpression: 'postId = :postId',
                 ExpressionAttributeValues: {
                     ':postId': postId,
@@ -94,6 +100,8 @@ export class CommentsService {
                 Key: { id },
             })
         )
+
+        await this.postsService.decrementCommentCount(existing.postId);
 
         return { id }
     }

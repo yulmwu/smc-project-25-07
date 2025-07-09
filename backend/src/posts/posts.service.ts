@@ -140,4 +140,35 @@ export class PostsService {
         )
         return { id }
     }
+
+    async incrementCommentCount(postId: number) {
+        await this.dynamoDB.client.send(
+            new UpdateCommand({
+                TableName: this.tableName,
+                Key: { pk: 'posts', id: postId },
+                UpdateExpression: 'SET commentCount = if_not_exists(commentCount, :start) + :inc',
+                ExpressionAttributeValues: {
+                    ':inc': 1,
+                    ':start': 0,
+                },
+                ReturnValues: 'UPDATED_NEW',
+            })
+        )
+    }
+
+    async decrementCommentCount(postId: number) {
+        await this.dynamoDB.client.send(
+            new UpdateCommand({
+                TableName: this.tableName,
+                Key: { pk: 'posts', id: postId },
+                UpdateExpression: 'SET commentCount = commentCount - :dec',
+                ExpressionAttributeValues: {
+                    ':dec': 1,
+                    ':min': 0,
+                },
+                ConditionExpression: 'commentCount > :min',
+                ReturnValues: 'UPDATED_NEW',
+            })
+        )
+    }
 }

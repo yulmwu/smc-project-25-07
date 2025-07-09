@@ -7,18 +7,19 @@ export default function Home() {
     const [posts, setPosts] = useState<Post[]>([])
     const [nextCursor, setNextCursor] = useState<number | null>(null)
     const [isLoading, setIsLoading] = useState(false)
-    const router = useRouter();
+    const router = useRouter()
+    const [isNavigating, setIsNavigating] = useState(false)
 
     const fetchPosts = useCallback(async (cursor?: number) => {
         setIsLoading(true)
         try {
             const data: PaginatedPosts = await getPosts(cursor)
-            setPosts(prevPosts => {
+            setPosts((prevPosts) => {
                 const newPosts = data.items.filter(
                     (newItem) => !prevPosts.some((existingItem) => existingItem.id === newItem.id)
-                );
-                return cursor ? [...prevPosts, ...newPosts] : data.items;
-            });
+                )
+                return cursor ? [...prevPosts, ...newPosts] : data.items
+            })
             setNextCursor(data.nextCursor)
         } catch (error) {
             console.error('Failed to fetch posts:', error)
@@ -33,8 +34,8 @@ export default function Home() {
             const { posts, nextCursor, scrollY } = JSON.parse(savedState)
             setPosts(posts)
             setNextCursor(nextCursor)
-            setTimeout(() => window.scrollTo(0, scrollY), 0);
-            sessionStorage.removeItem('homeState');
+            setTimeout(() => window.scrollTo(0, scrollY), 0)
+            sessionStorage.removeItem('homeState')
         } else {
             fetchPosts()
         }
@@ -45,23 +46,28 @@ export default function Home() {
             const homeState = {
                 posts,
                 nextCursor,
-                scrollY: window.scrollY
+                scrollY: window.scrollY,
             }
             sessionStorage.setItem('homeState', JSON.stringify(homeState))
+            setIsNavigating(true) // Set navigating to true
+        }
+
+        const handleRouteChangeComplete = () => {
+            setIsNavigating(false) // Set navigating to false
         }
 
         router.events.on('routeChangeStart', handleRouteChangeStart)
+        router.events.on('routeChangeComplete', handleRouteChangeComplete) // Listen for routeChangeComplete
 
         return () => {
             router.events.off('routeChangeStart', handleRouteChangeStart)
+            router.events.off('routeChangeComplete', handleRouteChangeComplete) // Clean up
         }
     }, [router.events, posts, nextCursor])
 
-
     const handleScroll = useCallback(() => {
         if (
-            window.innerHeight + document.documentElement.scrollTop <
-                document.documentElement.offsetHeight - 100 ||
+            window.innerHeight + document.documentElement.scrollTop < document.documentElement.offsetHeight - 100 ||
             isLoading
         ) {
             return
@@ -92,7 +98,9 @@ export default function Home() {
                         className='border rounded-xl shadow-sm hover:shadow-md transition p-6 bg-white cursor-pointer'
                     >
                         <Link href={`/posts/${post.id}`}>
-                            <h2 className='text-2xl font-semibold text-gray-800 mb-1 truncate'>{post.title}</h2>
+                            <h2 className='text-2xl font-semibold text-gray-800 mb-1 truncate'>
+                                {post.title} {post.commentCount && `[${post.commentCount}]`}
+                            </h2>
                             <p className='text-gray-500 text-sm'>
                                 작성자: <span className='font-medium text-gray-700'>{post.author}</span>
                             </p>
@@ -103,6 +111,11 @@ export default function Home() {
             {isLoading && (
                 <div className='flex justify-center mt-8'>
                     <p className='text-gray-500'>로딩 중...</p>
+                </div>
+            )}
+            {isNavigating && (
+                <div className='fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50'>
+                    <p className='text-gray-700 text-lg font-semibold'>게시글 로딩 중...</p>
                 </div>
             )}
         </div>

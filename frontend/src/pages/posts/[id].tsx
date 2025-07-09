@@ -14,31 +14,31 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
     useEffect(() => {
         if (router.query.error) {
-            let errorMessage = '';
+            let errorMessage = ''
             switch (router.query.error) {
                 case 'password_required':
-                    errorMessage = '비밀번호가 필요합니다.';
-                    break;
+                    errorMessage = '비밀번호가 필요합니다.'
+                    break
                 case 'incorrect_password':
-                    errorMessage = '비밀번호가 일치하지 않습니다.';
-                    break;
+                    errorMessage = '비밀번호가 일치하지 않습니다.'
+                    break
                 case 'unknown_error':
-                    errorMessage = '알 수 없는 오류가 발생했습니다.';
-                    break;
+                    errorMessage = '알 수 없는 오류가 발생했습니다.'
+                    break
                 default:
-                    errorMessage = '오류가 발생했습니다.';
+                    errorMessage = '오류가 발생했습니다.'
             }
-            alert(errorMessage);
-            router.replace(`/posts/${post.id}`, undefined, { shallow: true });
+            alert(errorMessage)
+            router.replace(`/posts/${post.id}`, undefined, { shallow: true })
         }
-    }, [router.query.error, router, post.id]);
+    }, [router.query.error, router, post.id])
 
     const handlePasswordConfirm = async (password: string) => {
         try {
             if (modalAction === 'delete') {
                 if (!confirm('정말 삭제하시겠습니까?')) {
-                    setShowPasswordModal(false);
-                    return;
+                    setShowPasswordModal(false)
+                    return
                 }
                 await deletePost(post.id, password)
                 router.push('/')
@@ -57,7 +57,9 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
     return (
         <div className='max-w-3xl mx-auto p-6'>
             <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
-                <h1 className='text-3xl font-bold text-gray-900 mb-3'>{post.title}</h1>
+                <h1 className='text-3xl font-bold text-gray-900 mb-3'>
+                    {post.title} {post.commentCount && `[${post.commentCount}]`}
+                </h1>
                 <div className='text-gray-600 mb-6 text-sm flex justify-between items-center'>
                     <span>
                         작성자: <strong>{post.author}</strong>
@@ -70,7 +72,11 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
                 <div className='mt-8 flex items-center space-x-3'>
                     <button
-                        onClick={() => { setModalAction('delete'); setShowPasswordModal(true); setModalError(''); }}
+                        onClick={() => {
+                            setModalAction('delete')
+                            setShowPasswordModal(true)
+                            setModalError('')
+                        }}
                         className='bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow'
                     >
                         삭제
@@ -97,7 +103,10 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
             <PasswordModal
                 isOpen={showPasswordModal}
-                onClose={() => { setShowPasswordModal(false); setModalError(''); }}
+                onClose={() => {
+                    setShowPasswordModal(false)
+                    setModalError('')
+                }}
                 onConfirm={handlePasswordConfirm}
                 title={'게시글 삭제'}
                 description={'게시글을 삭제하려면 비밀번호를 입력해주세요.'}
