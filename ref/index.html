@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>반응형 게시판</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* 모바일 사이드바 오버레이용 */
+      .sidebar-overlay {
+        backdrop-filter: blur(2px);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 text-gray-900">
+    <!-- 모바일 왼쪽 사이드바 오버레이 -->
+    <div
+      id="mobileSidebarOverlay"
+      class="fixed inset-0 bg-black bg-opacity-30 hidden z-30 sidebar-overlay"
+      onclick="toggleSidebar(false)"
+    ></div>
+
+    <!-- 모바일 왼쪽 사이드바 -->
+    <div
+      id="mobileSidebar"
+      class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 transform -translate-x-full transition-transform duration-300 ease-in-out"
+    >
+      <div class="p-4">
+        <h2 class="text-lg font-semibold mb-3">카테고리</h2>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#" class="hover:underline">전체</a></li>
+          <li><a href="#" class="hover:underline">질문</a></li>
+          <li><a href="#" class="hover:underline">정보</a></li>
+          <li><a href="#" class="hover:underline">자유</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 헤더 -->
+    <header class="bg-white shadow px-4 py-3 sticky top-0 z-20 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <!-- 모바일 전용 햄버거 버튼 -->
+        <button
+          class="lg:hidden p-2 rounded hover:bg-gray-200"
+          onclick="toggleSidebar(true)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+               viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        <div class="text-xl font-bold">📢 게시판</div>
+      </div>
+      <nav class="space-x-4 text-sm">
+        <a href="#" class="text-gray-600 hover:text-black">홈</a>
+        <a href="#" class="text-gray-600 hover:text-black">인기</a>
+        <a href="#" class="text-gray-600 hover:text-black">최신</a>
+      </nav>
+    </header>
+
+    <!-- 메인 레이아웃 -->
+    <main class="flex flex-col lg:flex-row max-w-screen-xl mx-auto px-4 py-6 gap-4">
+      <!-- 데스크탑 왼쪽 사이드바 -->
+      <aside class="hidden lg:block w-[240px] min-w-[240px] max-w-[240px] flex-shrink-0">
+        <div class="sticky top-20 bg-white rounded-lg shadow p-4">
+          <h2 class="text-lg font-semibold mb-3">카테고리</h2>
+          <ul class="space-y-2 text-sm">
+            <li><a href="#" class="hover:underline">전체</a></li>
+            <li><a href="#" class="hover:underline">질문</a></li>
+            <li><a href="#" class="hover:underline">정보</a></li>
+            <li><a href="#" class="hover:underline">자유</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- 본문 (게시글 리스트) -->
+      <section class="flex-1 space-y-4">
+        <div id="posts" class="space-y-4"></div>
+      </section>
+
+      <!-- 데스크탑 오른쪽 사이드바 -->
+      <aside class="hidden xl:block w-[240px] min-w-[240px] max-w-[240px] flex-shrink-0">
+        <div class="sticky top-20 bg-white rounded-lg shadow p-4">
+          <h2 class="text-lg font-semibold mb-3">인기 태그</h2>
+          <ul class="flex flex-wrap gap-2 text-sm">
+            <li><span class="bg-gray-200 px-2 py-1 rounded">#자바스크립트</span></li>
+            <li><span class="bg-gray-200 px-2 py-1 rounded">#React</span></li>
+            <li><span class="bg-gray-200 px-2 py-1 rounded">#뉴스</span></li>
+            <li><span class="bg-gray-200 px-2 py-1 rounded">#잡담</span></li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <!-- 게시글 자동 추가 -->
+    <script>
+      const container = document.querySelector('#posts');
+      for (let i = 1; i <= 12; i++) {
+        const post = document.createElement('article');
+        post.className = 'bg-white p-4 rounded-lg shadow hover:shadow-md transition';
+        post.innerHTML = `
+          <h3 class="text-lg font-semibold mb-2">게시글 제목 ${i}</h3>
+          <p class="text-sm text-gray-700">게시글 ${i}의 임시 내용입니다. 스크롤 확인용 텍스트입니다.</p>
+        `;
+        container.appendChild(post);
+      }
+
+      function toggleSidebar(open) {
+        const sidebar = document.getElementById('mobileSidebar');
+        const overlay = document.getElementById('mobileSidebarOverlay');
+        if (open) {
+          sidebar.classList.remove('-translate-x-full');
+          overlay.classList.remove('hidden');
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          overlay.classList.add('hidden');
+        }
+      }
+    </script>
+  </body>
+</html>

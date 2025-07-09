@@ -1,1 +1,6 @@
 @import 'tailwindcss';
+
+/* 모바일 사이드바 오버레이용 */
+.sidebar-overlay {
+  backdrop-filter: blur(2px);
+}
