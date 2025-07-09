@@ -20,7 +20,7 @@ export type Comment = {
     password?: string
 }
 
-export const BASE_URL = process.env.DEVELOPMENT ? 'http://localhost:3000/api' : 'http://localhost:3000/api'
+export const BASE_URL = process.env.DEVELOPMENT ? 'http://localhost:3000/api' : 'https://chosun.rlawnsdud.shop/api'
 
 const api = axios.create({
     baseURL: BASE_URL,
