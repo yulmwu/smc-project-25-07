@@ -84,13 +84,15 @@ export default function Home() {
 
     return (
         <>
-            <h1 className='text-4xl font-extrabold text-gray-900 mb-8'>익명 게시판</h1>
-            <Link
-                href='/posts/new'
-                className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition'
-            >
-                새 글 작성
-            </Link>
+            <div className="flex justify-between items-center mb-8">
+                <h1 className='text-4xl font-extrabold text-gray-900'>익명 게시판</h1>
+                <Link
+                    href='/posts/new'
+                    className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition'
+                >
+                    새 글 작성
+                </Link>
+            </div>
             <div className='mt-8 space-y-4'>
                 {posts.map((post) => (
                     <article
