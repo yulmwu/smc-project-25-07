@@ -2,38 +2,38 @@
 import { useState } from 'react'
 import { Comment, updateComment, deleteComment } from '@/lib/api'
 import { useRouter } from 'next/router'
+import PasswordModal from '@/components/PasswordModal' // Import PasswordModal
 
 export default function CommentItem({ comment }: { comment: Comment }) {
     const router = useRouter()
     const [isEditing, setIsEditing] = useState(false)
     const [content, setContent] = useState(comment.content)
-    const [password, setPassword] = useState('')
+    const [showPasswordModal, setShowPasswordModal] = useState(false) // State for modal visibility
+    const [modalAction, setModalAction] = useState<'delete' | 'edit' | null>(null) // State for action type
+    const [modalError, setModalError] = useState('') // State for modal error message
 
-    const handleDelete = async () => {
-        if (!password) {
-            alert('비밀번호를 입력해주세요.')
-            return
-        }
-        if (!confirm('정말 삭제하시겠습니까?')) return
+    const handlePasswordConfirm = async (password: string) => {
         try {
-            await deleteComment(comment.id, password)
-            router.reload()
-        } catch (error) {
-            alert('비밀번호가 틀렸습니다.')
-        }
-    }
-
-    const handleUpdate = async () => {
-        if (!password) {
-            alert('비밀번호를 입력해주세요.')
-            return
-        }
-        try {
-            await updateComment(comment.id, { content, password })
-            setIsEditing(false)
-            router.reload()
-        } catch (error) {
-            alert('비밀번호가 틀렸습니다.')
+            if (modalAction === 'delete') {
+                if (!confirm('정말 삭제하시겠습니까?')) {
+                    setShowPasswordModal(false);
+                    return;
+                }
+                await deleteComment(comment.id, password)
+                router.reload()
+            } else if (modalAction === 'edit') {
+                await updateComment(comment.id, { content, password })
+                setIsEditing(false) // Exit editing mode on successful update
+                router.reload()
+            }
+            setShowPasswordModal(false) // Close modal on success
+            setModalError('') // Clear any previous errors
+        } catch (error: any) {
+            if (error.response && error.response.status === 401) {
+                setModalError('비밀번호가 일치하지 않습니다.')
+            } else {
+                setModalError('오류가 발생했습니다. 다시 시도해주세요.')
+            }
         }
     }
 
@@ -53,14 +53,10 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                         className="w-full border border-gray-300 rounded-lg px-4 py-2"
                     />
                     <div className="flex items-center space-x-3 mt-2">
-                        <input
-                            type="password"
-                            placeholder="비밀번호"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="flex-1 border border-gray-300 rounded-lg px-4 py-2"
-                        />
-                        <button onClick={handleUpdate} className="bg-indigo-600 text-white px-4 py-2 rounded-lg">
+                        <button
+                            onClick={() => { setModalAction('edit'); setShowPasswordModal(true); setModalError(''); }}
+                            className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+                        >
                             저장
                         </button>
                         <button onClick={() => setIsEditing(false)} className="border px-4 py-2 rounded-lg">
@@ -72,22 +68,30 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                 <div>
                     <p className="text-gray-800 whitespace-pre-wrap">{comment.content}</p>
                     <div className="flex items-center space-x-3 mt-2">
-                        <input
-                            type="password"
-                            placeholder="비밀번호"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="flex-1 border border-gray-300 rounded-lg px-4 py-2"
-                        />
-                        <button onClick={() => setIsEditing(true)} className="text-indigo-600">
+                        <button
+                            onClick={() => { setIsEditing(true); setModalAction('edit'); setShowPasswordModal(true); setModalError(''); }}
+                            className="text-indigo-600"
+                        >
                             수정
                         </button>
-                        <button onClick={handleDelete} className="text-red-600">
+                        <button
+                            onClick={() => { setModalAction('delete'); setShowPasswordModal(true); setModalError(''); }}
+                            className="text-red-600"
+                        >
                             삭제
                         </button>
                     </div>
                 </div>
             )}
+
+            <PasswordModal
+                isOpen={showPasswordModal}
+                onClose={() => { setShowPasswordModal(false); setModalError(''); }}
+                onConfirm={handlePasswordConfirm}
+                title={modalAction === 'delete' ? '댓글 삭제' : '댓글 수정'}
+                description={modalAction === 'delete' ? '댓글을 삭제하려면 비밀번호를 입력해주세요.' : '댓글을 수정하려면 비밀번호를 입력해주세요.'}
+                errorMessage={modalError}
+            />
         </li>
     )
 }

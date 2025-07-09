@@ -1,22 +1,57 @@
 import { GetServerSideProps } from 'next'
 import { getPost, getComments, Post, Comment, deletePost } from '@/lib/api'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import CommentForm from '@/components/CommentForm'
 import CommentItem from '@/components/CommentItem'
+import PasswordModal from '@/components/PasswordModal'
 
 export default function PostDetail({ post, comments }: { post: Post; comments: Comment[] }) {
     const router = useRouter()
-    const [password, setPassword] = useState('')
+    const [showPasswordModal, setShowPasswordModal] = useState(false)
+    const [modalAction, setModalAction] = useState<'delete' | 'edit' | null>(null)
+    const [modalError, setModalError] = useState('')
 
-    const handleDelete = async () => {
-        if (!password) {
-            alert('비밀번호를 입력해주세요.')
-            return
+    useEffect(() => {
+        if (router.query.error) {
+            let errorMessage = '';
+            switch (router.query.error) {
+                case 'password_required':
+                    errorMessage = '비밀번호가 필요합니다.';
+                    break;
+                case 'incorrect_password':
+                    errorMessage = '비밀번호가 일치하지 않습니다.';
+                    break;
+                case 'unknown_error':
+                    errorMessage = '알 수 없는 오류가 발생했습니다.';
+                    break;
+                default:
+                    errorMessage = '오류가 발생했습니다.';
+            }
+            alert(errorMessage);
+            router.replace(`/posts/${post.id}`, undefined, { shallow: true });
         }
-        if (!confirm('정말 삭제하시겠습니까?')) return
-        await deletePost(post.id, password)
-        router.push('/')
+    }, [router.query.error, router, post.id]);
+
+    const handlePasswordConfirm = async (password: string) => {
+        try {
+            if (modalAction === 'delete') {
+                if (!confirm('정말 삭제하시겠습니까?')) {
+                    setShowPasswordModal(false);
+                    return;
+                }
+                await deletePost(post.id, password)
+                router.push('/')
+            }
+            setShowPasswordModal(false)
+            setModalError('')
+        } catch (error: any) {
+            if (error.response && error.response.status === 401) {
+                setModalError('비밀번호가 일치하지 않습니다.')
+            } else {
+                setModalError('오류가 발생했습니다. 다시 시도해주세요.')
+            }
+        }
     }
 
     return (
@@ -34,21 +69,14 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                 </section>
 
                 <div className='mt-8 flex items-center space-x-3'>
-                    <input
-                        type='password'
-                        placeholder='비밀번호 입력'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className='flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                    />
                     <button
-                        onClick={handleDelete}
+                        onClick={() => { setModalAction('delete'); setShowPasswordModal(true); setModalError(''); }}
                         className='bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow'
                     >
                         삭제
                     </button>
                     <button
-                        onClick={() => router.push(`/posts/${post.id}/edit?password=${encodeURIComponent(password)}`)}
+                        onClick={() => router.push(`/posts/${post.id}/edit`)}
                         className='border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition px-5 py-2 rounded-lg font-semibold'
                     >
                         수정
@@ -66,6 +94,15 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
                 <CommentForm postId={post.id} onSubmitted={() => router.reload()} />
             </section>
+
+            <PasswordModal
+                isOpen={showPasswordModal}
+                onClose={() => { setShowPasswordModal(false); setModalError(''); }}
+                onConfirm={handlePasswordConfirm}
+                title={'게시글 삭제'}
+                description={'게시글을 삭제하려면 비밀번호를 입력해주세요.'}
+                errorMessage={modalError}
+            />
         </div>
     )
 }

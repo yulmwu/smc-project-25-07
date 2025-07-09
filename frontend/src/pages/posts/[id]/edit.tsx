@@ -8,18 +8,29 @@ export default function EditPost({ post }: { post: Post }) {
     const [form, setForm] = useState({
         title: post.title,
         content: post.content,
-        password: '',
+        password: '', // Reintroduce password to state
     })
+    const [error, setError] = useState('') // State for error message
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
+        setError('') // Clear previous errors
+
         if (!form.password || !form.title || !form.content) {
-            alert('모든 항목을 입력해주세요.')
+            setError('모든 항목을 입력해주세요.')
             return
         }
 
-        await updatePost(post.id, form)
-        router.push(`/posts/${post.id}`)
+        try {
+            await updatePost(post.id, form) // Send form with password
+            router.push(`/posts/${post.id}`)
+        } catch (err: any) {
+            if (err.response && err.response.status === 401) {
+                setError('비밀번호가 일치하지 않습니다.')
+            } else {
+                setError('오류가 발생했습니다. 다시 시도해주세요.')
+            }
+        }
     }
 
     return (
@@ -52,6 +63,7 @@ export default function EditPost({ post }: { post: Post }) {
                     onChange={(e) => setForm({ ...form, content: e.target.value })}
                     rows={8}
                 />
+                {error && <p className="text-red-500 text-center mt-4">{error}</p>} {/* Display error */}
                 <button
                     type='submit'
                     className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow'
