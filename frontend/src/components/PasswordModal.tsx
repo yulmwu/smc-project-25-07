@@ -16,12 +16,12 @@ const PasswordModal = ({ isOpen, onClose, onConfirm, title, description, errorMe
 
     const handleConfirm = () => {
         onConfirm(password);
-        setPassword(''); // Clear password after confirming
+        setPassword('');
     };
 
     const handleClose = () => {
         onClose();
-        setPassword(''); // Clear password on close
+        setPassword('');
     };
 
     return (

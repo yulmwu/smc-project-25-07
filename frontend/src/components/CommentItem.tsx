@@ -2,15 +2,15 @@
 import { useState } from 'react'
 import { Comment, updateComment, deleteComment } from '@/lib/api'
 import { useRouter } from 'next/router'
-import PasswordModal from '@/components/PasswordModal' // Import PasswordModal
+import PasswordModal from '@/components/PasswordModal'
 
 export default function CommentItem({ comment }: { comment: Comment }) {
     const router = useRouter()
     const [isEditing, setIsEditing] = useState(false)
     const [content, setContent] = useState(comment.content)
-    const [showPasswordModal, setShowPasswordModal] = useState(false) // State for modal visibility
-    const [modalAction, setModalAction] = useState<'delete' | 'edit' | null>(null) // State for action type
-    const [modalError, setModalError] = useState('') // State for modal error message
+    const [showPasswordModal, setShowPasswordModal] = useState(false)
+    const [modalAction, setModalAction] = useState<'delete' | 'edit' | null>(null)
+    const [modalError, setModalError] = useState('')
 
     const handlePasswordConfirm = async (password: string) => {
         try {
@@ -23,11 +23,11 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                 router.reload()
             } else if (modalAction === 'edit') {
                 await updateComment(comment.id, { content, password })
-                setIsEditing(false) // Exit editing mode on successful update
+                setIsEditing(false)
                 router.reload()
             }
-            setShowPasswordModal(false) // Close modal on success
-            setModalError('') // Clear any previous errors
+            setShowPasswordModal(false)
+            setModalError('')
         } catch (error: any) {
             if (error.response && error.response.status === 401) {
                 setModalError('비밀번호가 일치하지 않습니다.')

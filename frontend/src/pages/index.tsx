@@ -49,19 +49,19 @@ export default function Home() {
                 scrollY: window.scrollY,
             }
             sessionStorage.setItem('homeState', JSON.stringify(homeState))
-            setIsNavigating(true) // Set navigating to true
+            setIsNavigating(true)
         }
 
         const handleRouteChangeComplete = () => {
-            setIsNavigating(false) // Set navigating to false
+            setIsNavigating(false)
         }
 
         router.events.on('routeChangeStart', handleRouteChangeStart)
-        router.events.on('routeChangeComplete', handleRouteChangeComplete) // Listen for routeChangeComplete
+        router.events.on('routeChangeComplete', handleRouteChangeComplete)
 
         return () => {
             router.events.off('routeChangeStart', handleRouteChangeStart)
-            router.events.off('routeChangeComplete', handleRouteChangeComplete) // Clean up
+            router.events.off('routeChangeComplete', handleRouteChangeComplete)
         }
     }, [router.events, posts, nextCursor])
 

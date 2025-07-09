@@ -8,13 +8,13 @@ export default function EditPost({ post }: { post: Post }) {
     const [form, setForm] = useState({
         title: post.title,
         content: post.content,
-        password: '', // Reintroduce password to state
+        password: '',
     })
-    const [error, setError] = useState('') // State for error message
+    const [error, setError] = useState('')
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        setError('') // Clear previous errors
+        setError('')
 
         if (!form.password || !form.title || !form.content) {
             setError('모든 항목을 입력해주세요.')
@@ -22,7 +22,7 @@ export default function EditPost({ post }: { post: Post }) {
         }
 
         try {
-            await updatePost(post.id, form) // Send form with password
+            await updatePost(post.id, form)
             router.push(`/posts/${post.id}`)
         } catch (err: any) {
             if (err.response && err.response.status === 401) {
