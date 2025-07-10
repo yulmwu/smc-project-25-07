@@ -6,7 +6,7 @@ export default function NewPost() {
     const router = useRouter()
     const [form, setForm] = useState({ author: '', password: '', title: '', content: '', category: '분류 없음' })
 
-    const categories = ['분류 없음', '자유', '질문', '정보']; // Define categories
+    const categories = ['분류 없음', '자유', '질문', '정보'];
 
     useEffect(() => {
         if (router.query.category) {
@@ -24,7 +24,12 @@ export default function NewPost() {
             return
         }
         await createPost(form)
-        router.push('/')
+        // Redirect to home page with category and refresh parameter
+        if (form.category === '전체' || form.category === '분류 없음') { // "전체" 또는 "분류 없음"은 쿼리 파라미터 없이
+            router.push(`/?refresh=true`);
+        } else {
+            router.push(`/?category=${encodeURIComponent(form.category)}&refresh=true`);
+        }
     }
 
     return (

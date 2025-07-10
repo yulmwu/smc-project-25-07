@@ -5,7 +5,7 @@ import { getPosts, Post, PaginatedPosts } from '@/lib/api'
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([])
-    const [nextCursor, setNextCursor] = useState<number | null>(null) // Changed back to number | null
+    const [nextCursor, setNextCursor] = useState<number | null>(null)
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [isNavigating, setIsNavigating] = useState(false)
@@ -13,7 +13,7 @@ export default function Home() {
 
     const categories = ['전체', '분류 없음', '자유', '질문', '정보'];
 
-    const fetchPosts = useCallback(async (category: string, cursor?: number | null) => { // Modified cursor type
+    const fetchPosts = useCallback(async (category: string, cursor?: number | null) => {
         setIsLoading(true)
         try {
             const data: PaginatedPosts = await getPosts(category, cursor)
@@ -32,18 +32,43 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        const savedState = sessionStorage.getItem('homeState')
-        if (savedState) {
-            const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
-            setPosts(posts)
-            setNextCursor(nextCursor)
-            setSelectedCategory(savedCategory || '전체');
-            setTimeout(() => window.scrollTo(0, scrollY), 0)
-            sessionStorage.removeItem('homeState')
+        const urlCategory = router.query.category as string;
+        const shouldRefresh = router.query.refresh === 'true';
+
+        if (shouldRefresh) {
+            // If refresh is true, clear session storage and force refetch
+            sessionStorage.removeItem('homeState');
+            const categoryToFetch = (urlCategory && categories.includes(urlCategory)) ? urlCategory : '전체';
+            setSelectedCategory(categoryToFetch);
+            fetchPosts(categoryToFetch);
+
+            // Remove refresh parameter from URL
+            const newQuery = { ...router.query };
+            delete newQuery.refresh;
+            router.replace({
+                pathname: router.pathname,
+                query: newQuery,
+            }, undefined, { shallow: true });
+
+        } else if (urlCategory && categories.includes(urlCategory)) {
+            // If category in URL, but not refresh, set category and fetch
+            setSelectedCategory(urlCategory);
+            fetchPosts(urlCategory);
         } else {
-            fetchPosts(selectedCategory)
+            // If no category in URL, check session storage
+            const savedState = sessionStorage.getItem('homeState')
+            if (savedState) {
+                const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
+                setPosts(posts)
+                setNextCursor(nextCursor)
+                setSelectedCategory(savedCategory || '전체');
+                setTimeout(() => window.scrollTo(0, scrollY), 0)
+                sessionStorage.removeItem('homeState')
+            } else {
+                fetchPosts(selectedCategory)
+            }
         }
-    }, [fetchPosts, selectedCategory])
+    }, [fetchPosts, router.query.category, router.query.refresh]) // Add router.query.refresh to dependencies
 
     useEffect(() => {
         const handleRouteChangeStart = () => {
@@ -92,6 +117,18 @@ export default function Home() {
         setPosts([]);
         setNextCursor(null);
         fetchPosts(category);
+
+        // Update URL with category parameter
+        const newQuery = { ...router.query };
+        if (category === '전체') {
+            delete newQuery.category;
+        } else {
+            newQuery.category = category;
+        }
+        router.push({
+            pathname: router.pathname,
+            query: newQuery,
+        }, undefined, { shallow: true });
     };
 
     return (
