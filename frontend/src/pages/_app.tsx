@@ -3,8 +3,9 @@ import './globals.css'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { FaBook, FaComments, FaGithub, FaInfoCircle, FaList, FaQuestionCircle } from 'react-icons/fa'
+import { FaBook, FaComments, FaGithub, FaInfoCircle, FaLink, FaList, FaQuestionCircle } from 'react-icons/fa'
 import { FaDiagramProject } from 'react-icons/fa6'
+import { useRouter } from 'next/router'
 
 export const SidebarContent = () => (
     <div>
@@ -86,6 +87,8 @@ export default function App({ Component, pageProps }: AppProps) {
         fetchLatestPosts()
     }, [])
 
+    const router = useRouter()
+
     return (
         <div className='bg-gray-100 text-gray-900 min-h-screen'>
             {/* 모바일 왼쪽 사이드바 오버레이 */}
@@ -113,23 +116,16 @@ export default function App({ Component, pageProps }: AppProps) {
                     <button className='lg:hidden p-2 rounded hover:bg-gray-200' onClick={() => toggleSidebar(true)}>
                         <FaList className='text-gray-600' />
                     </button>
-                    <div className='text-xl font-bold ml-3'>
-                        <a href='/' className='text-gray-900'>
+                    <div className='text-xl font-bold ml-3 flex items-center gap-5'>
+                        <a href='/' className={router.pathname !== '/wiki' ? 'text-gray-800' : 'text-gray-400'}>
                             조선인사이드
+                        </a>
+                        <div className='h-5 w-[2px] bg-gray-300' />
+                        <a href='/wiki' className={router.pathname === '/wiki' ? 'text-gray-800' : 'text-gray-400'}>
+                            위키
                         </a>
                     </div>
                 </div>
-                {/* <nav className='space-x-4 text-sm'>
-                    <a href='#' className='text-gray-600 hover:text-black'>
-                        홈
-                    </a>
-                    <a href='#' className='text-gray-600 hover:text-black'>
-                        인기
-                    </a>
-                    <a href='#' className='text-gray-600 hover:text-black'>
-                        최신
-                    </a>
-                </nav> */}
             </header>
 
             {/* 메인 레이아웃 */}

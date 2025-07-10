@@ -144,7 +144,7 @@ export default function Home() {
                 </h1>
                 <Link
                     href={`/posts/new?category=${encodeURIComponent(selectedCategory)}`}
-                    className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition'
+                    className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition mr-2'
                 >
                     새 글 작성
                 </Link>
