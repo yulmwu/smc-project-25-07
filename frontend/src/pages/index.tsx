@@ -11,7 +11,7 @@ export default function Home() {
     const [isNavigating, setIsNavigating] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string>('전체')
 
-    const categories = ['전체', '역사 알아가기', '자유', '질문', '정보'];
+    const categories = ['전체', '역사 알아가기', '자유', '질문', '정보']
 
     const fetchPosts = useCallback(async (category: string, cursor?: number | null) => {
         setIsLoading(true)
@@ -32,28 +32,31 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        const urlCategory = router.query.category as string;
-        const shouldRefresh = router.query.refresh === 'true';
+        const urlCategory = router.query.category as string
+        const shouldRefresh = router.query.refresh === 'true'
 
         if (shouldRefresh) {
             // If refresh is true, clear session storage and force refetch
-            sessionStorage.removeItem('homeState');
-            const categoryToFetch = (urlCategory && categories.includes(urlCategory)) ? urlCategory : '전체';
-            setSelectedCategory(categoryToFetch);
-            fetchPosts(categoryToFetch);
+            sessionStorage.removeItem('homeState')
+            const categoryToFetch = urlCategory && categories.includes(urlCategory) ? urlCategory : '전체'
+            setSelectedCategory(categoryToFetch)
+            fetchPosts(categoryToFetch)
 
             // Remove refresh parameter from URL
-            const newQuery = { ...router.query };
-            delete newQuery.refresh;
-            router.replace({
-                pathname: router.pathname,
-                query: newQuery,
-            }, undefined, { shallow: true });
-
+            const newQuery = { ...router.query }
+            delete newQuery.refresh
+            router.replace(
+                {
+                    pathname: router.pathname,
+                    query: newQuery,
+                },
+                undefined,
+                { shallow: true }
+            )
         } else if (urlCategory && categories.includes(urlCategory)) {
             // If category in URL, but not refresh, set category and fetch
-            setSelectedCategory(urlCategory);
-            fetchPosts(urlCategory);
+            setSelectedCategory(urlCategory)
+            fetchPosts(urlCategory)
         } else {
             // If no category in URL, check session storage
             const savedState = sessionStorage.getItem('homeState')
@@ -61,7 +64,7 @@ export default function Home() {
                 const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
                 setPosts(posts)
                 setNextCursor(nextCursor)
-                setSelectedCategory(savedCategory || '전체');
+                setSelectedCategory(savedCategory || '전체')
                 setTimeout(() => window.scrollTo(0, scrollY), 0)
                 sessionStorage.removeItem('homeState')
             } else {
@@ -113,45 +116,56 @@ export default function Home() {
     }, [handleScroll])
 
     const handleCategoryChange = (category: string) => {
-        setSelectedCategory(category);
-        setPosts([]);
-        setNextCursor(null);
-        fetchPosts(category);
+        setSelectedCategory(category)
+        setPosts([])
+        setNextCursor(null)
+        fetchPosts(category)
 
         // Update URL with category parameter
-        const newQuery = { ...router.query };
+        const newQuery = { ...router.query }
         if (category === '전체') {
-            delete newQuery.category;
+            delete newQuery.category
         } else {
-            newQuery.category = category;
+            newQuery.category = category
         }
-        router.push({
-            pathname: router.pathname,
-            query: newQuery,
-        }, undefined, { shallow: true });
-    };
+        router.push(
+            {
+                pathname: router.pathname,
+                query: newQuery,
+            },
+            undefined,
+            { shallow: true }
+        )
+    }
 
     return (
         <>
-            <div className="flex justify-between items-center mb-8">
-                <h1 className='text-4xl font-extrabold text-gray-900'>{selectedCategory === '전체' ? '익명 게시판' : `${selectedCategory} 게시판`}</h1>
+            <div className='flex justify-between items-center mb-8'>
+                <h1 className='text-4xl font-extrabold text-gray-900'>
+                    {selectedCategory === '전체' ? '익명 게시판' : `${selectedCategory} 게시판`}
+                </h1>
                 <Link
-                    href={selectedCategory === '전체' ? '/posts/new' : `/posts/new?category=${encodeURIComponent(selectedCategory)}`}
+                    href={
+                        selectedCategory === '전체'
+                            ? '/posts/new'
+                            : `/posts/new?category=${encodeURIComponent(selectedCategory)}`
+                    }
                     className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition'
                 >
                     새 글 작성
                 </Link>
             </div>
 
-            <div className="flex space-x-2 mb-4 overflow-x-auto pb-2">
+            <div className='flex space-x-2 mb-4 overflow-x-auto pb-2'>
                 {categories.map((category) => (
                     <button
                         key={category}
                         onClick={() => handleCategoryChange(category)}
                         className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out
-                            ${selectedCategory === category
-                                ? 'bg-indigo-600 text-white shadow-md'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            ${
+                                selectedCategory === category
+                                    ? 'bg-indigo-600 text-white shadow-md'
+                                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                             }`}
                     >
                         {category}
@@ -167,11 +181,16 @@ export default function Home() {
                     >
                         <Link href={`/posts/${post.id}`}>
                             <h3 className='text-lg font-semibold mb-2'>
-                                {post.title} {post.commentCount && `[${post.commentCount}]`}
+                                {post.title}
+                                <span className='text-gray-500 ml-2'>
+                                    {post.commentCount && `[${post.commentCount}]`}
+                                </span>
                             </h3>
                             <p className='text-sm text-gray-700'>
                                 작성자: <span className='font-medium text-gray-700'>{post.author}</span>
-                                <span className='text-gray-500 ml-2'>({new Date(post.createdAt!).toLocaleDateString()})</span>
+                                <span className='text-gray-500 ml-2'>
+                                    ({new Date(post.createdAt!).toLocaleDateString()})
+                                </span>
                             </p>
                             <p className='text-xs text-gray-500 mt-2'>
                                 <span>카테고리: {post.category}</span>
