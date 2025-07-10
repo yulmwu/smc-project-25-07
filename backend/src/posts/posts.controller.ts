@@ -17,6 +17,19 @@ export class PostsController {
         return this.postsService.findAll(cursor ? parseInt(cursor, 10) : void 0, limit ? parseInt(limit, 10) : void 0)
     }
 
+    @Get('category/:category') // Add this endpoint
+    findByCategory(
+        @Param('category') category: string,
+        @Query('cursor') cursor?: string,
+        @Query('limit') limit?: string
+    ) {
+        return this.postsService.findByCategory(
+            category,
+            cursor ? parseInt(cursor, 10) : void 0,
+            limit ? parseInt(limit, 10) : void 0
+        );
+    }
+
     @Get(':id')
     findOne(@Param('id') id: string) {
         return this.postsService.findOne(parseInt(id, 10))

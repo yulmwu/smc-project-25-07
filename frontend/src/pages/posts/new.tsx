@@ -1,10 +1,21 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { createPost } from '@/lib/api'
 
 export default function NewPost() {
     const router = useRouter()
-    const [form, setForm] = useState({ author: '', password: '', title: '', content: '' })
+    const [form, setForm] = useState({ author: '', password: '', title: '', content: '', category: '분류 없음' })
+
+    const categories = ['분류 없음', '자유', '질문', '정보']; // Define categories
+
+    useEffect(() => {
+        if (router.query.category) {
+            setForm((prevForm) => ({
+                ...prevForm,
+                category: router.query.category as string,
+            }));
+        }
+    }, [router.query.category]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -33,6 +44,18 @@ export default function NewPost() {
                     value={form.password}
                     onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
+                {/* Category selection dropdown */}
+                <select
+                    className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                    value={form.category}
+                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                >
+                    {categories.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
                 <input
                     className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                     placeholder='제목'

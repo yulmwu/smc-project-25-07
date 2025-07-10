@@ -9,8 +9,11 @@ export default function EditPost({ post }: { post: Post }) {
         title: post.title,
         content: post.content,
         password: '',
+        category: post.category || '분류 없음', // Add category with default
     })
     const [error, setError] = useState('')
+
+    const categories = ['분류 없음', '자유', '질문', '정보']; // Example categories
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -22,7 +25,7 @@ export default function EditPost({ post }: { post: Post }) {
         }
 
         try {
-            await updatePost(post.id, form)
+            await updatePost(post.id, form) // Pass form directly, which now includes category
             router.push(`/posts/${post.id}`)
         } catch (err: any) {
             if (err.response && err.response.status === 401) {
@@ -63,6 +66,19 @@ export default function EditPost({ post }: { post: Post }) {
                     onChange={(e) => setForm({ ...form, content: e.target.value })}
                     rows={8}
                 />
+                {/* Category selection */}
+                <select
+                    className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                    value={form.category}
+                    onChange={(e) => setForm({ ...form, category: e.target.value })}
+                >
+                    {categories.map((category) => (
+                        <option key={category} value={category}>
+                            {category}
+                        </option>
+                    ))}
+                </select>
+
                 {error && <p className="text-red-500 text-center mt-4">{error}</p>} {/* Display error */}
                 <button
                     type='submit'

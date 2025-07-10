@@ -5,15 +5,18 @@ import { getPosts, Post, PaginatedPosts } from '@/lib/api'
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([])
-    const [nextCursor, setNextCursor] = useState<number | null>(null)
+    const [nextCursor, setNextCursor] = useState<number | null>(null) // Changed back to number | null
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [isNavigating, setIsNavigating] = useState(false)
+    const [selectedCategory, setSelectedCategory] = useState<string>('전체')
 
-    const fetchPosts = useCallback(async (cursor?: number) => {
+    const categories = ['전체', '분류 없음', '자유', '질문', '정보'];
+
+    const fetchPosts = useCallback(async (category: string, cursor?: number | null) => { // Modified cursor type
         setIsLoading(true)
         try {
-            const data: PaginatedPosts = await getPosts(cursor)
+            const data: PaginatedPosts = await getPosts(category, cursor)
             setPosts((prevPosts) => {
                 const newPosts = data.items.filter(
                     (newItem) => !prevPosts.some((existingItem) => existingItem.id === newItem.id)
@@ -31,15 +34,16 @@ export default function Home() {
     useEffect(() => {
         const savedState = sessionStorage.getItem('homeState')
         if (savedState) {
-            const { posts, nextCursor, scrollY } = JSON.parse(savedState)
+            const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
             setPosts(posts)
             setNextCursor(nextCursor)
+            setSelectedCategory(savedCategory || '전체');
             setTimeout(() => window.scrollTo(0, scrollY), 0)
             sessionStorage.removeItem('homeState')
         } else {
-            fetchPosts()
+            fetchPosts(selectedCategory)
         }
-    }, [fetchPosts])
+    }, [fetchPosts, selectedCategory])
 
     useEffect(() => {
         const handleRouteChangeStart = () => {
@@ -47,6 +51,7 @@ export default function Home() {
                 posts,
                 nextCursor,
                 scrollY: window.scrollY,
+                selectedCategory,
             }
             sessionStorage.setItem('homeState', JSON.stringify(homeState))
             setIsNavigating(true)
@@ -63,7 +68,7 @@ export default function Home() {
             router.events.off('routeChangeStart', handleRouteChangeStart)
             router.events.off('routeChangeComplete', handleRouteChangeComplete)
         }
-    }, [router.events, posts, nextCursor])
+    }, [router.events, posts, nextCursor, selectedCategory])
 
     const handleScroll = useCallback(() => {
         if (
@@ -73,26 +78,50 @@ export default function Home() {
             return
         }
         if (nextCursor) {
-            fetchPosts(nextCursor)
+            fetchPosts(selectedCategory, nextCursor)
         }
-    }, [isLoading, nextCursor, fetchPosts])
+    }, [isLoading, nextCursor, fetchPosts, selectedCategory])
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [handleScroll])
 
+    const handleCategoryChange = (category: string) => {
+        setSelectedCategory(category);
+        setPosts([]);
+        setNextCursor(null);
+        fetchPosts(category);
+    };
+
     return (
         <>
             <div className="flex justify-between items-center mb-8">
-                <h1 className='text-4xl font-extrabold text-gray-900'>익명 게시판</h1>
+                <h1 className='text-4xl font-extrabold text-gray-900'>{selectedCategory === '전체' ? '익명 게시판' : `${selectedCategory} 게시판`}</h1>
                 <Link
-                    href='/posts/new'
+                    href={selectedCategory === '전체' ? '/posts/new' : `/posts/new?category=${encodeURIComponent(selectedCategory)}`}
                     className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition'
                 >
                     새 글 작성
                 </Link>
             </div>
+
+            <div className="flex space-x-2 mb-4 overflow-x-auto pb-2">
+                {categories.map((category) => (
+                    <button
+                        key={category}
+                        onClick={() => handleCategoryChange(category)}
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out
+                            ${selectedCategory === category
+                                ? 'bg-indigo-600 text-white shadow-md'
+                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                            }`}
+                    >
+                        {category}
+                    </button>
+                ))}
+            </div>
+
             <div className='mt-8 space-y-4'>
                 {posts.map((post) => (
                     <article
@@ -105,6 +134,9 @@ export default function Home() {
                             </h3>
                             <p className='text-sm text-gray-700'>
                                 작성자: <span className='font-medium text-gray-700'>{post.author}</span>
+                            </p>
+                            <p className='text-xs text-gray-500 mt-1'>
+                                카테고리: {post.category || '분류 없음'}
                             </p>
                         </Link>
                     </article>

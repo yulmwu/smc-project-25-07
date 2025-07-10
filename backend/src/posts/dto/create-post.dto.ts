@@ -3,4 +3,5 @@ export class CreatePostDto {
     password: string
     title: string
     content: string
+    category: string;
 }

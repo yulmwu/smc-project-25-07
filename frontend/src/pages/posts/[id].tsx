@@ -64,6 +64,9 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                     <span>
                         작성자: <strong>{post.author}</strong>
                     </span>
+                    <span>
+                        카테고리: <strong>{post.category || '분류 없음'}</strong> {/* Display category */}
+                    </span>
                     <time className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</time>
                 </div>
                 <section className='prose prose-indigo max-w-none text-gray-800 whitespace-pre-wrap'>

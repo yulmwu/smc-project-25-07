@@ -5,6 +5,7 @@ export type Post = {
     author: string
     title: string
     content: string
+    category: string
     createdAt?: string
     updatedAt?: string
     password?: string
@@ -31,11 +32,12 @@ const api = axios.create({
 
 export type PaginatedPosts = {
     items: Post[]
-    nextCursor: number | null
+    nextCursor: number | null // Changed back to number | null
 }
 
-export const getPosts = async (cursor?: number, limit: number = 10): Promise<PaginatedPosts> => {
-    const res = await api.get<PaginatedPosts>('/posts', {
+export const getPosts = async (category?: string, cursor?: number | null, limit: number = 10): Promise<PaginatedPosts> => { // Modified cursor type
+    const url = category && category !== '전체' ? `/posts/category/${encodeURIComponent(category)}` : '/posts';
+    const res = await api.get<PaginatedPosts>(url, {
         params: {
             cursor,
             limit,

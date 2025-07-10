@@ -40,6 +40,7 @@ export class PostsService {
             password: hashedPassword,
             title: createPostDto.title,
             content: createPostDto.content,
+            category: createPostDto.category || '분류 없음',
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
@@ -51,7 +52,7 @@ export class PostsService {
             })
         )
 
-        return { id: post.id, author: post.author, title: post.title, content: post.content }
+        return { id: post.id, author: post.author, title: post.title, content: post.content, category: post.category }
     }
 
     async findOne(id: number) {
@@ -64,6 +65,9 @@ export class PostsService {
                 },
             })
         )
+        if (result.Item && !result.Item.category) {
+            result.Item.category = '분류 없음';
+        }
         return result.Item
     }
 
@@ -89,10 +93,62 @@ export class PostsService {
 
         const result = await this.dynamoDB.client.send(new QueryCommand(params))
 
+        const items = result.Items ?? []
+
+        const itemsWithCategory = items.map(item => ({
+            ...item,
+            category: item.category || '분류 없음'
+        }));
+
         return {
-            items: result.Items,
+            items: itemsWithCategory,
             nextCursor: result.LastEvaluatedKey ? result.LastEvaluatedKey.id : null,
         }
+    }
+
+    async findByCategory(category: string, cursor?: number, limit = 20) { // cursor type changed back to number
+        if (limit < 1 || limit > 100) {
+            throw new Invalid('Limit must be between 1 and 100');
+        }
+
+        const params: any = {
+            TableName: this.tableName,
+            IndexName: 'CategoryCreatedAtGSI', // GSI with category as PK, createdAt as SK
+            KeyConditionExpression: 'category = :category',
+            ExpressionAttributeValues: {
+                ':category': category,
+            },
+            Limit: limit,
+            ScanIndexForward: false, // Latest first
+        };
+
+        if (cursor) {
+            // Fetch the post to get its createdAt for pagination
+            const post = await this.findOne(cursor);
+            if (!post) {
+                throw new NotFoundError(`Post with id ${cursor} not found for pagination`);
+            }
+            params.ExclusiveStartKey = {
+                category: category,
+                createdAt: post.createdAt,
+                id: post.id, // Include id in ExclusiveStartKey for full primary key of GSI
+            };
+            params.KeyConditionExpression += ' AND createdAt <= :cursorCreatedAt'; // Use <= for createdAt
+            params.ExpressionAttributeValues[':cursorCreatedAt'] = post.createdAt;
+        }
+
+        const result = await this.dynamoDB.client.send(new QueryCommand(params));
+
+        const items = result.Items ?? [];
+        const itemsWithCategory = items.map(item => ({
+            ...item,
+            category: item.category || '분류 없음'
+        }));
+
+        return {
+            items: itemsWithCategory,
+            nextCursor: result.LastEvaluatedKey ? result.LastEvaluatedKey.id : null, // Return id as cursor
+        };
     }
 
     async update(id: number, dto: UpdatePostDto) {
@@ -106,16 +162,24 @@ export class PostsService {
             throw new Invalid(`Invalid password for post with id ${id}`)
         }
 
+        const updateExpressionParts = ['SET title = :title, content = :content, updatedAt = :updatedAt'];
+        const expressionAttributeValues: any = {
+            ':title': dto.title,
+            ':content': dto.content,
+            ':updatedAt': new Date().toISOString(),
+        };
+
+        if (dto.category !== undefined) {
+            updateExpressionParts.push('category = :category');
+            expressionAttributeValues[':category'] = dto.category;
+        }
+
         await this.dynamoDB.client.send(
             new UpdateCommand({
                 TableName: this.tableName,
                 Key: { pk: 'posts', id },
-                UpdateExpression: 'SET title = :title, content = :content, updatedAt = :updatedAt',
-                ExpressionAttributeValues: {
-                    ':title': dto.title,
-                    ':content': dto.content,
-                    ':updatedAt': new Date().toISOString(),
-                },
+                UpdateExpression: updateExpressionParts.join(', '),
+                ExpressionAttributeValues: expressionAttributeValues,
             })
         )
         return { id }
