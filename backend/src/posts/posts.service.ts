@@ -1,3 +1,4 @@
+
 import { Injectable } from '@nestjs/common'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { CreatePostDto } from './dto/create-post.dto'
@@ -41,6 +42,7 @@ export class PostsService {
             title: createPostDto.title,
             content: createPostDto.content,
             category: createPostDto.category || '분류 없음',
+            views: 0,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
@@ -52,7 +54,7 @@ export class PostsService {
             })
         )
 
-        return { id: post.id, author: post.author, title: post.title, content: post.content, category: post.category }
+        return { id: post.id, author: post.author, title: post.title, content: post.content, category: post.category, views: post.views }
     }
 
     async findOne(id: number) {
@@ -65,8 +67,27 @@ export class PostsService {
                 },
             })
         )
-        if (result.Item && !result.Item.category) {
-            result.Item.category = '분류 없음';
+        if (result.Item) {
+            if (!result.Item.category) {
+                result.Item.category = '분류 없음';
+            }
+            if (result.Item.views === undefined) {
+                result.Item.views = 0;
+            }
+            
+            await this.dynamoDB.client.send(
+                new UpdateCommand({
+                    TableName: this.tableName,
+                    Key: { pk: 'posts', id },
+                    UpdateExpression: 'SET #v = if_not_exists(#v, :start) + :inc',
+                    ExpressionAttributeNames: { '#v': 'views' },
+                    ExpressionAttributeValues: {
+                        ':inc': 1,
+                        ':start': 0,
+                    },
+                })
+            );
+            result.Item.views++;
         }
         return result.Item
     }
@@ -97,7 +118,8 @@ export class PostsService {
 
         const itemsWithCategory = items.map(item => ({
             ...item,
-            category: item.category || '분류 없음'
+            category: item.category || '분류 없음',
+            views: item.views || 0,
         }));
 
         return {
@@ -138,7 +160,8 @@ export class PostsService {
         const items = result.Items ?? [];
         const itemsWithCategory = items.map(item => ({
             ...item,
-            category: item.category || '분류 없음'
+            category: item.category || '분류 없음',
+            views: item.views || 0,
         }));
 
         return {

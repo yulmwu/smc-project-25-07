@@ -138,7 +138,7 @@ export default function Home() {
     return (
         <>
             {/* <title>조선인사이드</title>  */}
-            <div className='flex justify-between items-center mb-8'>
+            <div className='flex justify-between items-center mb-5'>
                 <h1 className='text-4xl font-extrabold text-gray-900'>
                     {selectedCategory === '전체' ? '조선인사이드: 전체 글' : `${selectedCategory}`}
                 </h1>
@@ -150,12 +150,12 @@ export default function Home() {
                 </Link>
             </div>
 
-            <div className='flex space-x-2 mb-4 overflow-x-auto pb-2'>
+            <div className='flex space-x-2 mb-2 overflow-x-auto pb-2'>
                 {categories.map((category) => (
                     <button
                         key={category}
                         onClick={() => handleCategoryChange(category)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out
+                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out cursor-pointer
                             ${
                                 selectedCategory === category
                                     ? 'bg-indigo-600 text-white shadow-md'
@@ -167,7 +167,7 @@ export default function Home() {
                 ))}
             </div>
 
-            <div className='mt-8 space-y-4'>
+            <div className='mt-3 space-y-4'>
                 {posts.map((post) => (
                     <article
                         key={post.id}
@@ -184,13 +184,14 @@ export default function Home() {
                                 </span>
                             </h3>
                             <hr className='border-gray-200 mb-3 mt-3' />
-                            <div className='text-sm text-gray-600 flex justify-between items-center'>
-                                <span>
+                            <div className='text-sm text-gray-400 flex justify-between items-center'>
+                                <p>
                                     작성자: <span className='font-medium text-gray-700'>{post.author}</span>
-                                </span>
-                                <span className='text-gray-400'>
-                                    {dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}
-                                </span>
+                                </p>
+                                <p>
+                                    <span>{dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}</span>
+                                    <span className='ml-3'>조회수: {post.views || 0}</span>
+                                </p>
                             </div>
                         </Link>
                     </article>

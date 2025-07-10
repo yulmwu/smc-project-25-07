@@ -2,7 +2,7 @@
 
 /* 모바일 사이드바 오버레이용 */
 .sidebar-overlay {
-  background-color: rgba(0, 0, 0, 0.3); /* 명시적으로 반투명 배경 설정 */
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px); /* 웹킷 브라우저 호환성 추가 */
+    background-color: rgba(0, 0, 0, 0.3); /* 명시적으로 반투명 배경 설정 */
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px); /* 웹킷 브라우저 호환성 추가 */
 }
