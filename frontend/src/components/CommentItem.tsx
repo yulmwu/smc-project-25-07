@@ -2,10 +2,10 @@ import { useState } from 'react'
 import { Comment, updateComment, deleteComment } from '@/lib/api'
 import { useRouter } from 'next/router'
 import PasswordModal from '@/components/PasswordModal'
+import dayjs from 'dayjs'
 
 export default function CommentItem({ comment }: { comment: Comment }) {
     const router = useRouter()
-    const [isEditing, setIsEditing] = useState(false)
     const [content, setContent] = useState(comment.content)
     const [showPasswordModal, setShowPasswordModal] = useState(false)
     const [modalAction, setModalAction] = useState<'delete' | 'edit' | null>(null)
@@ -19,10 +19,6 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                     return
                 }
                 await deleteComment(comment.id, password)
-                router.reload()
-            } else if (modalAction === 'edit') {
-                await updateComment(comment.id, { content, password })
-                setIsEditing(false)
                 router.reload()
             }
             setShowPasswordModal(false)
@@ -38,53 +34,27 @@ export default function CommentItem({ comment }: { comment: Comment }) {
 
     return (
         <li className='bg-white p-4 rounded-lg shadow mb-4'>
-            <div className='flex justify-between text-sm text-gray-600 mb-1'>
+            <div className='flex justify-between text-sm text-gray-400'>
                 <span>
-                    작성자: <strong>{comment.author}</strong>
+                    작성자: <strong className='text-gray-500'>{comment.author}</strong>
                 </span>
-                <time>{comment.createdAt.slice(0, 10)}</time>
+                <p className='text-gray-400'>{dayjs(comment.createdAt).format('YYYY-MM-DD HH:mm')}</p>
             </div>
-            {isEditing ? (
-                <div>
-                    <textarea
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        className='w-full border border-gray-300 rounded-lg px-4 py-2'
-                    />
-                    <div className='flex items-center space-x-3 mt-2'>
-                        <button
-                            onClick={() => {
-                                setModalAction('edit')
-                                setShowPasswordModal(true)
-                                setModalError('')
-                            }}
-                            className='bg-indigo-600 text-white px-4 py-2 rounded-lg'
-                        >
-                            저장
-                        </button>
-                        <button onClick={() => setIsEditing(false)} className='border px-4 py-2 rounded-lg'>
-                            취소
-                        </button>
-                    </div>
-                </div>
-            ) : (
-                <div>
-                    <p className='text-gray-800 whitespace-pre-wrap'>{comment.content}</p>
-                    <div className='flex items-center space-x-3 mt-2'>
-                        <button
-                            onClick={() => {
-                                setModalAction('delete')
-                                setShowPasswordModal(true)
-                                setModalError('')
-                            }}
-                            className='text-red-600'
-                        >
-                            삭제
-                        </button>
-                    </div>
-                </div>
-            )}
-
+            <hr className='border-gray-200 mb-3 mt-3' />
+            <p className='text-gray-800 whitespace-pre-wrap'>{comment.content}</p>
+            <hr className='border-gray-200 mb-3 mt-3' />
+            <div className='flex items-center space-x-3'>
+                <button
+                    onClick={() => {
+                        setModalAction('delete')
+                        setShowPasswordModal(true)
+                        setModalError('')
+                    }}
+                    className='text-red-600'
+                >
+                    삭제
+                </button>
+            </div>
             <PasswordModal
                 isOpen={showPasswordModal}
                 onClose={() => {

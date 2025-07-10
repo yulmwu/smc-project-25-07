@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { getPosts, Post, PaginatedPosts } from '@/lib/api'
+import dayjs from 'dayjs'
 
 export default function Home() {
     const [posts, setPosts] = useState<Post[]>([])
@@ -182,12 +183,15 @@ export default function Home() {
                                     {post.commentCount && `[${post.commentCount}]`}
                                 </span>
                             </h3>
-                            <p className='text-sm text-gray-700'>
-                                작성자: <span className='font-medium text-gray-700'>{post.author}</span>
-                                <span className='text-gray-500 ml-2'>
-                                    ({new Date(post.createdAt!).toLocaleDateString()})
+                            <hr className='border-gray-200 mb-3 mt-3' />
+                            <div className='text-sm text-gray-600 flex justify-between items-center'>
+                                <span>
+                                    작성자: <span className='font-medium text-gray-700'>{post.author}</span>
                                 </span>
-                            </p>
+                                <span className='text-gray-400'>
+                                    {dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}
+                                </span>
+                            </div>
                         </Link>
                     </article>
                 ))}

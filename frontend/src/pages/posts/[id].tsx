@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import CommentForm from '@/components/CommentForm'
 import CommentItem from '@/components/CommentItem'
 import PasswordModal from '@/components/PasswordModal'
+import dayjs from 'dayjs'
 
 export default function PostDetail({ post, comments }: { post: Post; comments: Comment[] }) {
     const router = useRouter()
@@ -46,7 +47,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
             <title>조선인사이드 - 게시글</title>
             <div className='max-w-3xl mx-auto p-6'>
                 <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
-                    <h1 className='text-3xl font-bold text-gray-900 mb-3'>
+                    <h1 className='text-3xl font-bold text-gray-900 mb-5'>
                         <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
                         <span>{post.title}</span>
                     </h1>
@@ -56,12 +57,13 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                                 작성자: <strong>{post.author}</strong>
                             </span>
                         </div>
-                        <p className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</p>
+                        <p className='text-gray-400 text-xs'>{dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}</p>
                     </div>
+                    <hr className='border-gray-200 mb-5 mt-5' />
                     <section className='prose prose-indigo max-w-none text-gray-800 whitespace-pre-wrap'>
                         {post.content}
                     </section>
-
+                    <hr className='border-gray-200 mb-3 mt-5' />
                     <div className='mt-8 flex justify-end space-x-3'>
                         <button
                             onClick={() => {
