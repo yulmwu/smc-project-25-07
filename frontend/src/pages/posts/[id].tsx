@@ -48,11 +48,13 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                 <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
                     {post.thumbnailUrl && (
                         <div className='mb-10'>
-                            <img
-                                src={post.thumbnailUrl}
-                                alt='썸네일'
-                                className='w-full h-64 object-cover rounded-lg'
-                            />
+                            <a href={post.thumbnailUrl} target='_blank' rel='noopener noreferrer'>
+                                <img
+                                    src={post.thumbnailUrl}
+                                    alt='썸네일'
+                                    className='w-full h-64 object-cover rounded-lg transition-transform duration-300 hover:scale-101 cursor-pointer'
+                                />
+                            </a>
                         </div>
                     )}
                     <h1 className='text-3xl font-bold text-gray-900 mb-5'>
@@ -67,9 +69,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                         </div>
                         <p className='text-gray-400 text-xs'>
                             <span>{dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}</span>
-                            <span className='ml-3'>
-                                조회수: {post.views ?? 0}
-                            </span>
+                            <span className='ml-3'>조회수: {post.views ?? 0}</span>
                         </p>
                     </div>
                     <hr className='border-gray-200 mb-5 mt-5' />
