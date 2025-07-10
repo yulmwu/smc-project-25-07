@@ -138,7 +138,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </aside>
 
                 {/* 본문 (게시글 리스트) */}
-                <section className='flex-1 space-y-4'>
+                <section className='container mx-auto p-4 sm:p-6 lg:p-8'>
                     <Component {...pageProps} />
                 </section>
 
