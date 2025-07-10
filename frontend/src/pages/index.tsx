@@ -37,14 +37,7 @@ export default function Home() {
         const shouldRefresh = router.query.refresh === 'true'
         const savedState = sessionStorage.getItem('homeState')
 
-        if (savedState) {
-            const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
-            setPosts(posts)
-            setNextCursor(nextCursor)
-            setSelectedCategory(savedCategory ?? '전체')
-            setTimeout(() => window.scrollTo(0, scrollY), 0)
-            sessionStorage.removeItem('homeState')
-        } else if (shouldRefresh) {
+        if (shouldRefresh) {
             // If refresh is true, clear session storage and force refetch
             sessionStorage.removeItem('homeState')
             const categoryToFetch = urlCategory && categories.includes(urlCategory) ? urlCategory : '전체'
@@ -62,6 +55,13 @@ export default function Home() {
                 undefined,
                 { shallow: true }
             )
+        } else if (savedState) {
+            const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
+            setPosts(posts)
+            setNextCursor(nextCursor)
+            setSelectedCategory(savedCategory ?? '전체')
+            setTimeout(() => window.scrollTo(0, scrollY), 0)
+            sessionStorage.removeItem('homeState')
         } else if (urlCategory && categories.includes(urlCategory)) {
             // If category in URL, but not refresh, set category and fetch
             setSelectedCategory(urlCategory)
@@ -176,12 +176,14 @@ export default function Home() {
                         <Link href={`/posts/${post.id}`}>
                             <h3 className='text-lg font-semibold mb-2'>
                                 <p className='text-blue-500 text-sm mb-1'>
-                                    {post.category ? `[${post.category}]` : '[분류 없음]'}
+                                    {post.category ? `${post.category}` : '분류 없음'}
                                 </p>
                                 {post.title}
-                                <span className='text-gray-500 ml-2'>
-                                    {post.commentCount && `[${post.commentCount}]`}
-                                </span>
+                                {post.commentCount && post.commentCount > 0 ? (
+                                    <span className='text-gray-500 ml-2'>[{post.commentCount}]</span>
+                                ) : (
+                                    ''
+                                )}
                             </h3>
                             <hr className='border-gray-200 mb-3 mt-3' />
                             <div className='text-sm text-gray-400 flex justify-between items-center'>
@@ -190,7 +192,7 @@ export default function Home() {
                                 </p>
                                 <p>
                                     <span>{dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}</span>
-                                    <span className='ml-3'>조회수: {post.views || 0}</span>
+                                    <span className='ml-3'>조회수: {post.views ?? 0}</span>
                                 </p>
                             </div>
                         </Link>

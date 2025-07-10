@@ -28,7 +28,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                     return
                 }
                 await deletePost(post.id, password)
-                router.push('/')
+                router.push('/?refresh=true')
             }
             setShowPasswordModal(false)
             setModalError('')
