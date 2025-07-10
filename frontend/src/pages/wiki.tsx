@@ -212,7 +212,7 @@ const WikiPage: React.FC = () => {
                 </button>
             </div>
 
-            <div className='flex space-x-2 mb-2 overflow-x-auto pb-2'>
+            <div className='flex space-x-2 mb-2 overflow-x-auto pb-2 whitespace-nowrap'>
                 {Object.keys(wikiContent).map((key) => (
                     <button
                         key={key}

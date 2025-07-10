@@ -150,7 +150,7 @@ export default function Home() {
                 </Link>
             </div>
 
-            <div className='flex space-x-2 mb-2 overflow-x-auto pb-2'>
+            <div className='flex space-x-2 mb-2 overflow-x-auto pb-2 whitespace-nowrap'>
                 {categories.map((category) => (
                     <button
                         key={category}

@@ -56,7 +56,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                                 />
                             </a>
                         </div>
-                    )}
+                    )}현재 모바일 환경에서 메인 홈의 카테고리 선택, 위키의 메뉴 선택 등에서 반응형적이지 않아. (특히 모바일에서 카테고리나 메뉴가 너무 큼, 이런건 모바일 환경에선 스크롤이 되게 수정 부탁) 확인해서 수정할 부분은 수정하되, 기존의 디자인과 기능은 건들며 안돼.
                     <h1 className='text-3xl font-bold text-gray-900 mb-5'>
                         <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
                         <span>{post.title}</span>
