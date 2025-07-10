@@ -42,66 +42,69 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
     }
 
     return (
-        <div className='max-w-3xl mx-auto p-6'>
-            <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
-                <h1 className='text-3xl font-bold text-gray-900 mb-3'>
-                    <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
-                    <span>{post.title}</span>
-                </h1>
-                <div className='text-gray-600 mb-6 text-sm flex justify-between items-center'>
-                    <div>
-                        <span>
-                            작성자: <strong>{post.author}</strong>
-                        </span>
+        <div>
+            <title>조선인사이드 - 게시글</title>
+            <div className='max-w-3xl mx-auto p-6'>
+                <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
+                    <h1 className='text-3xl font-bold text-gray-900 mb-3'>
+                        <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
+                        <span>{post.title}</span>
+                    </h1>
+                    <div className='text-gray-600 mb-6 text-sm flex justify-between items-center'>
+                        <div>
+                            <span>
+                                작성자: <strong>{post.author}</strong>
+                            </span>
+                        </div>
+                        <p className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</p>
                     </div>
-                    <p className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</p>
-                </div>
-                <section className='prose prose-indigo max-w-none text-gray-800 whitespace-pre-wrap'>
-                    {post.content}
+                    <section className='prose prose-indigo max-w-none text-gray-800 whitespace-pre-wrap'>
+                        {post.content}
+                    </section>
+
+                    <div className='mt-8 flex justify-end space-x-3'>
+                        <button
+                            onClick={() => {
+                                setModalAction('delete')
+                                setShowPasswordModal(true)
+                                setModalError('')
+                            }}
+                            className='bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow'
+                        >
+                            삭제
+                        </button>
+                        <button
+                            onClick={() => router.push(`/posts/${post.id}/edit`)}
+                            className='border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition px-5 py-2 rounded-lg font-semibold'
+                        >
+                            수정
+                        </button>
+                    </div>
+                </article>
+
+                <section>
+                    <h2 className='text-2xl font-semibold mb-6'>댓글 ({comments.length})</h2>
+                    <ul className='space-y-4'>
+                        {comments.map((c) => (
+                            <CommentItem key={c.id} comment={c} />
+                        ))}
+                    </ul>
+
+                    <CommentForm postId={post.id} onSubmitted={() => router.reload()} />
                 </section>
 
-                <div className='mt-8 flex justify-end space-x-3'>
-                    <button
-                        onClick={() => {
-                            setModalAction('delete')
-                            setShowPasswordModal(true)
-                            setModalError('')
-                        }}
-                        className='bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow'
-                    >
-                        삭제
-                    </button>
-                    <button
-                        onClick={() => router.push(`/posts/${post.id}/edit`)}
-                        className='border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition px-5 py-2 rounded-lg font-semibold'
-                    >
-                        수정
-                    </button>
-                </div>
-            </article>
-
-            <section>
-                <h2 className='text-2xl font-semibold mb-6'>댓글 ({comments.length})</h2>
-                <ul className='space-y-4'>
-                    {comments.map((c) => (
-                        <CommentItem key={c.id} comment={c} />
-                    ))}
-                </ul>
-
-                <CommentForm postId={post.id} onSubmitted={() => router.reload()} />
-            </section>
-
-            <PasswordModal
-                isOpen={showPasswordModal}
-                onClose={() => {
-                    setShowPasswordModal(false)
-                    setModalError('')
-                }}
-                onConfirm={handlePasswordConfirm}
-                title={'게시글 삭제'}
-                description={'게시글을 삭제하려면 비밀번호를 입력해주세요.'}
-                errorMessage={modalError}
-            />
+                <PasswordModal
+                    isOpen={showPasswordModal}
+                    onClose={() => {
+                        setShowPasswordModal(false)
+                        setModalError('')
+                    }}
+                    onConfirm={handlePasswordConfirm}
+                    title={'게시글 삭제'}
+                    description={'게시글을 삭제하려면 비밀번호를 입력해주세요.'}
+                    errorMessage={modalError}
+                />
+            </div>
         </div>
     )
 }
