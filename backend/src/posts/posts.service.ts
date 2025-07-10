@@ -128,13 +128,9 @@ export class PostsService {
             if (!post) {
                 throw new NotFoundError(`Post with id ${cursor} not found for pagination`);
             }
-            params.ExclusiveStartKey = {
-                category: category,
-                createdAt: post.createdAt,
-                id: post.id, // Include id in ExclusiveStartKey for full primary key of GSI
-            };
-            params.KeyConditionExpression += ' AND createdAt <= :cursorCreatedAt'; // Use <= for createdAt
-            params.ExpressionAttributeValues[':cursorCreatedAt'] = post.createdAt;
+            
+            params.KeyConditionExpression += ' AND createdAt < :createdAt';
+            params.ExpressionAttributeValues[':createdAt'] = post.createdAt;
         }
 
         const result = await this.dynamoDB.client.send(new QueryCommand(params));

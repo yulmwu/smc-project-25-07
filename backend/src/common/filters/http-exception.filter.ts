@@ -19,6 +19,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             message = exception.message
         } else if (exception instanceof Error) {
             message = exception.message
+            console.error('Unexpected error:', exception)
         }
 
         response.status(status).json({

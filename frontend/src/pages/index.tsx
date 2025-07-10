@@ -64,7 +64,7 @@ export default function Home() {
                 const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
                 setPosts(posts)
                 setNextCursor(nextCursor)
-                setSelectedCategory(savedCategory || '전체')
+                setSelectedCategory(savedCategory ?? '전체')
                 setTimeout(() => window.scrollTo(0, scrollY), 0)
                 sessionStorage.removeItem('homeState')
             } else {
@@ -123,11 +123,7 @@ export default function Home() {
 
         // Update URL with category parameter
         const newQuery = { ...router.query }
-        if (category === '전체') {
-            delete newQuery.category
-        } else {
-            newQuery.category = category
-        }
+        newQuery.category = category
         router.push(
             {
                 pathname: router.pathname,
@@ -146,11 +142,7 @@ export default function Home() {
                     {selectedCategory === '전체' ? '조선인사이드: 전체 글' : `${selectedCategory}`}
                 </h1>
                 <Link
-                    href={
-                        selectedCategory === '전체'
-                            ? '/posts/new'
-                            : `/posts/new?category=${encodeURIComponent(selectedCategory)}`
-                    }
+                    href={`/posts/new?category=${encodeURIComponent(selectedCategory)}`}
                     className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition'
                 >
                     새 글 작성

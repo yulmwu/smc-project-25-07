@@ -11,7 +11,7 @@ export const SidebarContent = () => (
         <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
         <ul className='space-y-2 text-sm'>
             <li>
-                <a href='/' className='hover:underline'>
+                <a href='/?category=전체' className='hover:underline'>
                     <FaList className='inline mr-3' />
                     전체
                 </a>
