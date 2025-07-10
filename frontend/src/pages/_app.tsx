@@ -1,6 +1,7 @@
 import { BASE_URL, getPosts, Post } from '@/lib/api'
 import './globals.css'
 import { AppProps } from 'next/app'
+import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import { FaBook, FaComments, FaGithub, FaInfoCircle, FaList, FaQuestionCircle } from 'react-icons/fa'
 import { FaDiagramProject } from 'react-icons/fa6'
@@ -11,27 +12,32 @@ export const SidebarContent = () => (
         <ul className='space-y-2 text-sm'>
             <li>
                 <a href='/' className='hover:underline'>
-                    <FaList className='inline mr-3' />전체
+                    <FaList className='inline mr-3' />
+                    전체
                 </a>
             </li>
             <li>
                 <a href='/?category=역사+알아가기' className='hover:underline'>
-                    <FaBook className='inline mr-3' />역사 알아가기
+                    <FaBook className='inline mr-3' />
+                    역사 알아가기
                 </a>
             </li>
             <li>
                 <a href='/?category=자유' className='hover:underline'>
-                    <FaComments className='inline mr-3' />자유
+                    <FaComments className='inline mr-3' />
+                    자유
                 </a>
             </li>
             <li>
                 <a href='/?category=질문' className='hover:underline'>
-                    <FaQuestionCircle className='inline mr-3' />질문
+                    <FaQuestionCircle className='inline mr-3' />
+                    질문
                 </a>
             </li>
             <li>
                 <a href='/?category=정보' className='hover:underline'>
-                    <FaInfoCircle className='inline mr-3' />정보
+                    <FaInfoCircle className='inline mr-3' />
+                    정보
                 </a>
             </li>
         </ul>
@@ -44,12 +50,14 @@ export const SidebarContent = () => (
             </li>
             <li>
                 <a href='/about' className='hover:underline'>
-                    <FaDiagramProject className='inline mr-3' />프로젝트 소개
+                    <FaDiagramProject className='inline mr-3' />
+                    프로젝트 소개
                 </a>
             </li>
             <li>
                 <a href='https://github.com/yulmwu/smc-project-25-07' className='hover:underline'>
-                    <FaGithub className='inline mr-3' />Source Code
+                    <FaGithub className='inline mr-3' />
+                    Source Code
                 </a>
             </li>
         </ul>
@@ -119,7 +127,11 @@ export default function App({ Component, pageProps }: AppProps) {
                             />
                         </svg>
                     </button>
-                    <div className='text-xl font-bold ml-3'>조선인사이드</div>
+                    <div className='text-xl font-bold ml-3'>
+                        <a href='/' className='text-gray-900'>
+                            조선인사이드
+                        </a>
+                    </div>
                 </div>
                 {/* <nav className='space-x-4 text-sm'>
                     <a href='#' className='text-gray-600 hover:text-black'>
@@ -149,7 +161,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </section>
 
                 {/* 데스크탑 오른쪽 사이드바 */}
-                <aside className='hidden xl:block w-[240px] min-w-[240px] max-w-[240px] flex-shrink-0'>
+                <aside className='hidden xl:block w-[320px] min-w-[320px] max-w-[320px] flex-shrink-0'>
                     <div className='sticky top-20 bg-white rounded-lg shadow p-4'>
                         <h2 className='text-lg font-semibold mb-3'>최신 게시글 목록</h2>
                         <ul className='space-y-2.5 text-sm'>
