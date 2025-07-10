@@ -166,27 +166,44 @@ export default function Home() {
                     </button>
                 ))}
             </div>
-
             <div className='mt-3 space-y-4'>
                 {posts.map((post) => (
                     <article
                         key={post.id}
-                        className='bg-white p-4 rounded-lg shadow hover:shadow-md transition cursor-pointer'
+                        className='bg-white pt-4 pb-4 pl-7 pr-7 rounded-lg shadow hover:shadow-md transition cursor-pointer'
                     >
-                        <Link href={`/posts/${post.id}`}>
-                            <h3 className='text-lg font-semibold mb-2'>
-                                <p className='text-blue-500 text-sm mb-1'>
-                                    {post.category ? `${post.category}` : '분류 없음'}
-                                </p>
-                                {post.title}
-                                {post.commentCount && post.commentCount > 0 ? (
-                                    <span className='text-gray-500 ml-2'>[{post.commentCount}]</span>
-                                ) : (
-                                    ''
+                        <Link href={`/posts/${post.id}`} className='flex flex-col w-full h-full'>
+                            {/* 제목 + 썸네일 줄 */}
+                            <div className='flex flex-col md:flex-row-reverse items-start md:items-center'>
+                                {post.thumbnailUrl && (
+                                    <div className='w-full md:w-1/4 mb-5 md:mb-0 md:ml-4 flex-shrink-0'>
+                                        <img
+                                            src={post.thumbnailUrl}
+                                            alt='썸네일'
+                                            className='w-full h-32 md:h-28 object-cover rounded-lg'
+                                        />
+                                    </div>
                                 )}
-                            </h3>
-                            <hr className='border-gray-200 mb-3 mt-3' />
-                            <div className='text-sm text-gray-400 flex justify-between items-center'>
+                                <div className='flex-1'>
+                                    <p className='text-blue-500 text-sm mb-1'>
+                                        {post.category ? `${post.category}` : '분류 없음'}
+                                    </p>
+                                    <h3 className='text-lg font-semibold'>
+                                        {post.title}
+                                        {post.commentCount && post.commentCount > 0 ? (
+                                            <span className='text-gray-500 ml-2'>[{post.commentCount}]</span>
+                                        ) : (
+                                            ''
+                                        )}
+                                    </h3>
+                                </div>
+                            </div>
+
+                            {/* 하단 구분선 */}
+                            <hr className='border-gray-200 my-3' />
+
+                            {/* 작성자 / 날짜 / 조회수 */}
+                            <div className='text-sm text-gray-400 flex justify-between items-center mt-auto'>
                                 <p>
                                     작성자: <span className='font-medium text-gray-700'>{post.author}</span>
                                 </p>
@@ -199,6 +216,7 @@ export default function Home() {
                     </article>
                 ))}
             </div>
+
             {isLoading && (
                 <div className='flex justify-center mt-8'>
                     <p className='text-gray-500'>로딩 중...</p>

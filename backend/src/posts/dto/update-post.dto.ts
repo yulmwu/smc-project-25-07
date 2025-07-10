@@ -3,4 +3,5 @@ export class UpdatePostDto {
     title?: string
     content?: string
     category?: string;
+    thumbnailUrl?: string;
 }

@@ -46,6 +46,15 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
             <title>조선인사이드 - 게시글</title>
             <div className='mx-auto p-1'>
                 <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
+                    {post.thumbnailUrl && (
+                        <div className='mb-10'>
+                            <img
+                                src={post.thumbnailUrl}
+                                alt='썸네일'
+                                className='w-full h-64 object-cover rounded-lg'
+                            />
+                        </div>
+                    )}
                     <h1 className='text-3xl font-bold text-gray-900 mb-5'>
                         <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
                         <span>{post.title}</span>

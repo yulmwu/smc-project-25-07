@@ -49,6 +49,7 @@ export class PostsService {
             content: createPostDto.content,
             category: createPostDto.category || '분류 없음',
             views: 0,
+            thumbnailUrl: createPostDto.thumbnailUrl || null,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
@@ -194,9 +195,14 @@ export class PostsService {
             ':updatedAt': new Date().toISOString(),
         };
 
-        if (dto.category !== undefined) {
+        if (dto.category) {
             updateExpressionParts.push('category = :category');
             expressionAttributeValues[':category'] = dto.category;
+        }
+
+        if (dto.thumbnailUrl) {
+            updateExpressionParts.push('thumbnailUrl = :thumbnailUrl');
+            expressionAttributeValues[':thumbnailUrl'] = dto.thumbnailUrl;
         }
 
         await this.dynamoDB.client.send(

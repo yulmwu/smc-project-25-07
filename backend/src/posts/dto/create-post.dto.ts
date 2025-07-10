@@ -5,4 +5,5 @@ export class CreatePostDto {
     content: string
     category: string;
     views: number;
+    thumbnailUrl?: string;
 }

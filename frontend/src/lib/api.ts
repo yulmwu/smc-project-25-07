@@ -11,6 +11,16 @@ export type Post = {
     password?: string
     commentCount?: number
     views?: number
+    thumbnailUrl?: string
+}
+
+export async function validateImageUrl(url: string): Promise<boolean> {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = url;
+    });
 }
 
 export type Comment = {

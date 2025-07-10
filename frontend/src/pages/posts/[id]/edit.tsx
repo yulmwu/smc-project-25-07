@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
-import { getPost, updatePost, Post } from '@/lib/api'
+import { getPost, updatePost, Post, validateImageUrl } from '@/lib/api'
 
 export default function EditPost({ post }: { post: Post }) {
     const router = useRouter()
@@ -9,11 +9,29 @@ export default function EditPost({ post }: { post: Post }) {
         title: post.title,
         content: post.content,
         password: '',
-        category: post.category, // Add category with default
+        category: post.category,
+        thumbnailUrl: post.thumbnailUrl || '',
     })
+    const [useThumbnail, setUseThumbnail] = useState(!!post.thumbnailUrl)
+    const [thumbnailError, setThumbnailError] = useState('')
     const [error, setError] = useState('')
 
-    const categories = ['자유', '질문', '정보'] // Example categories
+    const categories = ['자유', '질문', '정보', '역사 알아가기']
+
+    const handleThumbnailUrlChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const url = e.target.value;
+        setForm({ ...form, thumbnailUrl: url });
+        if (url) {
+            const isValid = await validateImageUrl(url);
+            if (!isValid) {
+                setThumbnailError('유효하지 않은 이미지 URL입니다.');
+            } else {
+                setThumbnailError('');
+            }
+        } else {
+            setThumbnailError('');
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -24,8 +42,18 @@ export default function EditPost({ post }: { post: Post }) {
             return
         }
 
+        if (useThumbnail && thumbnailError) {
+            setError('썸네일 URL을 확인해주세요.');
+            return;
+        }
+
+        const postData = { ...form };
+        if (!useThumbnail) {
+            postData.thumbnailUrl = ''; // 썸네일 사용 안함 토글 시 URL 비움
+        }
+
         try {
-            await updatePost(post.id, form) // Pass form directly, which now includes category
+            await updatePost(post.id, postData)
             router.push(`/posts/${post.id}`)
         } catch (err: any) {
             console.log('Error updating post:', err)
@@ -74,6 +102,30 @@ export default function EditPost({ post }: { post: Post }) {
                             </option>
                         ))}
                     </select>
+
+                    <div className='flex items-center space-x-2'>
+                        <input
+                            type='checkbox'
+                            id='useThumbnail'
+                            checked={useThumbnail}
+                            onChange={(e) => setUseThumbnail(e.target.checked)}
+                            className='form-checkbox h-5 w-5 text-indigo-600'
+                        />
+                        <label htmlFor='useThumbnail' className='text-gray-700'>썸네일 이미지 사용</label>
+                    </div>
+
+                    {useThumbnail && (
+                        <div>
+                            <input
+                                className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                                placeholder='썸네일 이미지 URL (선택 사항)'
+                                value={form.thumbnailUrl}
+                                onChange={handleThumbnailUrlChange}
+                            />
+                            {thumbnailError && <p className='text-red-500 text-sm mt-1'>{thumbnailError}</p>}
+                        </div>
+                    )}
+
                     <input
                         type='password'
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'

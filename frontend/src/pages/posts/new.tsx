@@ -1,21 +1,46 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { createPost } from '@/lib/api'
+import { createPost, validateImageUrl } from '@/lib/api'
 
 export default function NewPost() {
     const router = useRouter()
-    const [form, setForm] = useState({ author: '', password: '', title: '', content: '', category: '자유' })
+    const [form, setForm] = useState({
+        author: '',
+        password: '',
+        title: '',
+        content: '',
+        category: '자유',
+        thumbnailUrl: '',
+    })
+    const [useThumbnail, setUseThumbnail] = useState(false)
+    const [thumbnailError, setThumbnailError] = useState('')
 
     const categories = ['자유', '질문', '정보', '역사 알아가기']
 
     useEffect(() => {
         if (router.query.category) {
+            const c = router.query.category as string
             setForm((prevForm) => ({
                 ...prevForm,
-                category: router.query.category as string,
+                category: c === '전체' ? '자유' : c,
             }))
         }
     }, [router.query.category])
+
+    const handleThumbnailUrlChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const url = e.target.value
+        setForm({ ...form, thumbnailUrl: url })
+        if (url) {
+            const isValid = await validateImageUrl(url)
+            if (!isValid) {
+                setThumbnailError('유효하지 않은 이미지 URL입니다.')
+            } else {
+                setThumbnailError('')
+            }
+        } else {
+            setThumbnailError('')
+        }
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -23,14 +48,22 @@ export default function NewPost() {
             alert('모든 항목을 입력해주세요.')
             return
         }
-        await createPost(form)
-        // Redirect to home page with category and refresh parameter
-        if (form.category === '전체' || form.category === '분류 없음') {
-            // "전체" 또는 "분류 없음"은 쿼리 파라미터 없이
-            router.push(`/?refresh=true`)
-        } else {
-            router.push(`/?category=${encodeURIComponent(form.category)}&refresh=true`)
+
+        if (useThumbnail && thumbnailError) {
+            alert('썸네일 URL을 확인해주세요.')
+            return
         }
+
+        const postData = { ...form }
+        if (!useThumbnail) {
+            postData.thumbnailUrl = '' // 썸네일 사용 안함 토글 시 URL 비움
+        }
+
+        console.log(form)
+
+        await createPost(postData)
+
+        router.push(`/?category=${encodeURIComponent(form.category)}&refresh=true`)
     }
 
     return (
@@ -72,6 +105,32 @@ export default function NewPost() {
                         onChange={(e) => setForm({ ...form, content: e.target.value })}
                         rows={8}
                     />
+
+                    <div className='flex items-center space-x-2'>
+                        <input
+                            type='checkbox'
+                            id='useThumbnail'
+                            checked={useThumbnail}
+                            onChange={(e) => setUseThumbnail(e.target.checked)}
+                            className='form-checkbox h-5 w-5 text-indigo-600'
+                        />
+                        <label htmlFor='useThumbnail' className='text-gray-700'>
+                            썸네일 이미지 사용
+                        </label>
+                    </div>
+
+                    {useThumbnail && (
+                        <div>
+                            <input
+                                className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                                placeholder='썸네일 이미지 URL (선택 사항)'
+                                value={form.thumbnailUrl}
+                                onChange={handleThumbnailUrlChange}
+                            />
+                            {thumbnailError && <p className='text-red-500 text-sm mt-1'>{thumbnailError}</p>}
+                        </div>
+                    )}
+
                     <input
                         type='password'
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
