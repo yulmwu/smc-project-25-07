@@ -1,5 +1,5 @@
 
-import { Injectable } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import * as bcrypt from 'bcrypt'
@@ -7,12 +7,17 @@ import { PutCommand, GetCommand, ScanCommand, UpdateCommand, DeleteCommand, Quer
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Invalid, InvalidType, NotFoundError } from 'src/common/errors'
 import { isMasterKeyValid } from 'src/utils/masterKey'
+import { CommentsService } from '../comments/comments.service'
 
 @Injectable()
 export class PostsService {
     private readonly tableName = 'smc-07-posts'
 
-    constructor(private readonly dynamoDB: DynamoDBService) {}
+    constructor(
+        private readonly dynamoDB: DynamoDBService,
+        @Inject(forwardRef(() => CommentsService))
+        private readonly commentsService: CommentsService,
+    ) {}
 
     async nextId(): Promise<number> {
         const command = new UpdateCommand({
@@ -216,12 +221,15 @@ export class PostsService {
             throw new Invalid(`Invalid password for post with id ${id}`, InvalidType.Password)
         }
 
+        await this.commentsService.removeAllByPostId(id)
+
         await this.dynamoDB.client.send(
             new DeleteCommand({
                 TableName: this.tableName,
                 Key: { pk: 'posts', id },
             })
         )
+
         return { id }
     }
 

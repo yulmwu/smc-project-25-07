@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { v4 as uuidv4 } from 'uuid'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { CreateCommentDto } from './dto/create-comment.dto'
@@ -15,6 +15,7 @@ export class CommentsService {
 
     constructor(
         private readonly dynamoDB: DynamoDBService,
+        @Inject(forwardRef(() => PostsService))
         private readonly postsService: PostsService,
     ) {}
 
@@ -106,5 +107,17 @@ export class CommentsService {
         await this.postsService.decrementCommentCount(existing.postId);
 
         return { id }
+    }
+
+    async removeAllByPostId(postId: number) {
+        const comments = await this.findByPost(postId)
+        for (const comment of comments ?? []) {
+            await this.dynamoDB.client.send(
+                new DeleteCommand({
+                    TableName: this.tableName,
+                    Key: { id: comment.id },
+                })
+            )
+        }
     }
 }
