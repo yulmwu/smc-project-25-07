@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
                 }`}
             >
-                <div className='p-4'>
+                <div className='pl-5 pr-4 pt-4 pb-4'>
                     <SidebarContent />
                 </div>
             </div>
@@ -110,22 +110,8 @@ export default function App({ Component, pageProps }: AppProps) {
             {/* 헤더 */}
             <header className='bg-white shadow px-4 py-3 sticky top-0 z-20 flex justify-between items-center'>
                 <div className='flex items-center gap-2'>
-                    {/* 모바일 전용 햄버거 버튼 */}
                     <button className='lg:hidden p-2 rounded hover:bg-gray-200' onClick={() => toggleSidebar(true)}>
-                        <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            className='h-6 w-6'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            stroke='currentColor'
-                        >
-                            <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                strokeWidth='2'
-                                d='M4 6h16M4 12h16M4 18h16'
-                            />
-                        </svg>
+                        <FaList className='text-gray-600' />
                     </button>
                     <div className='text-xl font-bold ml-3'>
                         <a href='/' className='text-gray-900'>
@@ -150,7 +136,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <main className='flex flex-col lg:flex-row max-w-screen-2xl mx-auto px-4 py-6 gap-4'>
                 {/* 데스크탑 왼쪽 사이드바 */}
                 <aside className='hidden lg:block w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0'>
-                    <div className='sticky top-20 bg-white rounded-lg shadow p-4 pl-5'>
+                    <div className='sticky top-20 bg-white rounded-lg shadow pl-5 pr-4 pt-4 pb-4'>
                         <SidebarContent />
                     </div>
                 </aside>
@@ -162,8 +148,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
                 {/* 데스크탑 오른쪽 사이드바 */}
                 <aside className='hidden xl:block w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0'>
-                    <div className='sticky top-20 bg-white rounded-lg shadow p-4'>
-                        <h2 className='text-lg font-semibold mb-3'>최신 게시글 목록</h2>
+                    <div className='fixed top-20 bg-white rounded-lg shadow p-4'>
+                        <h2 className='text-lg font-semibold mb-3'>최신 게시글 목록 (10개)</h2>
                         <ul className='space-y-2.5 text-sm'>
                             {latestPosts.map((post) => (
                                 <li key={post.id}>

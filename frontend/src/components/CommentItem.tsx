@@ -24,7 +24,7 @@ export default function CommentItem({ comment }: { comment: Comment }) {
             setShowPasswordModal(false)
             setModalError('')
         } catch (error: any) {
-            if (error.response && error.response.status === 401) {
+            if (error.response && error.response.data.type === 'password') {
                 setModalError('비밀번호가 일치하지 않습니다.')
             } else {
                 setModalError('오류가 발생했습니다. 다시 시도해주세요.')
@@ -41,8 +41,7 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                 <p className='text-gray-400'>{dayjs(comment.createdAt).format('YYYY-MM-DD HH:mm')}</p>
             </div>
             <hr className='border-gray-200 mb-3 mt-3' />
-            <p className='text-gray-800 whitespace-pre-wrap'>{comment.content}</p>
-            <hr className='border-gray-200 mb-3 mt-3' />
+            <p className='text-gray-800 whitespace-pre-wrap mb-5'>{comment.content}</p>
             <div className='flex items-center space-x-3'>
                 <button
                     onClick={() => {

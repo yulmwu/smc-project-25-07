@@ -1,6 +1,10 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { AllExceptionsFilter } from './common/filters/http-exception.filter'
+import { MASTER_KEY } from './utils/masterKey'
 
 const bootstrap = async () => {
     const app = await NestFactory.create(AppModule)
@@ -12,6 +16,8 @@ const bootstrap = async () => {
         credentials: true,
     });
 
+    console.log('Server is running on port:', process.env.PORT ?? 3000)
+    console.log('MASTER_KEY:', MASTER_KEY)
     await app.listen(process.env.PORT ?? 3000, '0.0.0.0')
 }
 

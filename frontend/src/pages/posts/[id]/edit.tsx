@@ -28,7 +28,8 @@ export default function EditPost({ post }: { post: Post }) {
             await updatePost(post.id, form) // Pass form directly, which now includes category
             router.push(`/posts/${post.id}`)
         } catch (err: any) {
-            if (err.response && err.response.status === 401) {
+            console.log('Error updating post:', err)
+            if (err.response && err.response.data.type === 'password') {
                 setError('비밀번호가 일치하지 않습니다.')
             } else {
                 setError('오류가 발생했습니다. 다시 시도해주세요.')
@@ -80,7 +81,7 @@ export default function EditPost({ post }: { post: Post }) {
                         value={form.password}
                         onChange={(e) => setForm({ ...form, password: e.target.value })}
                     />
-                    {error && <p className='text-red-500 text-center mt-4'>{error}</p>} {/* Display error */}
+                    {error && <p className='text-red-500 text-center'>{error}</p>} {/* Display error */}
                     <button
                         type='submit'
                         className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow'

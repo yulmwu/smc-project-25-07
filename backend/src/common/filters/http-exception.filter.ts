@@ -10,13 +10,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
         let status = HttpStatus.INTERNAL_SERVER_ERROR
         let message = 'Internal server error'
+        let type: string | undefined
 
         if (exception instanceof NotFoundError) {
             status = HttpStatus.NOT_FOUND
             message = exception.message
-        } else if (exception instanceof BadRequestError || exception instanceof Invalid) {
+        } else if (exception instanceof BadRequestError) {
             status = HttpStatus.BAD_REQUEST
             message = exception.message
+        } else if (exception instanceof Invalid) {
+            status = HttpStatus.BAD_REQUEST
+            message = exception.message
+            type = exception.type
         } else if (exception instanceof Error) {
             message = exception.message
             console.error('Unexpected error:', exception)
@@ -25,6 +30,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         response.status(status).json({
             statusCode: status,
             message,
+            type,
         })
     }
 }

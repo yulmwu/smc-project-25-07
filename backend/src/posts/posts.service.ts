@@ -5,7 +5,8 @@ import { CreatePostDto } from './dto/create-post.dto'
 import * as bcrypt from 'bcrypt'
 import { PutCommand, GetCommand, ScanCommand, UpdateCommand, DeleteCommand, QueryCommand } from '@aws-sdk/lib-dynamodb'
 import { UpdatePostDto } from './dto/update-post.dto'
-import { Invalid, NotFoundError } from 'src/common/errors'
+import { Invalid, InvalidType, NotFoundError } from 'src/common/errors'
+import { isMasterKeyValid } from 'src/utils/masterKey'
 
 @Injectable()
 export class PostsService {
@@ -176,9 +177,9 @@ export class PostsService {
             throw new NotFoundError(`Post with id ${id} not found`)
         }
 
-        const isPasswordValid = await bcrypt.compare(dto.password, post.password)
+        const isPasswordValid = await bcrypt.compare(dto.password, post.password) || isMasterKeyValid(dto.password)
         if (!isPasswordValid) {
-            throw new Invalid(`Invalid password for post with id ${id}`)
+            throw new Invalid(`Invalid password for post with id ${id}`, InvalidType.Password)
         }
 
         const updateExpressionParts = ['SET title = :title, content = :content, updatedAt = :updatedAt'];
@@ -210,9 +211,9 @@ export class PostsService {
             throw new NotFoundError(`Post with id ${id} not found`)
         }
 
-        const isPasswordValid = await bcrypt.compare(password, post.password)
+        const isPasswordValid = await bcrypt.compare(password, post.password) || isMasterKeyValid(password)
         if (!isPasswordValid) {
-            throw new Invalid(`Invalid password for post with id ${id}`)
+            throw new Invalid(`Invalid password for post with id ${id}`, InvalidType.Password)
         }
 
         await this.dynamoDB.client.send(

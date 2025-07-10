@@ -15,8 +15,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
     useEffect(() => {
         if (router.query.error) {
-            let errorMessage = '오류가 발생했습니다. 다시 시도해주세요. (비밀번호가 일치하지 않을 수 있습니다.)'
-            alert(errorMessage)
+            alert('오류가 발생했습니다. 다시 시도해주세요.')
             router.replace(`/posts/${post.id}`, undefined, { shallow: true })
         }
     }, [router.query.error, router, post.id])
@@ -34,7 +33,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
             setShowPasswordModal(false)
             setModalError('')
         } catch (error: any) {
-            if (error.response && error.response.status === 401) {
+            if (error.response && error.response.data.type === 'password') {
                 setModalError('비밀번호가 일치하지 않습니다.')
             } else {
                 setModalError('오류가 발생했습니다. 다시 시도해주세요.')

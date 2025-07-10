@@ -5,10 +5,16 @@ export class NotFoundError extends Error {
     }
 }
 
+export enum InvalidType {
+    Password = 'password',
+    Other = 'other'
+}
+
 export class Invalid extends Error {
-    constructor(message: string) {
+    constructor(message: string, public type: InvalidType = InvalidType.Other) {
         super(message)
         this.name = 'InvalidError'
+        this.type = type
     }
 }
 

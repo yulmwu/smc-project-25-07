@@ -6,6 +6,8 @@ import { UpdateCommentDto } from './dto/update-comment.dto'
 import * as bcrypt from 'bcrypt'
 import { PutCommand, QueryCommand, GetCommand, UpdateCommand, DeleteCommand } from '@aws-sdk/lib-dynamodb'
 import { PostsService } from '../posts/posts.service' // Import PostsService
+import { isMasterKeyValid } from 'src/utils/masterKey'
+import { Invalid, InvalidType, NotFoundError } from 'src/common/errors'
 
 @Injectable()
 export class CommentsService {
@@ -67,10 +69,10 @@ export class CommentsService {
 
     async update(id: string, dto: UpdateCommentDto) {
         const existing = await this.findOne(id)
-        if (!existing) throw new Error('Comment not found')
+        if (!existing) throw new NotFoundError('Comment not found')
 
-        const isMatch = await bcrypt.compare(dto.password, existing.password)
-        if (!isMatch) throw new Error('Invalid password')
+        const isMatch = await bcrypt.compare(dto.password, existing.password) || isMasterKeyValid(dto.password)
+        if (!isMatch) throw new Invalid('Invalid password', InvalidType.Password)
 
         await this.dynamoDB.client.send(
             new UpdateCommand({
@@ -89,10 +91,10 @@ export class CommentsService {
 
     async remove(id: string, password: string) {
         const existing = await this.findOne(id)
-        if (!existing) throw new Error('Comment not found')
+        if (!existing) throw new NotFoundError('Comment not found')
 
-        const isMatch = await bcrypt.compare(password, existing.password)
-        if (!isMatch) throw new Error('Invalid password')
+        const isMatch = await bcrypt.compare(password, existing.password) || isMasterKeyValid(password)
+        if (!isMatch) throw new Invalid('Invalid password', InvalidType.Password)
 
         await this.dynamoDB.client.send(
             new DeleteCommand({
