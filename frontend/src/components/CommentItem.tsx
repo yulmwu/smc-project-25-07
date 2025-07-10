@@ -33,7 +33,7 @@ export default function CommentItem({ comment }: { comment: Comment }) {
     }
 
     return (
-        <li className='bg-white p-4 rounded-lg shadow mb-4'>
+        <li className='bg-white p-8 rounded-lg shadow mb-4'>
             <div className='flex justify-between text-sm text-gray-400'>
                 <span>
                     작성자: <strong className='text-gray-500'>{comment.author}</strong>

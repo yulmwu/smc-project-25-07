@@ -3,14 +3,24 @@ import './globals.css'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import { FaBook, FaComments, FaGithub, FaInfoCircle, FaLink, FaList, FaQuestionCircle } from 'react-icons/fa'
-import { FaDiagramProject } from 'react-icons/fa6'
+import {
+    FaBook,
+    FaBookOpen,
+    FaComments,
+    FaGithub,
+    FaInfoCircle,
+    FaLink,
+    FaList,
+    FaPen,
+    FaQuestionCircle,
+} from 'react-icons/fa'
+import { FaDiagramProject, FaMobileButton } from 'react-icons/fa6'
 import { useRouter } from 'next/router'
 
 export const SidebarContent = () => (
     <div>
-        <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
-        <ul className='space-y-2 text-sm'>
+        <h2 className='text-lg font-semibold mb-2'>카테고리</h2>
+        <ul className='space-y-2 text-sm ml-2'>
             <li>
                 <a href='/?category=전체' className='hover:underline'>
                     <FaList className='inline mr-3' />
@@ -42,8 +52,8 @@ export const SidebarContent = () => (
                 </a>
             </li>
         </ul>
-        <h2 className='text-lg font-semibold mt-6 mb-3'>기타</h2>
-        <ul className='space-y-2 text-sm'>
+        <h2 className='text-lg font-semibold mt-6 mb-2'>기타</h2>
+        <ul className='space-y-2 text-sm ml-2'>
             <li>
                 <a href='/posts/new' className='hover:underline'>
                     <FaList className='inline mr-3' />새 글 작성
@@ -59,6 +69,33 @@ export const SidebarContent = () => (
                 <a href='https://github.com/yulmwu/smc-project-25-07' className='hover:underline'>
                     <FaGithub className='inline mr-3' />
                     Source Code
+                </a>
+            </li>
+        </ul>
+        <h2 className='text-lg font-semibold mt-6 mb-2'>위키 바로가기</h2>
+        <ul className='space-y-2 text-sm ml-2'>
+            <li>
+                <a href='/wiki?tab=animal' className='hover:underline'>
+                    <FaBookOpen className='inline mr-3' />
+                    동물
+                </a>
+            </li>
+            <li>
+                <a href='/wiki?tab=weather' className='hover:underline'>
+                    <FaBookOpen className='inline mr-3' />
+                    날씨
+                </a>
+            </li>
+            <li>
+                <a href='/wiki?tab=naturalDisaster' className='hover:underline'>
+                    <FaBookOpen className='inline mr-3' />
+                    자연재해
+                </a>
+            </li>
+            <li>
+                <a href='/wiki?tab=accident' className='hover:underline'>
+                    <FaBookOpen className='inline mr-3' />
+                    사건사고
                 </a>
             </li>
         </ul>
