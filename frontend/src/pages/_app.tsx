@@ -9,12 +9,10 @@ import {
     FaComments,
     FaGithub,
     FaInfoCircle,
-    FaLink,
     FaList,
-    FaPen,
     FaQuestionCircle,
 } from 'react-icons/fa'
-import { FaDiagramProject, FaMobileButton } from 'react-icons/fa6'
+import { FaDiagramProject } from 'react-icons/fa6'
 import { useRouter } from 'next/router'
 
 export const SidebarContent = () => (
@@ -175,7 +173,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </aside>
 
                 {/* 본문 (게시글 리스트) */}
-                <section className='container mx-auto p-4 sm:p-6 lg:p-8'>
+                <section className='container mx-auto'>
                     <Component {...pageProps} />
                 </section>
 
