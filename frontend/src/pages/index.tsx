@@ -11,7 +11,7 @@ export default function Home() {
     const [isNavigating, setIsNavigating] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState<string>('전체')
 
-    const categories = ['전체', '분류 없음', '자유', '질문', '정보'];
+    const categories = ['전체', '역사 알아가기', '자유', '질문', '정보'];
 
     const fetchPosts = useCallback(async (category: string, cursor?: number | null) => {
         setIsLoading(true)
@@ -171,9 +171,10 @@ export default function Home() {
                             </h3>
                             <p className='text-sm text-gray-700'>
                                 작성자: <span className='font-medium text-gray-700'>{post.author}</span>
+                                <span className='text-gray-500 ml-2'>({new Date(post.createdAt!).toLocaleDateString()})</span>
                             </p>
-                            <p className='text-xs text-gray-500 mt-1'>
-                                카테고리: {post.category || '분류 없음'}
+                            <p className='text-xs text-gray-500 mt-2'>
+                                <span>카테고리: {post.category}</span>
                             </p>
                         </Link>
                     </article>

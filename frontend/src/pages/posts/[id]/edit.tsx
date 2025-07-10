@@ -9,11 +9,11 @@ export default function EditPost({ post }: { post: Post }) {
         title: post.title,
         content: post.content,
         password: '',
-        category: post.category || '분류 없음', // Add category with default
+        category: post.category, // Add category with default
     })
     const [error, setError] = useState('')
 
-    const categories = ['분류 없음', '자유', '질문', '정보']; // Example categories
+    const categories = ['자유', '질문', '정보']; // Example categories
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()

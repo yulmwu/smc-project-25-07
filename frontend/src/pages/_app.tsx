@@ -1,4 +1,4 @@
-import { BASE_URL } from '@/lib/api'
+import { BASE_URL, getPosts } from '@/lib/api'
 import './globals.css'
 import { AppProps } from 'next/app'
 import { useState } from 'react'
@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
     const toggleSidebar = (open: boolean) => {
         setIsSidebarOpen(open)
     }
-
+    
     return (
         <div className="bg-gray-100 text-gray-900 min-h-screen">
             {/* 모바일 왼쪽 사이드바 오버레이 */}
@@ -82,13 +82,8 @@ export default function App({ Component, pageProps }: AppProps) {
                 {/* 데스크탑 오른쪽 사이드바 */}
                 <aside className="hidden xl:block w-[240px] min-w-[240px] max-w-[240px] flex-shrink-0">
                     <div className="sticky top-20 bg-white rounded-lg shadow p-4">
-                        <h2 className="text-lg font-semibold mb-3">인기 태그</h2>
-                        <ul className="flex flex-wrap gap-2 text-sm">
-                            <li><span className="bg-gray-200 px-2 py-1 rounded">#자바스크립트</span></li>
-                            <li><span className="bg-gray-200 px-2 py-1 rounded">#React</span></li>
-                            <li><span className="bg-gray-200 px-2 py-1 rounded">#뉴스</span></li>
-                            <li><span className="bg-gray-200 px-2 py-1 rounded">#잡담</span></li>
-                        </ul>
+                        <h2 className="text-lg font-semibold mb-3">최신 게시글 목록</h2>
+                        // TODO
                     </div>
                 </aside>
             </main>

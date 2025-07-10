@@ -14,20 +14,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
     useEffect(() => {
         if (router.query.error) {
-            let errorMessage = ''
-            switch (router.query.error) {
-                case 'password_required':
-                    errorMessage = '비밀번호가 필요합니다.'
-                    break
-                case 'incorrect_password':
-                    errorMessage = '비밀번호가 일치하지 않습니다.'
-                    break
-                case 'unknown_error':
-                    errorMessage = '알 수 없는 오류가 발생했습니다.'
-                    break
-                default:
-                    errorMessage = '오류가 발생했습니다.'
-            }
+            let errorMessage = '오류가 발생했습니다. 다시 시도해주세요. (비밀번호가 일치하지 않을 수 있습니다.)'
             alert(errorMessage)
             router.replace(`/posts/${post.id}`, undefined, { shallow: true })
         }
@@ -61,13 +48,11 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                     {post.title} {post.commentCount && `[${post.commentCount}]`}
                 </h1>
                 <div className='text-gray-600 mb-6 text-sm flex justify-between items-center'>
-                    <span>
-                        작성자: <strong>{post.author}</strong>
-                    </span>
-                    <span>
-                        카테고리: <strong>{post.category || '분류 없음'}</strong> {/* Display category */}
-                    </span>
-                    <time className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</time>
+                    <div>
+                        <span>작성자: <strong>{post.author}</strong></span>
+                        <span className='ml-2 text-gray-500'>(카테고리: {post.category || '분류 없음'})</span>
+                    </div>
+                    <p className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</p>
                 </div>
                 <section className='prose prose-indigo max-w-none text-gray-800 whitespace-pre-wrap'>
                     {post.content}

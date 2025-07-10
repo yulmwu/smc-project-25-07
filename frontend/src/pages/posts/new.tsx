@@ -4,9 +4,9 @@ import { createPost } from '@/lib/api'
 
 export default function NewPost() {
     const router = useRouter()
-    const [form, setForm] = useState({ author: '', password: '', title: '', content: '', category: '분류 없음' })
+    const [form, setForm] = useState({ author: '', password: '', title: '', content: '', category: '자유' })
 
-    const categories = ['분류 없음', '자유', '질문', '정보'];
+    const categories = ['자유', '질문', '정보'];
 
     useEffect(() => {
         if (router.query.category) {
