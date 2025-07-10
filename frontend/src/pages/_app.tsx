@@ -2,7 +2,59 @@ import { BASE_URL, getPosts, Post } from '@/lib/api'
 import './globals.css'
 import { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
-import { FaComments, FaInfoCircle, FaList, FaQuestionCircle } from 'react-icons/fa'
+import { FaBook, FaComments, FaGithub, FaInfoCircle, FaList, FaQuestionCircle } from 'react-icons/fa'
+import { FaDiagramProject } from 'react-icons/fa6'
+
+export const SidebarContent = () => (
+    <div>
+        <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
+        <ul className='space-y-2 text-sm'>
+            <li>
+                <a href='/' className='hover:underline'>
+                    <FaList className='inline mr-3' />전체
+                </a>
+            </li>
+            <li>
+                <a href='/?category=역사+알아가기' className='hover:underline'>
+                    <FaBook className='inline mr-3' />역사 알아가기
+                </a>
+            </li>
+            <li>
+                <a href='/?category=자유' className='hover:underline'>
+                    <FaComments className='inline mr-3' />자유
+                </a>
+            </li>
+            <li>
+                <a href='/?category=질문' className='hover:underline'>
+                    <FaQuestionCircle className='inline mr-3' />질문
+                </a>
+            </li>
+            <li>
+                <a href='/?category=정보' className='hover:underline'>
+                    <FaInfoCircle className='inline mr-3' />정보
+                </a>
+            </li>
+        </ul>
+        <h2 className='text-lg font-semibold mt-6 mb-3'>기타</h2>
+        <ul className='space-y-2 text-sm'>
+            <li>
+                <a href='/posts/new' className='hover:underline'>
+                    <FaList className='inline mr-3' />새 글 작성
+                </a>
+            </li>
+            <li>
+                <a href='/about' className='hover:underline'>
+                    <FaDiagramProject className='inline mr-3' />프로젝트 소개
+                </a>
+            </li>
+            <li>
+                <a href='https://github.com/yulmwu/smc-project-25-07' className='hover:underline'>
+                    <FaGithub className='inline mr-3' />Source Code
+                </a>
+            </li>
+        </ul>
+    </div>
+)
 
 export default function App({ Component, pageProps }: AppProps) {
     console.log('BASE_URL: ', BASE_URL)
@@ -43,34 +95,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 }`}
             >
                 <div className='p-4'>
-                    <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
-                    <ul className='space-y-2 text-sm'>
-                        <li>
-                            <a href='/' className='hover:underline'>
-                                <FaList className='inline mr-2' /> 전체
-                            </a>
-                        </li>
-                        <li>
-                            <a href='/?category=역사+알아가기' className='hover:underline'>
-                                <FaQuestionCircle className='inline mr-2' /> 역사 알아가기
-                            </a>
-                        </li>
-                        <li>
-                            <a href='/?category=자유' className='hover:underline'>
-                                <FaComments className='inline mr-2' /> 자유
-                            </a>
-                        </li>
-                        <li>
-                            <a href='/?category=질문' className='hover:underline'>
-                                <FaQuestionCircle className='inline mr-2' /> 질문
-                            </a>
-                        </li>
-                        <li>
-                            <a href='/?category=정보' className='hover:underline'>
-                                <FaInfoCircle className='inline mr-2' /> 정보
-                            </a>
-                        </li>
-                    </ul>
+                    <SidebarContent />
                 </div>
             </div>
 
@@ -114,34 +139,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 {/* 데스크탑 왼쪽 사이드바 */}
                 <aside className='hidden lg:block w-[240px] min-w-[240px] max-w-[240px] flex-shrink-0'>
                     <div className='sticky top-20 bg-white rounded-lg shadow p-4'>
-                        <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
-                        <ul className='space-y-2 text-sm'>
-                            <li>
-                                <a href='/' className='hover:underline'>
-                                    <FaList className='inline mr-2' /> 전체
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/?category=역사+알아가기' className='hover:underline'>
-                                    <FaQuestionCircle className='inline mr-2' /> 역사 알아가기
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/?category=자유' className='hover:underline'>
-                                    <FaComments className='inline mr-2' /> 자유
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/?category=질문' className='hover:underline'>
-                                    <FaQuestionCircle className='inline mr-2' /> 질문
-                                </a>
-                            </li>
-                            <li>
-                                <a href='/?category=정보' className='hover:underline'>
-                                    <FaInfoCircle className='inline mr-2' /> 정보
-                                </a>
-                            </li>
-                        </ul>
+                        <SidebarContent />
                     </div>
                 </aside>
 
