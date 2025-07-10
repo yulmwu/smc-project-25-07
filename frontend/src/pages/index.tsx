@@ -35,8 +35,16 @@ export default function Home() {
     useEffect(() => {
         const urlCategory = router.query.category as string
         const shouldRefresh = router.query.refresh === 'true'
+        const savedState = sessionStorage.getItem('homeState')
 
-        if (shouldRefresh) {
+        if (savedState) {
+            const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
+            setPosts(posts)
+            setNextCursor(nextCursor)
+            setSelectedCategory(savedCategory ?? '전체')
+            setTimeout(() => window.scrollTo(0, scrollY), 0)
+            sessionStorage.removeItem('homeState')
+        } else if (shouldRefresh) {
             // If refresh is true, clear session storage and force refetch
             sessionStorage.removeItem('homeState')
             const categoryToFetch = urlCategory && categories.includes(urlCategory) ? urlCategory : '전체'
@@ -60,29 +68,21 @@ export default function Home() {
             fetchPosts(urlCategory)
         } else {
             // If no category in URL, check session storage
-            const savedState = sessionStorage.getItem('homeState')
-            if (savedState) {
-                const { posts, nextCursor, scrollY, selectedCategory: savedCategory } = JSON.parse(savedState)
-                setPosts(posts)
-                setNextCursor(nextCursor)
-                setSelectedCategory(savedCategory ?? '전체')
-                setTimeout(() => window.scrollTo(0, scrollY), 0)
-                sessionStorage.removeItem('homeState')
-            } else {
-                fetchPosts(selectedCategory)
-            }
+            fetchPosts(selectedCategory)
         }
     }, [fetchPosts, router.query.category, router.query.refresh]) // Add router.query.refresh to dependencies
 
     useEffect(() => {
-        const handleRouteChangeStart = () => {
-            const homeState = {
-                posts,
-                nextCursor,
-                scrollY: window.scrollY,
-                selectedCategory,
+        const handleRouteChangeStart = (url: string) => {
+            if (router.pathname === '/' && url.startsWith('/posts/')) {
+                const homeState = {
+                    posts,
+                    nextCursor,
+                    scrollY: window.scrollY,
+                    selectedCategory,
+                }
+                sessionStorage.setItem('homeState', JSON.stringify(homeState))
             }
-            sessionStorage.setItem('homeState', JSON.stringify(homeState))
             setIsNavigating(true)
         }
 
@@ -97,7 +97,7 @@ export default function Home() {
             router.events.off('routeChangeStart', handleRouteChangeStart)
             router.events.off('routeChangeComplete', handleRouteChangeComplete)
         }
-    }, [router.events, posts, nextCursor, selectedCategory])
+    }, [router.events, router.pathname, posts, nextCursor, selectedCategory])
 
     const handleScroll = useCallback(() => {
         if (
