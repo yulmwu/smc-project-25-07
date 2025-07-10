@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { Comment, updateComment, deleteComment } from '@/lib/api'
 import { useRouter } from 'next/router'
@@ -16,8 +15,8 @@ export default function CommentItem({ comment }: { comment: Comment }) {
         try {
             if (modalAction === 'delete') {
                 if (!confirm('정말 삭제하시겠습니까?')) {
-                    setShowPasswordModal(false);
-                    return;
+                    setShowPasswordModal(false)
+                    return
                 }
                 await deleteComment(comment.id, password)
                 router.reload()
@@ -38,8 +37,8 @@ export default function CommentItem({ comment }: { comment: Comment }) {
     }
 
     return (
-        <li className="bg-gray-50 rounded-xl p-4 shadow-sm">
-            <div className="flex justify-between text-sm text-gray-600 mb-1">
+        <li className='bg-white p-4 rounded-lg shadow mb-4'>
+            <div className='flex justify-between text-sm text-gray-600 mb-1'>
                 <span>
                     작성자: <strong>{comment.author}</strong>
                 </span>
@@ -50,33 +49,35 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                     <textarea
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
-                        className="w-full border border-gray-300 rounded-lg px-4 py-2"
+                        className='w-full border border-gray-300 rounded-lg px-4 py-2'
                     />
-                    <div className="flex items-center space-x-3 mt-2">
+                    <div className='flex items-center space-x-3 mt-2'>
                         <button
-                            onClick={() => { setModalAction('edit'); setShowPasswordModal(true); setModalError(''); }}
-                            className="bg-indigo-600 text-white px-4 py-2 rounded-lg"
+                            onClick={() => {
+                                setModalAction('edit')
+                                setShowPasswordModal(true)
+                                setModalError('')
+                            }}
+                            className='bg-indigo-600 text-white px-4 py-2 rounded-lg'
                         >
                             저장
                         </button>
-                        <button onClick={() => setIsEditing(false)} className="border px-4 py-2 rounded-lg">
+                        <button onClick={() => setIsEditing(false)} className='border px-4 py-2 rounded-lg'>
                             취소
                         </button>
                     </div>
                 </div>
             ) : (
                 <div>
-                    <p className="text-gray-800 whitespace-pre-wrap">{comment.content}</p>
-                    <div className="flex items-center space-x-3 mt-2">
+                    <p className='text-gray-800 whitespace-pre-wrap'>{comment.content}</p>
+                    <div className='flex items-center space-x-3 mt-2'>
                         <button
-                            onClick={() => { setIsEditing(true); setModalAction('edit'); setShowPasswordModal(true); setModalError(''); }}
-                            className="text-indigo-600"
-                        >
-                            수정
-                        </button>
-                        <button
-                            onClick={() => { setModalAction('delete'); setShowPasswordModal(true); setModalError(''); }}
-                            className="text-red-600"
+                            onClick={() => {
+                                setModalAction('delete')
+                                setShowPasswordModal(true)
+                                setModalError('')
+                            }}
+                            className='text-red-600'
                         >
                             삭제
                         </button>
@@ -86,10 +87,17 @@ export default function CommentItem({ comment }: { comment: Comment }) {
 
             <PasswordModal
                 isOpen={showPasswordModal}
-                onClose={() => { setShowPasswordModal(false); setModalError(''); }}
+                onClose={() => {
+                    setShowPasswordModal(false)
+                    setModalError('')
+                }}
                 onConfirm={handlePasswordConfirm}
                 title={modalAction === 'delete' ? '댓글 삭제' : '댓글 수정'}
-                description={modalAction === 'delete' ? '댓글을 삭제하려면 비밀번호를 입력해주세요.' : '댓글을 수정하려면 비밀번호를 입력해주세요.'}
+                description={
+                    modalAction === 'delete'
+                        ? '댓글을 삭제하려면 비밀번호를 입력해주세요.'
+                        : '댓글을 수정하려면 비밀번호를 입력해주세요.'
+                }
                 errorMessage={modalError}
             />
         </li>

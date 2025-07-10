@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </section>
 
                 {/* 데스크탑 오른쪽 사이드바 */}
-                <aside className='hidden xl:block w-[320px] min-w-[320px] max-w-[320px] flex-shrink-0'>
+                <aside className='hidden xl:block w-[240px] min-w-[240px] max-w-[240px] flex-shrink-0'>
                     <div className='sticky top-20 bg-white rounded-lg shadow p-4'>
                         <h2 className='text-lg font-semibold mb-3'>최신 게시글 목록</h2>
                         <ul className='space-y-2.5 text-sm'>

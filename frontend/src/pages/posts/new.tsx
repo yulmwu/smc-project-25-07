@@ -81,7 +81,7 @@ export default function NewPost() {
                     />
                     <button
                         type='submit'
-                        className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow'
+                        className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow cursor-pointer'
                     >
                         등록하기
                     </button>
