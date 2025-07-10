@@ -15,7 +15,7 @@ jobs:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       ECR_REPO_NAME: smc-07-project-frontend-repo
       ECS_CLUSTER_NAME: smc-07-project-cluster
-      ECS_SERVICE_NAME: smc-07-project-frontend-task-service-0pqtb87x
+      ECS_SERVICE_NAME: smc-07-project-frontend-task-service-m1ipwz4c
 
     steps:
       - name: Checkout code

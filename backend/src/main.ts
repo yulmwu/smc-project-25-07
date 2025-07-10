@@ -11,12 +11,13 @@ const bootstrap = async () => {
     app.setGlobalPrefix('api')
     app.useGlobalFilters(new AllExceptionsFilter());
     app.enableCors({
-        origin: ['http://chosun.rlawnsdud.shop', 'https://chosun.rlawnsdud.shop', 'http://localhost:1234', 'https://localhost:1234'],
+        origin: ['http://chosun.rlawnsdud.shop', 'https://chosun.rlawnsdud.shop', 'http://localhost:1234', 'https://localhost:1234', 'http://172.30.6.160:1234'],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
     });
 
     console.log('Server is running on port:', process.env.PORT ?? 3000)
+    console.log('BASE_URL:', process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api')
     console.log('MASTER_KEY:', MASTER_KEY)
     await app.listen(process.env.PORT ?? 3000, '0.0.0.0')
 }

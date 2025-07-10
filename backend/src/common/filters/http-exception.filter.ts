@@ -8,6 +8,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
         const ctx = host.switchToHttp()
         const response = ctx.getResponse<Response>()
 
+        // /api 가 아니라면 무시
+        if (!ctx.getRequest().url.startsWith('/api')) {
+            return
+        }
+
         let status = HttpStatus.INTERNAL_SERVER_ERROR
         let message = 'Internal server error'
         let type: string | undefined
