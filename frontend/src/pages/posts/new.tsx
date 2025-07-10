@@ -6,16 +6,16 @@ export default function NewPost() {
     const router = useRouter()
     const [form, setForm] = useState({ author: '', password: '', title: '', content: '', category: '자유' })
 
-    const categories = ['자유', '질문', '정보'];
+    const categories = ['자유', '질문', '정보', '역사 알아가기']
 
     useEffect(() => {
         if (router.query.category) {
             setForm((prevForm) => ({
                 ...prevForm,
                 category: router.query.category as string,
-            }));
+            }))
         }
-    }, [router.query.category]);
+    }, [router.query.category])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -25,10 +25,11 @@ export default function NewPost() {
         }
         await createPost(form)
         // Redirect to home page with category and refresh parameter
-        if (form.category === '전체' || form.category === '분류 없음') { // "전체" 또는 "분류 없음"은 쿼리 파라미터 없이
-            router.push(`/?refresh=true`);
+        if (form.category === '전체' || form.category === '분류 없음') {
+            // "전체" 또는 "분류 없음"은 쿼리 파라미터 없이
+            router.push(`/?refresh=true`)
         } else {
-            router.push(`/?category=${encodeURIComponent(form.category)}&refresh=true`);
+            router.push(`/?category=${encodeURIComponent(form.category)}&refresh=true`)
         }
     }
 
@@ -42,13 +43,6 @@ export default function NewPost() {
                     value={form.author}
                     onChange={(e) => setForm({ ...form, author: e.target.value })}
                 />
-                <input
-                    type='password'
-                    className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                    placeholder='비밀번호'
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                />
                 {/* Category selection dropdown */}
                 <select
                     className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
@@ -57,7 +51,7 @@ export default function NewPost() {
                 >
                     {categories.map((category) => (
                         <option key={category} value={category}>
-                            {category}
+                            {category === '역사 알아가기' ? '역사 알아가기 - 추후 작성할 수 없는 카테고리입니다.' : category}
                         </option>
                     ))}
                 </select>
@@ -73,6 +67,13 @@ export default function NewPost() {
                     value={form.content}
                     onChange={(e) => setForm({ ...form, content: e.target.value })}
                     rows={8}
+                />
+                <input
+                    type='password'
+                    className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                    placeholder='비밀번호'
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
                 <button
                     type='submit'

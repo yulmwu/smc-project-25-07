@@ -142,7 +142,7 @@ export default function Home() {
         <>
             <div className='flex justify-between items-center mb-8'>
                 <h1 className='text-4xl font-extrabold text-gray-900'>
-                    {selectedCategory === '전체' ? '익명 게시판' : `${selectedCategory} 게시판`}
+                    {selectedCategory === '전체' ? '조선인사이드: 전체 글' : `${selectedCategory}`}
                 </h1>
                 <Link
                     href={
@@ -181,6 +181,9 @@ export default function Home() {
                     >
                         <Link href={`/posts/${post.id}`}>
                             <h3 className='text-lg font-semibold mb-2'>
+                                <p className='text-blue-500 text-sm mb-1'>
+                                    {post.category ? `[${post.category}]` : '[분류 없음]'}
+                                </p>
                                 {post.title}
                                 <span className='text-gray-500 ml-2'>
                                     {post.commentCount && `[${post.commentCount}]`}
@@ -191,9 +194,6 @@ export default function Home() {
                                 <span className='text-gray-500 ml-2'>
                                     ({new Date(post.createdAt!).toLocaleDateString()})
                                 </span>
-                            </p>
-                            <p className='text-xs text-gray-500 mt-2'>
-                                <span>카테고리: {post.category}</span>
                             </p>
                         </Link>
                     </article>

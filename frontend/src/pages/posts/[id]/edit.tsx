@@ -13,7 +13,7 @@ export default function EditPost({ post }: { post: Post }) {
     })
     const [error, setError] = useState('')
 
-    const categories = ['자유', '질문', '정보']; // Example categories
+    const categories = ['자유', '질문', '정보'] // Example categories
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -47,13 +47,6 @@ export default function EditPost({ post }: { post: Post }) {
                     readOnly
                 />
                 <input
-                    type='password'
-                    className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                    placeholder='비밀번호'
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                />
-                <input
                     className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                     placeholder='제목'
                     value={form.title}
@@ -78,8 +71,14 @@ export default function EditPost({ post }: { post: Post }) {
                         </option>
                     ))}
                 </select>
-
-                {error && <p className="text-red-500 text-center mt-4">{error}</p>} {/* Display error */}
+                <input
+                    type='password'
+                    className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                    placeholder='비밀번호'
+                    value={form.password}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
+                />
+                {error && <p className='text-red-500 text-center mt-4'>{error}</p>} {/* Display error */}
                 <button
                     type='submit'
                     className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow'

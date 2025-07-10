@@ -45,12 +45,14 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
         <div className='max-w-3xl mx-auto p-6'>
             <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
                 <h1 className='text-3xl font-bold text-gray-900 mb-3'>
-                    {post.title} {post.commentCount && `[${post.commentCount}]`}
+                    <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
+                    <span>{post.title}</span>
                 </h1>
                 <div className='text-gray-600 mb-6 text-sm flex justify-between items-center'>
                     <div>
-                        <span>작성자: <strong>{post.author}</strong></span>
-                        <span className='ml-2 text-gray-500'>(카테고리: {post.category || '분류 없음'})</span>
+                        <span>
+                            작성자: <strong>{post.author}</strong>
+                        </span>
                     </div>
                     <p className='text-gray-400 text-xs'>{post.createdAt?.slice(0, 10)}</p>
                 </div>
@@ -58,7 +60,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                     {post.content}
                 </section>
 
-                <div className='mt-8 flex items-center space-x-3'>
+                <div className='mt-8 flex justify-end space-x-3'>
                     <button
                         onClick={() => {
                             setModalAction('delete')

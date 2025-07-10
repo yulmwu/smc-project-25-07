@@ -2,6 +2,7 @@ import { BASE_URL, getPosts, Post } from '@/lib/api'
 import './globals.css'
 import { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
+import { FaComments, FaInfoCircle, FaList, FaQuestionCircle } from 'react-icons/fa'
 
 export default function App({ Component, pageProps }: AppProps) {
     console.log('BASE_URL: ', BASE_URL)
@@ -45,23 +46,28 @@ export default function App({ Component, pageProps }: AppProps) {
                     <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
                     <ul className='space-y-2 text-sm'>
                         <li>
-                            <a href='#' className='hover:underline'>
-                                전체
+                            <a href='/' className='hover:underline'>
+                                <FaList className='inline mr-2' /> 전체
                             </a>
                         </li>
                         <li>
-                            <a href='#' className='hover:underline'>
-                                질문
+                            <a href='/?category=역사+알아가기' className='hover:underline'>
+                                <FaQuestionCircle className='inline mr-2' /> 역사 알아가기
                             </a>
                         </li>
                         <li>
-                            <a href='#' className='hover:underline'>
-                                정보
+                            <a href='/?category=자유' className='hover:underline'>
+                                <FaComments className='inline mr-2' /> 자유
                             </a>
                         </li>
                         <li>
-                            <a href='#' className='hover:underline'>
-                                자유
+                            <a href='/?category=질문' className='hover:underline'>
+                                <FaQuestionCircle className='inline mr-2' /> 질문
+                            </a>
+                        </li>
+                        <li>
+                            <a href='/?category=정보' className='hover:underline'>
+                                <FaInfoCircle className='inline mr-2' /> 정보
                             </a>
                         </li>
                     </ul>
@@ -88,9 +94,9 @@ export default function App({ Component, pageProps }: AppProps) {
                             />
                         </svg>
                     </button>
-                    <div className='text-xl font-bold'>📢 게시판</div>
+                    <div className='text-xl font-bold ml-3'>조선인사이드</div>
                 </div>
-                <nav className='space-x-4 text-sm'>
+                {/* <nav className='space-x-4 text-sm'>
                     <a href='#' className='text-gray-600 hover:text-black'>
                         홈
                     </a>
@@ -100,7 +106,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <a href='#' className='text-gray-600 hover:text-black'>
                         최신
                     </a>
-                </nav>
+                </nav> */}
             </header>
 
             {/* 메인 레이아웃 */}
@@ -111,23 +117,28 @@ export default function App({ Component, pageProps }: AppProps) {
                         <h2 className='text-lg font-semibold mb-3'>카테고리</h2>
                         <ul className='space-y-2 text-sm'>
                             <li>
-                                <a href='#' className='hover:underline'>
-                                    전체
+                                <a href='/' className='hover:underline'>
+                                    <FaList className='inline mr-2' /> 전체
                                 </a>
                             </li>
                             <li>
-                                <a href='#' className='hover:underline'>
-                                    질문
+                                <a href='/?category=역사+알아가기' className='hover:underline'>
+                                    <FaQuestionCircle className='inline mr-2' /> 역사 알아가기
                                 </a>
                             </li>
                             <li>
-                                <a href='#' className='hover:underline'>
-                                    정보
+                                <a href='/?category=자유' className='hover:underline'>
+                                    <FaComments className='inline mr-2' /> 자유
                                 </a>
                             </li>
                             <li>
-                                <a href='#' className='hover:underline'>
-                                    자유
+                                <a href='/?category=질문' className='hover:underline'>
+                                    <FaQuestionCircle className='inline mr-2' /> 질문
+                                </a>
+                            </li>
+                            <li>
+                                <a href='/?category=정보' className='hover:underline'>
+                                    <FaInfoCircle className='inline mr-2' /> 정보
                                 </a>
                             </li>
                         </ul>
@@ -149,7 +160,9 @@ export default function App({ Component, pageProps }: AppProps) {
                                     <a href={`/posts/${post.id}`} className='hover:underline'>
                                         <span className='text-xs text-gray-500 mr-1'>[{post.category}]</span>
                                         {post.title}
-                                        <span className='text-xs text-gray-400 ml-1'>{post.commentCount ? `[${post.commentCount}]` : ''}</span>
+                                        <span className='text-xs text-gray-400 ml-1'>
+                                            {post.commentCount ? `[${post.commentCount}]` : ''}
+                                        </span>
                                     </a>
                                 </li>
                             ))}
