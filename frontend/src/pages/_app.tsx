@@ -70,26 +70,6 @@ export const SidebarContent = () => (
                 </a>
             </li>
         </ul>
-        <h2 className='text-lg font-semibold mt-6 mb-2'>기타</h2>
-        <ul className='space-y-2 text-sm ml-2'>
-            <li>
-                <a href='/posts/new' className='hover:underline'>
-                    <FaList className='inline mr-3' />새 글 작성
-                </a>
-            </li>
-            <li>
-                <a href='/about' className='hover:underline'>
-                    <FaDiagramProject className='inline mr-3' />
-                    프로젝트 소개
-                </a>
-            </li>
-            <li>
-                <a href='https://github.com/yulmwu/smc-project-25-07' className='hover:underline'>
-                    <FaGithub className='inline mr-3' />
-                    Source Code
-                </a>
-            </li>
-        </ul>
         <h2 className='text-lg font-semibold mt-6 mb-2'>위키 바로가기</h2>
         <ul className='space-y-2 text-sm ml-2'>
             <li>
@@ -114,6 +94,41 @@ export const SidebarContent = () => (
                 <a href='/wiki?tab=accident' className='hover:underline'>
                     <FaBookOpen className='inline mr-3' />
                     사건사고
+                </a>
+            </li>
+        </ul>
+        <h2 className='text-lg font-semibold mt-6 mb-2'>퀴즈 바로가기</h2>
+        <ul className='space-y-2 text-sm ml-2'>
+            <li>
+                <a href='/quiz' className='hover:underline'>
+                    <FaQuestionCircle className='inline mr-3' />
+                    퀴즈 시작하기
+                </a>
+            </li>
+            <li>
+                <a href='/quiz/ranking' className='hover:underline'>
+                    <FaList className='inline mr-3' />
+                    퀴즈 랭킹 보기
+                </a>
+            </li>
+        </ul>
+        <h2 className='text-lg font-semibold mt-6 mb-2'>기타</h2>
+        <ul className='space-y-2 text-sm ml-2'>
+            <li>
+                <a href='/posts/new' className='hover:underline'>
+                    <FaList className='inline mr-3' />새 글 작성
+                </a>
+            </li>
+            <li>
+                <a href='/about' className='hover:underline'>
+                    <FaDiagramProject className='inline mr-3' />
+                    프로젝트 소개
+                </a>
+            </li>
+            <li>
+                <a href='https://github.com/yulmwu/smc-project-25-07' className='hover:underline'>
+                    <FaGithub className='inline mr-3' />
+                    Source Code
                 </a>
             </li>
         </ul>
@@ -172,12 +187,16 @@ export default function App({ Component, pageProps }: AppProps) {
                         <FaList className='text-gray-600' />
                     </button>
                     <div className='text-xl font-bold ml-3 flex items-center gap-5'>
-                        <a href='/' className={router.pathname !== '/wiki' ? 'text-gray-800' : 'text-gray-400'}>
+                        <a href='/' className='text-gray-600 hover:text-gray-900 flex items-center gap-1'>
                             조선인사이드
                         </a>
                         <div className='h-5 w-[2px] bg-gray-300' />
-                        <a href='/wiki' className={router.pathname === '/wiki' ? 'text-gray-800' : 'text-gray-400'}>
+                        <a href='/wiki' className='text-gray-600 hover:text-gray-800 flex items-center gap-1'>
                             위키
+                        </a>
+                        <div className='h-5 w-[2px] bg-gray-300' />
+                        <a href='/quiz' className='text-gray-600 hover:text-gray-800 flex items-center gap-1'>
+                            퀴즈
                         </a>
                     </div>
                 </div>

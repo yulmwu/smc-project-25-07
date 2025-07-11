@@ -2,27 +2,27 @@ import axios from 'axios'
 
 // Quiz Types
 export interface QuizQuestion {
-  id: number;
-  question: string;
+    id: number
+    question: string
+    options: string[]
 }
 
 export interface StartQuizResponse {
-  message: string;
-  quiz: QuizQuestion[];
+    message: string
+    quiz: QuizQuestion[]
 }
 
 export interface SubmitQuizResponse {
-  message: string;
-  score: number;
-  rank: number;
+    message: string
+    score: number
+    rank: number
 }
 
 export interface Ranking {
-  rank: number;
-  username: string;
-  score: number;
+    rank: number
+    username: string
+    score: number
 }
-
 
 export type Post = {
     id: number
@@ -42,11 +42,11 @@ export type Post = {
 
 export async function validateImageUrl(url: string): Promise<boolean> {
     return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(true);
-        img.onerror = () => resolve(false);
-        img.src = url;
-    });
+        const img = new Image()
+        img.onload = () => resolve(true)
+        img.onerror = () => resolve(false)
+        img.src = url
+    })
 }
 
 export type Comment = {
@@ -72,8 +72,13 @@ export type PaginatedPosts = {
     nextCursor: number | null // Changed back to number | null
 }
 
-export const getPosts = async (category?: string, cursor?: number | null, limit: number = 10): Promise<PaginatedPosts> => { // Modified cursor type
-    const url = category && category !== '전체' ? `/posts/category/${encodeURIComponent(category)}` : '/posts';
+export const getPosts = async (
+    category?: string,
+    cursor?: number | null,
+    limit: number = 10
+): Promise<PaginatedPosts> => {
+    // Modified cursor type
+    const url = category && category !== '전체' ? `/posts/category/${encodeURIComponent(category)}` : '/posts'
     const res = await api.get<PaginatedPosts>(url, {
         params: {
             cursor,
@@ -126,19 +131,18 @@ export async function deleteComment(id: string, password: string) {
 
 // Quiz API Functions
 export const startQuiz = async (username: string): Promise<StartQuizResponse> => {
-    const res = await api.post<StartQuizResponse>('/quiz', { username });
-    return res.data;
-};
+    const res = await api.post<StartQuizResponse>('/quiz', { username })
+    return res.data
+}
 
 export const submitQuiz = async (username: string, answers: string[]): Promise<SubmitQuizResponse> => {
-    const res = await api.post<SubmitQuizResponse>('/quiz/submit', { username, answers });
-    return res.data;
-};
+    const res = await api.post<SubmitQuizResponse>('/quiz/submit', { username, answers })
+    return res.data
+}
 
 export const getRankings = async (): Promise<Ranking[]> => {
-    const res = await api.get<Ranking[]>('/quiz/rankings');
-    return res.data;
-};
+    const res = await api.get<Ranking[]>('/quiz/rankings')
+    return res.data
+}
 
-
-export default api;
+export default api

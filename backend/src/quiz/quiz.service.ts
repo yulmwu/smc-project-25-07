@@ -3,24 +3,6 @@ import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { quizData } from './quiz.data'
 import { GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
 
-/*
-AWS DynamoDB 테이블 설정 가이드
----------------------------------
-1. AWS Management Console에 로그인하여 DynamoDB 서비스로 이동합니다.
-2. "테이블 만들기" 버튼을 클릭합니다.
-3. 테이블 이름: "QuizUsers" (혹은 원하는 다른 이름)
-4. 파티션 키: "username" (타입: 문자열)
-5. 테이블 설정: "기본 설정 사용" 혹은 필요에 따라 프로비저닝된 용량 설정. (개발/테스트 단계에서는 온디맨드 용량 모드가 편리합니다.)
-6. "테이블 만들기" 클릭하여 생성을 완료합니다.
-
-- 테이블 이름은 아래 `tableName` 변수와 일치해야 합니다.
-- 랭킹 기능을 확장성 있게 구현하려면 'score' 속성에 대한 글로벌 보조 인덱스(GSI)를 생성하는 것을 고려할 수 있습니다.
-  - GSI 설정:
-    - 파티션 키: 'submitted' (타입: 숫자, 1일 경우 제출 완료)
-    - 정렬 키: 'score' (타입: 숫자)
-  - 이렇게 하면 제출된 사용자를 효율적으로 쿼리하고 점수 순으로 정렬할 수 있습니다.
-*/
-
 @Injectable()
 export class QuizService {
     private readonly tableName = 'QuizUsers'
