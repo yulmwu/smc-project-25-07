@@ -1,27 +1,24 @@
 import axios from 'axios'
 
+// Quiz Types
 export interface QuizQuestion {
   id: number;
   question: string;
-  options: string[];
 }
 
-export interface SubmitQuizDto {
-  username: string;
-  answers: {
-    id: number;
-    answer: string;
-  }[];
+export interface StartQuizResponse {
+  message: string;
+  quiz: QuizQuestion[];
 }
 
-export interface QuizResult {
+export interface SubmitQuizResponse {
+  message: string;
   score: number;
-  total: number;
-  correctAnswers: { id: number; answer: string }[];
-  wrongAnswers: { id: number; answer: string }[];
+  rank: number;
 }
 
-export interface RankingEntry {
+export interface Ranking {
+  rank: number;
   username: string;
   score: number;
 }
@@ -126,5 +123,22 @@ export async function deleteComment(id: string, password: string) {
     const res = await api.delete<Comment>(`/comments/${id}`, { data: { password } })
     return res.data
 }
+
+// Quiz API Functions
+export const startQuiz = async (username: string): Promise<StartQuizResponse> => {
+    const res = await api.post<StartQuizResponse>('/quiz', { username });
+    return res.data;
+};
+
+export const submitQuiz = async (username: string, answers: string[]): Promise<SubmitQuizResponse> => {
+    const res = await api.post<SubmitQuizResponse>('/quiz/submit', { username, answers });
+    return res.data;
+};
+
+export const getRankings = async (): Promise<Ranking[]> => {
+    const res = await api.get<Ranking[]>('/quiz/rankings');
+    return res.data;
+};
+
 
 export default api;
