@@ -170,190 +170,164 @@ const wikiContent: { [key: string]: WikiEntry } = {
         ko: {
             title: '동물',
             content: `
-        <section class="mb-8">
-          <h3 class="text-2xl font-semibold mb-4 text-indigo-700 border-l-4 border-indigo-500 pl-3">반려 및 왕실 동물</h3>
-          <ol class="list-decimal list-inside space-y-4 text-gray-800 leading-relaxed">
-            <li>
-              <strong class="text-lg font-semibold text-gray-900">개</strong><br/>
-              <p class="mt-1">연산군은 궁궐에 사냥개를 많이 길렀으며, 조회 시간에도 개가 드나들어 신하들이 항의하기도 했습니다.</p>
-              <p class="italic text-sm text-gray-600 mt-1">("사냥개"는 왕실 및 귀족들이 사냥 시 활용한 전문 개체들입니다.)</p>
-            </li>
-            <li>
-              <strong class="text-lg font-semibold text-gray-900">매</strong><br/>
-              <p class="mt-1">사냥 용도로 매를 길렀으며, 매 사육으로 인한 논밭 훼손에 대한 불만도 종종 보고되었습니다.</p>
-              <p class="italic text-sm text-gray-600 mt-1">(매 사육은 왕실 및 양반층에서 인기 있는 취미였고, 사냥 문화의 일환이었습니다.)</p>
-            </li>
-          </ol>
-        </section>
+        <h2 class="text-2xl font-bold mb-4">조선시대 동물</h2>
 
-        <section class="mb-8">
-          <h3 class="text-2xl font-semibold mb-4 text-red-700 border-l-4 border-red-500 pl-3">야생 및 위험 동물</h3>
-          <ol class="list-decimal list-inside space-y-6 text-gray-900 leading-relaxed">
-            <li>
-              <strong class="text-lg font-semibold">호랑이</strong><br/>
-              <p class="mt-1">호환(虎患)이 자주 발생하여, 이를 방지하기 위해 호랑이 사냥을 전문으로 하는 착호갑사(捉虎甲士)라는 조직이 설치되었습니다.</p>
-              <blockquote class="border-l-4 border-gray-400 pl-4 italic text-gray-600 mt-2">“호랑이는 조선 전역에서 가장 위협적인 맹수였다.”</blockquote>
-            </li>
-            <li>
-              <strong class="text-lg font-semibold">표범</strong><br/>
-              <p class="mt-1">사람들을 자주 공격하는 사례가 있었으며, 태종 1년 8월 7일에는 “삼형에 표범이 삼현에 들어왔으므로 군사를 시켜 잡았다.”라는 공식 기록이 남아 있습니다.</p>
-            </li>
-            <li>
-              <strong class="text-lg font-semibold">늑대 (몽골쪽)</strong><br/>
-              <p class="mt-1">조선왕조실록에는 늑대가 매우 사납다는 기록이 존재합니다.</p>
-              <p class="mt-1">예를 들어, “창성(昌盛)이 동팔참(東八站)으로 가는 도중 호랑이나 늑대가 나올까 무서워 화포(火砲)와 발화(發火)를 쏘는 사람을 데리고 갔다”는 기록은 당시 늑대의 위협 수준을 보여줍니다.</p>
-            </li>
-          </ol>
-        </section>
+        <h3 class="text-xl font-semibold mt-6 mb-3">반려 및 왕실 동물</h3>
+        <ul class="list-disc list-inside">
+          <li><strong>개</strong>: 연산군은 사냥개를 궁궐에서 많이 길렀으며, 조회 시간에도 개가 드나들어 신하들의 항의를 받았습니다.</li>
+          <li><strong>매</strong>: 주로 사냥용으로 길렀으며, 매를 기르기 위해 논밭이 훼손되었다는 민원도 있었습니다.</li>
+        </ul>
 
-        <p class="text-sm text-gray-500 italic border-t border-gray-300 pt-4 mt-8">
-          ※ 조선왕조실록에 따르면 호랑이, 표범, 늑대 등 맹수 출몰 기록은 총 402건 이상에 달합니다.
-        </p>
+        <h3 class="text-xl font-semibold mt-6 mb-3">야생 및 위험 동물</h3>
+        <ul class="list-disc list-inside">
+          <li><strong>호랑이</strong>: 자주 출몰하여 피해를 주었으며, 이를 사냥하기 위해 착호갑사가 조직되었습니다.</li>
+          <li><strong>표범</strong>: 사람을 공격하는 일이 잦았으며, 삼형에 표범이 들어와 군사를 동원해 잡은 기록이 있습니다.</li>
+          <li><strong>늑대</strong>: 몽골 방면에서 주로 나타났으며, 무장을 하고 다닐 정도로 위협적이었습니다.</li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ 맹수 출몰은 총 402건 이상 조선왕조실록에 기록되어 있습니다.</p>
       `,
         },
         en: {
             title: 'Animals',
             content: `
-        <section class="mb-8">
-          <h3 class="text-2xl font-semibold mb-4 text-indigo-700 border-l-4 border-indigo-500 pl-3">Pets and Royal Animals</h3>
-          <ol class="list-decimal list-inside space-y-4 text-gray-800 leading-relaxed">
-            <li>
-              <strong class="text-lg font-semibold text-gray-900">Dogs</strong><br/>
-              <p class="mt-1">King Yeonsangun kept many hunting dogs in the palace, and officials complained as dogs entered even during court sessions.</p>
-              <p class="italic text-sm text-gray-600 mt-1">(Hunting dogs were specially bred and kept by royalty and nobles for hunting purposes.)</p>
-            </li>
-            <li>
-              <strong class="text-lg font-semibold text-gray-900">Falcons</strong><br/>
-              <p class="mt-1">Falcons were raised for hunting, with occasional complaints about farmland damage caused by falconry.</p>
-              <p class="italic text-sm text-gray-600 mt-1">(Falconry was a popular pastime among the royal family and aristocrats.)</p>
-            </li>
-          </ol>
-        </section>
+        <h2 class="text-2xl font-bold mb-4">Animals in the Joseon Dynasty</h2>
 
-        <section class="mb-8">
-          <h3 class="text-2xl font-semibold mb-4 text-red-700 border-l-4 border-red-500 pl-3">Wild and Dangerous Animals</h3>
-          <ol class="list-decimal list-inside space-y-6 text-gray-900 leading-relaxed">
-            <li>
-              <strong class="text-lg font-semibold">Tigers</strong><br/>
-              <p class="mt-1">Frequent tiger attacks led to the establishment of special hunting units called Chakho-gapsa.</p>
-              <blockquote class="border-l-4 border-gray-400 pl-4 italic text-gray-600 mt-2">“Tigers were the most feared predators across Joseon.”</blockquote>
-            </li>
-            <li>
-              <strong class="text-lg font-semibold">Leopards</strong><br/>
-              <p class="mt-1">Leopards often attacked people. Records from the first year of King Taejong’s reign mention military action to capture a leopard that entered the Samhyeon area on August 7.</p>
-            </li>
-            <li>
-              <strong class="text-lg font-semibold">Wolves (from Mongolian regions)</strong><br/>
-              <p class="mt-1">The Annals of the Joseon Dynasty describe wolves as fierce.</p>
-              <p class="mt-1">One record states, “Changseong was afraid that tigers or wolves might appear on the way to Dongpaljam, so he took people who fired guns and flares.”</p>
-            </li>
-          </ol>
-        </section>
+        <h3 class="text-xl font-semibold mt-6 mb-3">Companion and Royal Animals</h3>
+        <ul class="list-disc list-inside">
+          <li><strong>Dogs</strong>: King Yeonsangun kept many hunting dogs in the palace, and they even roamed during official meetings, causing complaints from officials.</li>
+          <li><strong>Falcons</strong>: Falcons were raised for hunting, and complaints arose due to farmlands being damaged to raise them.</li>
+        </ul>
 
-        <p class="text-sm text-gray-500 italic border-t border-gray-300 pt-4 mt-8">
-          ※ According to the Annals, there are over 402 records of sightings of fierce animals such as tigers, leopards, and wolves.
-        </p>
+        <h3 class="text-xl font-semibold mt-6 mb-3">Wild and Dangerous Animals</h3>
+        <ul class="list-disc list-inside">
+          <li><strong>Tigers</strong>: Frequently appeared and caused harm; a special force called "Chakho Gapsa" was formed to hunt them.</li>
+          <li><strong>Leopards</strong>: Often attacked people; one record states that soldiers were mobilized to catch a leopard in Samhyeong.</li>
+          <li><strong>Wolves</strong>: Mainly came from the Mongolian region and were considered threatening enough to require armed protection during travel.</li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ More than 402 cases of large predator sightings were recorded in the Annals of the Joseon Dynasty.</p>
       `,
         },
     },
-
     weather: {
         ko: {
-            title: '날씨/기후',
+            title: '날씨',
             content: `
-        <article class="space-y-6 text-gray-800 leading-relaxed">
-          <section>
-            <h4 class="text-xl font-semibold text-indigo-700 mb-2">태종실록 4권, 태종 2년 11월 18일 정유 1번째기사</h4>
-            <p class="pl-4 border-l-4 border-indigo-400 italic text-gray-600">
-              누런 안개[黃霧]가 사방에 끼었고, 기온이 따뜻하기가 봄날과 같았다.
-            </p>
-          </section>
+        <h2 class="text-2xl font-bold mb-4">조선시대 날씨 및 기후</h2>
 
-          <section>
-            <h4 class="text-xl font-semibold text-indigo-700 mb-2">태종실록 4권, 태종 2년 12월 3일 임자 1번째기사</h4>
-            <p class="pl-4 border-l-4 border-indigo-400 italic text-gray-600">
-              기온이 따뜻하기가 봄날씨와 같았다. 10월에도 더울 만큼 기온이 높았다.
-            </p>
-          </section>
+        <h3 class="text-xl font-semibold mt-6 mb-3">이상기후 및 기온 변화</h3>
+        <ul class="list-disc list-inside">
+          <li>"누런 안개가 끼고 봄처럼 따뜻했다." — <em>태종실록</em></li>
+          <li>"기온이 봄날씨와 같았다." — <em>태종실록</em></li>
+          <li>"태조가 왕위에 오르자 가뭄이 끝나고 억수같은 비가 내렸다." — <em>태조실록</em></li>
+        </ul>
 
-          <section>
-            <h4 class="text-xl font-semibold text-red-700 mb-2">세종실록 13권, 세종 3년 8월 30일 경신 2번째기사</h4>
-            <p class="pl-4 border-l-4 border-red-400 italic text-gray-700">
-              판황주목사 정효문이 곡식을 세납하는 방식의 폐해를 고한 상소문에서, 10월 보름께면 벌써 추위가 닥쳐와 얼음이 굳게 얼 때가 되어 조운이 어려움을 토로하였다.
-            </p>
-          </section>
-
-          <section>
-            <h4 class="text-xl font-semibold text-red-700 mb-2">세종실록 14권, 세종 3년 12월 29일 무오 2번째기사</h4>
-            <p class="pl-4 border-l-4 border-red-400 italic text-gray-700">
-              제주도에서 기르는 말이 1만여 필이나 되었는데, 이 해에는 기후가 온난하던 제주에 추위가 심하여 눈이 5, 6척 쌓여 말이 많이 얼어 죽었다.
-            </p>
-          </section>
-
-          <p class="text-sm text-gray-500 italic mt-6 border-t border-gray-300 pt-4">
-            12월부터 4월까지 몹시 추웠던 기록이 있다.
-          </p>
-        </article>
+        <h3 class="text-xl font-semibold mt-6 mb-3">우박, 한파, 재해</h3>
+        <ul class="list-disc list-inside">
+          <li>"연사흘 우박이 내렸다." — <em>태조실록</em></li>
+          <li>"10월 보름이면 얼음이 얼 정도로 추워 수송이 어렵다." — <em>세종실록</em></li>
+          <li>"제주도에 폭설이 내려 말들이 얼어 죽었다." — <em>세종실록</em></li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ 12월~4월 사이의 혹한은 반복적으로 기록되었습니다.</p>
       `,
         },
         en: {
-            title: 'Weather and Climate',
+            title: 'Weather',
             content: `
-        <article class="space-y-6 text-gray-800 leading-relaxed">
-          <section>
-            <h4 class="text-xl font-semibold text-indigo-700 mb-2">Annals of Taejong, Vol. 4, Year 2, November 18</h4>
-            <p class="pl-4 border-l-4 border-indigo-400 italic text-gray-600">
-              Yellow fog [黃霧] covered the surroundings, and the temperature was warm like spring.
-            </p>
-          </section>
+        <h2 class="text-2xl font-bold mb-4">Weather and Climate in the Joseon Dynasty</h2>
 
-          <section>
-            <h4 class="text-xl font-semibold text-indigo-700 mb-2">Annals of Taejong, Vol. 4, Year 2, December 3</h4>
-            <p class="pl-4 border-l-4 border-indigo-400 italic text-gray-600">
-              The temperature was as warm as spring weather. It was so warm that even in October it felt hot.
-            </p>
-          </section>
+        <h3 class="text-xl font-semibold mt-6 mb-3">Abnormal Climate and Temperature Changes</h3>
+        <ul class="list-disc list-inside">
+          <li>"Yellow fog appeared, and it felt as warm as spring." — <em>Annals of King Taejong</em></li>
+          <li>"The temperature was like a spring day." — <em>Annals of King Taejong</em></li>
+          <li>"As King Taejo ascended the throne, a heavy rain ended the drought." — <em>Annals of King Taejo</em></li>
+        </ul>
 
-          <section>
-            <h4 class="text-xl font-semibold text-red-700 mb-2">Annals of Sejong, Vol. 13, Year 3, August 30</h4>
-            <p class="pl-4 border-l-4 border-red-400 italic text-gray-700">
-              Jeong Hyomun, the magistrate of Panhuang, complained about the system of grain delivery, noting that by mid-October cold had already arrived and the ice had frozen solid, making transportation difficult.
-            </p>
-          </section>
-
-          <section>
-            <h4 class="text-xl font-semibold text-red-700 mb-2">Annals of Sejong, Vol. 14, Year 3, December 29</h4>
-            <p class="pl-4 border-l-4 border-red-400 italic text-gray-700">
-              Jeju Island had over 10,000 horses, but that year experienced severe cold with snow accumulation of 5 to 6 feet, causing many horses to freeze to death.
-            </p>
-          </section>
-
-          <p class="text-sm text-gray-500 italic mt-6 border-t border-gray-300 pt-4">
-            Records show that from December to April, the weather was extremely cold.
-          </p>
-        </article>
+        <h3 class="text-xl font-semibold mt-6 mb-3">Hail, Cold Waves, and Disasters</h3>
+        <ul class="list-disc list-inside">
+          <li>"Hail fell for three consecutive days." — <em>Annals of King Taejo</em></li>
+          <li>"By mid-October, it was so cold that transportation was difficult due to ice." — <em>Annals of King Sejong</em></li>
+          <li>"Heavy snow in Jeju Island killed many of the 10,000 horses." — <em>Annals of King Sejong</em></li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ Harsh winters from December to April were frequently documented.</p>
       `,
         },
     },
-
     naturalDisaster: {
         ko: {
             title: '자연재해',
-            content: '아직 작성되지 않았습니다.',
+            content: `
+        <h2 class="text-2xl font-bold mb-4">조선시대 자연재해</h2>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">가뭄과 홍수</h3>
+        <p class="mb-2">가뭄이나 홍수가 발생하면 사직, 종묘, 태백산·백두산의 신에게 기우제 및 영제를 지냈습니다.</p>
+        <ul class="list-disc list-inside">
+          <li><strong>사직</strong>: 토지와 곡식의 신에게 지내는 제사</li>
+          <li><strong>영제</strong>: 가뭄, 홍수, 역병 등의 재앙을 막기 위한 제사</li>
+        </ul>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">지진</h3>
+        <p>지진은 괴이한 현상으로 간주되어 해괴제라는 제사를 통해 재앙을 달래려 했습니다.</p>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">기타 재해</h3>
+        <ul class="list-disc list-inside">
+          <li>해충, 전염병: 기양제, 포제, 여제</li>
+          <li>천변(川變), 성변(城變): 기양제</li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ 이러한 제사는 국가 차원의 재난 대응 체계로 조선 전기간에 시행되었습니다.</p>
+      `,
         },
         en: {
             title: 'Natural Disasters',
-            content: 'Still under construction.',
+            content: `
+        <h2 class="text-2xl font-bold mb-4">Natural Disasters in the Joseon Dynasty</h2>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">Droughts and Floods</h3>
+        <p class="mb-2">During droughts or floods, the Joseon government held rituals such as rain prayers and appeasement ceremonies to gods of land and harvest, including those at Sajik, Jongmyo, and sacred mountains like Taebaeksan and Baekdusan.</p>
+        <ul class="list-disc list-inside">
+          <li><strong>Sajik</strong>: Rituals for gods of land and grain</li>
+          <li><strong>Yeongje</strong>: Ceremonies to prevent or end disasters like droughts, floods, and epidemics</li>
+        </ul>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">Earthquakes</h3>
+        <p>Earthquakes were seen as mysterious phenomena and addressed with the ritual called "Haegoeje" to appease supernatural causes.</p>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">Other Disasters</h3>
+        <ul class="list-disc list-inside">
+          <li>Pests, epidemics: Gi-yangje, Poje, Yeoje</li>
+          <li>River or castle anomalies: Gi-yangje</li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ These rituals became a systematic state-level response throughout the Joseon period.</p>
+      `,
         },
     },
     accident: {
         ko: {
             title: '사건사고',
-            content: '아직 작성되지 않았습니다.',
+            content: `
+        <h2 class="text-2xl font-bold mb-4">조선시대 사건사고</h2>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">이상 현상과 괴이한 사건</h3>
+        <ul class="list-disc list-inside">
+          <li><strong>영두성의 출현</strong>: 질장구 같은 붉은 천체가 나타나며 우레 소리를 내었고, 꼬리 모양의 흰 기운이 하늘을 가로질렀습니다. 현대에는 UFO로 추정되기도 합니다.</li>
+          <li><strong>괴이한 짐승</strong>: 궁궐 침전에 개 같은 괴물이 출몰하였으며, 묘원의 소나무가 타는 등 불길한 징조로 여겨졌습니다.</li>
+          <li><strong>중종 승하 이후의 대소동</strong>: 괴물과 검은 기운, 수레 소문 등으로 인해 서울 민심이 불안해졌고, 며칠간 징을 치며 소동이 벌어졌습니다.</li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ 이 사건들은 <em>조선왕조실록</em>에 자세히 기록되어 있으며, 당시 사회적 불안과 초자연적 인식이 반영되어 있습니다.</p>
+      `,
         },
         en: {
             title: 'Incidents and Accidents',
-            content: 'Still under construction.',
+            content: `
+        <h2 class="text-2xl font-bold mb-4">Incidents and Phenomena in the Joseon Dynasty</h2>
+
+        <h3 class="text-xl font-semibold mt-6 mb-3">Unusual Phenomena and Strange Events</h3>
+        <ul class="list-disc list-inside">
+          <li><strong>Appearance of Yeongdu Star</strong>: A reddish object shaped like a war drum appeared in the sky, accompanied by thunder-like sounds. It left a long white trail and is speculated today as a possible UFO.</li>
+          <li><strong>Strange Beast in the Palace</strong>: A dog-like creature entered the royal chamber and fled. It was regarded as a bad omen, especially since a sacred pine tree had burned the night before.</li>
+          <li><strong>Unrest after King Jungjong’s Death</strong>: Rumors of monsters and dark auras in Seoul led to several days of panic and public unrest, reflecting deep social anxiety.</li>
+        </ul>
+        <p class="mt-2 text-sm text-gray-600">※ These events are extensively recorded in the Annals of the Joseon Dynasty, reflecting the period’s social anxiety and supernatural interpretations.</p>
+      `,
         },
     },
 }
