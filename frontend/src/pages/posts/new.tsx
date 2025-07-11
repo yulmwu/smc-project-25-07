@@ -13,6 +13,7 @@ export default function NewPost() {
         category: '자유',
         tags: [],
         thumbnailUrl: '',
+        forDevelopmentCreateAtDate: new Date().toISOString(),
     })
     const [useThumbnail, setUseThumbnail] = useState(false)
     const [thumbnailError, setThumbnailError] = useState('')
@@ -119,6 +120,12 @@ export default function NewPost() {
                         placeholder='태그 (쉼표로 구분)'
                         value={(form.tags ?? []).join(', ')}
                         onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
+                    />
+                    <input
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                        placeholder='ISO 8601 형식 날짜 (개발용)'
+                        onChange={(e) => setForm({ ...form, forDevelopmentCreateAtDate: e.target.value })}
+                        value={form.forDevelopmentCreateAtDate}
                     />
 
                     <div className='flex items-center space-x-2'>

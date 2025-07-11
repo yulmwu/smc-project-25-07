@@ -2,7 +2,7 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { CreatePostDto } from './dto/create-post.dto'
 import * as bcrypt from 'bcrypt'
-import { PutCommand, GetCommand, ScanCommand, UpdateCommand, DeleteCommand, QueryCommand } from '@aws-sdk/lib-dynamodb'
+import { PutCommand, GetCommand, UpdateCommand, DeleteCommand, QueryCommand } from '@aws-sdk/lib-dynamodb'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Invalid, InvalidType, NotFoundError } from 'src/common/errors'
 import { isMasterKeyValid } from 'src/utils/masterKey'
@@ -55,7 +55,8 @@ export class PostsService {
             tags: createPostDto.tags ?? [],
             views: 0,
             thumbnailUrl: createPostDto.thumbnailUrl ?? null,
-            createdAt: new Date().toISOString(),
+            // createdAt: new Date().toISOString(),
+            createdAt: createPostDto.forDevelopmentCreateAtDate ?? new Date().toISOString(), // For development purposes, allow setting a custom createdAt date
             updatedAt: new Date().toISOString(),
         }
 
@@ -157,26 +158,20 @@ export class PostsService {
             throw new Invalid('Limit must be between 1 and 100')
         }
 
-        const params: any = {
+        const params = {
             TableName: this.tableName,
-            IndexName: 'CategoryCreatedAtGSI', // GSI with category as PK, createdAt as SK
+            IndexName: 'CategoryIdGSI',
             KeyConditionExpression: 'category = :category',
             ExpressionAttributeValues: {
                 ':category': category,
             },
             Limit: limit,
-            ScanIndexForward: false, // Latest first
+            ScanIndexForward: false,
         }
 
         if (cursor) {
-            // Fetch the post to get its createdAt for pagination
-            const post = await this.findOne(cursor)
-            if (!post) {
-                throw new NotFoundError(`Post with id ${cursor} not found for pagination`)
-            }
-
-            params.KeyConditionExpression += ' AND createdAt < :createdAt'
-            params.ExpressionAttributeValues[':createdAt'] = post.createdAt
+            params.KeyConditionExpression += ' AND id < :cursor'
+            params.ExpressionAttributeValues[':cursor'] = cursor
         }
 
         const result = await this.dynamoDB.client.send(new QueryCommand(params))
@@ -206,7 +201,7 @@ export class PostsService {
         }
 
         const updateExpressionParts = ['SET title = :title, content = :content, updatedAt = :updatedAt']
-        const expressionAttributeValues: any = {
+        const expressionAttributeValues = {
             ':title': dto.title,
             ':content': dto.content,
             ':updatedAt': new Date().toISOString(),
@@ -230,6 +225,11 @@ export class PostsService {
         if (dto.tags) {
             updateExpressionParts.push('tags = :tags')
             expressionAttributeValues[':tags'] = dto.tags
+        }
+
+        if (dto.forDevelopmentUpdateAtDate) {
+            updateExpressionParts.push('createdAt = :createdAt')
+            expressionAttributeValues[':createdAt'] = dto.forDevelopmentUpdateAtDate
         }
 
         await this.dynamoDB.client.send(
