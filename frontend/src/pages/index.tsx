@@ -139,9 +139,7 @@ export default function Home() {
         <>
             <title>조선인사이드 - 홈</title>
             <div className='flex justify-between items-center mb-5'>
-                <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold text-center'>
-                    {selectedCategory === '전체' ? '조선인사이드: 전체 글' : `${selectedCategory}`}
-                </h1>
+                <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold text-center'>{selectedCategory}</h1>
                 <Link
                     href={`/posts/new?category=${encodeURIComponent(selectedCategory)}`}
                     className='inline-block bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-1 px-2 sm:py-2 sm:px-4 rounded-lg shadow-lg hover:from-indigo-600 hover:to-purple-700 transition mr-2 text-sm sm:text-base'
@@ -155,7 +153,7 @@ export default function Home() {
                     <button
                         key={category}
                         onClick={() => handleCategoryChange(category)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out cursor-pointer
+                        className={`px-4 py-2 rounded-full text-sm sm:text-base transition-colors duration-200 ease-in-out cursor-pointer
                             ${
                                 selectedCategory === category
                                     ? 'bg-indigo-600 text-white shadow-md'

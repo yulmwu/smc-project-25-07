@@ -15,7 +15,6 @@ import {
     FaQuestionCircle,
 } from 'react-icons/fa'
 import { FaBoltLightning, FaDiagramProject } from 'react-icons/fa6'
-import { useRouter } from 'next/router'
 
 export const SidebarContent = () => (
     <div>
@@ -115,11 +114,6 @@ export const SidebarContent = () => (
         <h2 className='text-lg font-semibold mt-6 mb-2'>기타</h2>
         <ul className='space-y-2 text-sm ml-2'>
             <li>
-                <a href='/posts/new' className='hover:underline'>
-                    <FaList className='inline mr-3' />새 글 작성
-                </a>
-            </li>
-            <li>
                 <a href='/about' className='hover:underline'>
                     <FaDiagramProject className='inline mr-3' />
                     프로젝트 소개
@@ -166,12 +160,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 onClick={() => toggleSidebar(false)}
             ></div>
 
-            {/* 모바일 왼쪽 사이드바 */}
             <div
                 id='mobileSidebar'
                 className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-40 transform transition-transform duration-300 ease-in-out ${
                     isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                }`}
+                } overflow-y-auto`}
             >
                 <div className='pl-5 pr-4 pt-4 pb-4'>
                     <SidebarContent />
@@ -181,13 +174,13 @@ export default function App({ Component, pageProps }: AppProps) {
             {/* 헤더 */}
             <header className='bg-white shadow px-4 py-3 sticky top-0 z-20 flex justify-between items-center'>
                 <div className='flex items-center gap-2'>
-                    <button className='lg:hidden p-2 rounded hover:bg-gray-200' onClick={() => toggleSidebar(true)}>
+                    <button className='lg:hidden p-2 rounded hover:bg-gray-200 cursor-pointer' onClick={() => toggleSidebar(true)}>
                         <FaList className='text-gray-600' />
                     </button>
                     <a href='/'>
-                        <img src='/chosun32.png' alt='조선인사이드 로고' className='h-8 w-auto rounded-sm' />
+                        <img src='/chosun32.png' alt='logo' className='h-8 w-auto rounded-sm' />
                     </a>
-                    <div className='text-xl font-bold ml-3 flex items-center gap-5'>
+                    <div className='text-sm sm:text-lg md:text-xl font-bold ml-3 flex items-center gap-5'>
                         <a href='/' className='text-gray-600 hover:text-gray-900 flex items-center gap-1'>
                             조선인사이드
                         </a>
@@ -209,6 +202,19 @@ export default function App({ Component, pageProps }: AppProps) {
                 <aside className='hidden lg:block w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0'>
                     <div className='sticky top-20 bg-white rounded-lg shadow pl-5 pr-4 pt-4 pb-4'>
                         <SidebarContent />
+                        <div className='p-2 mt-6 text-xs text-gray-500'>
+                            <p>
+                                ❤️ Made by{' '}
+                                <a
+                                    href='https://github.com/yulmwu'
+                                    className='text-blue-500 hover:underline'
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                >
+                                    Kim Jun Young
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 </aside>
 

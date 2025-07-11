@@ -26,11 +26,6 @@ const WikiPage: React.FC = () => {
         }
     }, [router.isReady, router.query.tab, router.query.lang])
 
-    const testText = `
-# 안녕하세요!
-저는 현재 리액트에서 \`react-markdown\`를 이용하여 **마크다운**을 랜더링하고 있습니다.
-    `.trim()
-
     const handleTabClick = (key: string) => {
         setActiveTab(key)
         router.push(`/wiki?tab=${key}&lang=${currentLang}`, undefined, { shallow: true })
@@ -53,7 +48,7 @@ const WikiPage: React.FC = () => {
                 <h1 className='text-4xl font-extrabold text-gray-900'>{currentLang === 'ko' ? '위키' : 'Wiki'}</h1>
                 <button
                     onClick={handleLangToggle}
-                    className='px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out cursor-pointer bg-gray-200 text-gray-700 hover:bg-gray-300'
+                    className='px-4 py-2 rounded-full text-sm sm:text-base transition-colors duration-200 ease-in-out cursor-pointer bg-gray-200 text-gray-700 hover:bg-gray-300'
                 >
                     {currentLang === 'ko' ? 'English' : '한국어'}
                 </button>
@@ -64,7 +59,7 @@ const WikiPage: React.FC = () => {
                     <button
                         key={key}
                         onClick={() => handleTabClick(key)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ease-in-out cursor-pointer
+                        className={`px-4 py-2 rounded-full text-sm sm:text-base transition-colors duration-200 ease-in-out cursor-pointer
               ${
                   activeTab === key
                       ? 'bg-indigo-600 text-white shadow-md'

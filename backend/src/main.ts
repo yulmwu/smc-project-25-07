@@ -11,7 +11,7 @@ const bootstrap = async () => {
     app.setGlobalPrefix('api')
     app.useGlobalFilters(new AllExceptionsFilter());
     app.enableCors({
-        origin: ['http://chosun.rlawnsdud.shop', 'https://chosun.rlawnsdud.shop', 'http://localhost:1234', 'https://localhost:1234', 'http://172.30.6.160:1234', 'https://80c629f826a2.ngrok-free.app'],
+        origin: ['http://chosun.rlawnsdud.shop', 'https://chosun.rlawnsdud.shop', 'http://localhost:1234', 'https://localhost:1234', 'http://172.30.6.160:1234', 'https://80c629f826a2.ngrok-free.app', 'http://192.168.0.10:1234'],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         credentials: true,
     });

@@ -41,7 +41,7 @@ export default function CommentForm({ postId, onSubmitted }: { postId: number; o
             />
             <button
                 type='submit'
-                className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-6 py-3 rounded-lg font-semibold shadow'
+                className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-6 py-3 rounded-lg font-semibold shadow cursor-pointer'
             >
                 댓글 달기
             </button>

@@ -8,10 +8,10 @@ export default function Markdown({ content }: { content: string }) {
                 h2: ({ children }) => <h2 className='text-2xl font-bold mb-4 mt-7'>{children}</h2>,
                 h3: ({ children }) => <h3 className='text-xl font-semibold mt-6 mb-4'>{children}</h3>,
                 h4: ({ children }) => <h4 className='text-lg font-semibold mt-5 mb-3'>{children}</h4>,
-                h5: ({ children }) => <h5 className='text-md font-semibold mt-4 mb-2'>{children}</h5>,
-                h6: ({ children }) => <h6 className='text-sm font-semibold mt-3 mb-1'>{children}</h6>,
-                p: ({ children }) => <p className='mb-4'>{children}</p>,
-                ul: ({ children }) => <ul className='list-disc list-inside mb-3'>{children}</ul>,
+                h5: ({ children }) => <h5 className='text-lg font-semibold mt-4 mb-2'>{children}</h5>,
+                h6: ({ children }) => <h6 className='text-lg font-semibold mt-3 mb-1'>{children}</h6>,
+                p: ({ children }) => <p className='text-base md:text-lg mb-4'>{children}</p>,
+                ul: ({ children }) => <ul className='list-disc list-inside mb-3 pl-1'>{children}</ul>,
                 ol: ({ children }) => <ol className='list-decimal list-inside mb-3'>{children}</ol>,
                 li: ({ children }) => <li className='mb-3'>{children}</li>,
                 strong: ({ children }) => <strong className='font-bold'>{children}</strong>,
@@ -20,27 +20,22 @@ export default function Markdown({ content }: { content: string }) {
                 pre: ({ children }) => <pre className='bg-gray-100 p-4 rounded mb-4'>{children}</pre>,
                 hr: () => <hr className='border-gray-200 my-4' />,
                 img: ({ src, alt }) => (
-                    <img
-                        src={src}
-                        alt={alt}
-                        className='max-w-full h-auto mb-5'
-                        loading='lazy'
-                    />
+                    <a href={String(src)} target='_blank' rel='noopener noreferrer' className='block mb-4'>
+                        <img
+                            src={src}
+                            alt={alt}
+                            className='max-w-full h-auto mb-7 mt-7 transition-transform duration-300 hover:scale-101 rounded-lg'
+                            loading='lazy'
+                        />
+                    </a>
                 ),
                 a: ({ href, children }) => (
-                    <a
-                        href={href}
-                        className='text-blue-600 hover:underline'
-                        target='_blank'
-                        rel='noopener noreferrer'
-                    >
+                    <a href={href} className='text-blue-600 hover:underline' target='_blank' rel='noopener noreferrer'>
                         {children}
                     </a>
                 ),
                 blockquote: ({ children }) => (
-                    <blockquote className='border-l-4 border-gray-300 pl-4 italic mb-4'>
-                        {children}
-                    </blockquote>
+                    <blockquote className='border-l-4 border-gray-300 pl-4 italic mb-4'>{children}</blockquote>
                 ),
             }}
         >
