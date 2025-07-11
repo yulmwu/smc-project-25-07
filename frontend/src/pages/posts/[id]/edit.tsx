@@ -12,7 +12,7 @@ export default function EditPost({ post }: { post: Post }) {
         tags: post.tags,
         password: '',
         category: post.category,
-        thumbnailUrl: post.thumbnailUrl || '',
+        thumbnailUrl: post.thumbnailUrl ?? '',
     })
     const [useThumbnail, setUseThumbnail] = useState(!!post.thumbnailUrl)
     const [thumbnailError, setThumbnailError] = useState('')
@@ -21,19 +21,19 @@ export default function EditPost({ post }: { post: Post }) {
     const categories = ['역사 알아가기', '동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
 
     const handleThumbnailUrlChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const url = e.target.value;
-        setForm({ ...form, thumbnailUrl: url });
+        const url = e.target.value
+        setForm({ ...form, thumbnailUrl: url })
         if (url) {
-            const isValid = await validateImageUrl(url);
+            const isValid = await validateImageUrl(url)
             if (!isValid) {
-                setThumbnailError('유효하지 않은 이미지 URL입니다.');
+                setThumbnailError('유효하지 않은 이미지 URL입니다.')
             } else {
-                setThumbnailError('');
+                setThumbnailError('')
             }
         } else {
-            setThumbnailError('');
+            setThumbnailError('')
         }
-    };
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -45,14 +45,16 @@ export default function EditPost({ post }: { post: Post }) {
         }
 
         if (useThumbnail && thumbnailError) {
-            setError('썸네일 URL을 확인해주세요.');
-            return;
+            setError('썸네일 URL을 확인해주세요.')
+            return
         }
 
-        const postData = { ...form };
+        const postData = { ...form }
         if (!useThumbnail) {
-            postData.thumbnailUrl = ''; // 썸네일 사용 안함 토글 시 URL 비움
+            postData.thumbnailUrl = ''
         }
+
+        console.log('Submitting post data:', postData)
 
         try {
             await updatePost(post.id, postData)
@@ -70,7 +72,7 @@ export default function EditPost({ post }: { post: Post }) {
     return (
         <div>
             <title>조선인사이드 - 게시글</title>
-            <div className='max-w-3xl mx-auto p-6'>
+            <div className='mx-auto p-6'>
                 <h1 className='text-3xl font-bold mb-8 text-gray-900'>글 수정</h1>
                 <form onSubmit={handleSubmit} className='space-y-6 bg-white p-8 rounded-2xl shadow-lg'>
                     <input
@@ -103,7 +105,7 @@ export default function EditPost({ post }: { post: Post }) {
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                         placeholder='태그 (쉼표로 구분)'
                         value={(form.tags ?? []).join(', ')}
-                        onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map(tag => tag.trim()) })}
+                        onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
                     />
                     {/* Category selection */}
                     <select
@@ -117,7 +119,6 @@ export default function EditPost({ post }: { post: Post }) {
                             </option>
                         ))}
                     </select>
-
                     <div className='flex items-center space-x-2'>
                         <input
                             type='checkbox'
@@ -126,9 +127,10 @@ export default function EditPost({ post }: { post: Post }) {
                             onChange={(e) => setUseThumbnail(e.target.checked)}
                             className='form-checkbox h-5 w-5 text-indigo-600'
                         />
-                        <label htmlFor='useThumbnail' className='text-gray-700'>썸네일 이미지 사용</label>
+                        <label htmlFor='useThumbnail' className='text-gray-700'>
+                            썸네일 이미지 사용
+                        </label>
                     </div>
-
                     {useThumbnail && (
                         <div>
                             <input
@@ -140,7 +142,6 @@ export default function EditPost({ post }: { post: Post }) {
                             {thumbnailError && <p className='text-red-500 text-sm mt-1'>{thumbnailError}</p>}
                         </div>
                     )}
-
                     <input
                         type='password'
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'

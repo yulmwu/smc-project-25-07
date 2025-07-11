@@ -76,18 +76,21 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                             <span className='ml-3'>조회수: {post.views ?? 0}</span>
                         </p>
                     </div>
-                    <section className='max-w-none mt-5 mb-5'>
-                        <p className='text-gray-800 whitespace-pre-wrap line-clamp-2'>
-                            {(post.description ?? '').replace(/\n/g, ' ')}
-                        </p>
-                    </section>
+                    {post.description && (
+                        <section className='max-w-none mt-5 mb-5'>
+                            <p className='text-gray-800 whitespace-pre-wrap line-clamp-2'>
+                                {post.description.replace(/\n/g, ' ')}
+                            </p>
+                        </section>
+                    )}
                     <hr className='border-gray-200 mb-5 mt-5' />
                     <section className='max-w-none'>
                         <Markdown content={post.content} />
                     </section>
-                    <div className='mt-10'>
-                        {post.tags &&
-                            post.tags.map((tag) => (
+                    {post.tags && post.tags.length > 0 && (
+                        <div className='mt-5'>
+                            <span className='text-gray-500'>태그: </span>
+                            {post.tags.map((tag) => (
                                 <span
                                     key={tag}
                                     className='inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 cursor-pointer hover:bg-gray-300 transition duration-200'
@@ -95,7 +98,8 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                                     #{tag}
                                 </span>
                             ))}
-                    </div>
+                        </div>
+                    )}
                     <div className='mt-3 flex justify-end space-x-3'>
                         <button
                             onClick={() => {

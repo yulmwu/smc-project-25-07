@@ -27,6 +27,21 @@ export default function Markdown({ content }: { content: string }) {
                         loading='lazy'
                     />
                 ),
+                a: ({ href, children }) => (
+                    <a
+                        href={href}
+                        className='text-blue-600 hover:underline'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        {children}
+                    </a>
+                ),
+                blockquote: ({ children }) => (
+                    <blockquote className='border-l-4 border-gray-300 pl-4 italic mb-4'>
+                        {children}
+                    </blockquote>
+                ),
             }}
         >
             {content}

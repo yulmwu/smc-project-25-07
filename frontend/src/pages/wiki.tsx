@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Markdown from '@/components/Markdown'
-import { wikiContent } from '@/wii.data'
+import { wikiContent } from '@/wiki.data'
 
 const WikiPage: React.FC = () => {
     const router = useRouter()

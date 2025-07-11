@@ -137,7 +137,7 @@ export default function Home() {
 
     return (
         <>
-            <title>조선인사이드 - 홈</title> 
+            <title>조선인사이드 - 홈</title>
             <div className='flex justify-between items-center mb-5'>
                 <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold text-center'>
                     {selectedCategory === '전체' ? '조선인사이드: 전체 글' : `${selectedCategory}`}
@@ -199,9 +199,9 @@ export default function Home() {
                                     {post.description && (
                                         <p className='text-gray-600 mt-1 line-clamp-2'>{post.description}</p>
                                     )}
-                                    {post.tags && post.tags.length > 0 && (
+                                    {(post.tags ?? []).length > 0 && (
                                         <div className='mt-5 flex flex-wrap gap-2'>
-                                            {post.tags.map((tag) => (
+                                            {post.tags!.map((tag) => (
                                                 <span
                                                     key={tag}
                                                     className='inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-300 transition duration-200'

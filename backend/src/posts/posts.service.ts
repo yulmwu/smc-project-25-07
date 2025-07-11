@@ -217,12 +217,14 @@ export class PostsService {
             expressionAttributeValues[':thumbnailUrl'] = dto.thumbnailUrl
         }
 
-        if (dto.description) {
+        if (dto.description !== undefined) { // Allow description to be updated to an empty string
             updateExpressionParts.push('description = :description')
             expressionAttributeValues[':description'] = dto.description
         }
 
-        if (dto.tags) {
+        dto.tags = dto.tags?.filter((tag) => tag.trim() !== '')
+
+        if (dto.tags !== undefined) {
             updateExpressionParts.push('tags = :tags')
             expressionAttributeValues[':tags'] = dto.tags
         }
@@ -240,7 +242,6 @@ export class PostsService {
                 ExpressionAttributeValues: expressionAttributeValues,
             })
         )
-        return { id }
     }
 
     async remove(id: number, password: string) {
