@@ -6,13 +6,15 @@ import { useEffect, useState } from 'react'
 import {
     FaBook,
     FaBookOpen,
+    FaCloud,
     FaComments,
+    FaDog,
     FaGithub,
     FaInfoCircle,
     FaList,
     FaQuestionCircle,
 } from 'react-icons/fa'
-import { FaDiagramProject } from 'react-icons/fa6'
+import { FaBoltLightning, FaDiagramProject } from 'react-icons/fa6'
 import { useRouter } from 'next/router'
 
 export const SidebarContent = () => (
@@ -32,21 +34,39 @@ export const SidebarContent = () => (
                 </a>
             </li>
             <li>
+                <a href='/?category=동물' className='hover:underline'>
+                    <FaDog className='inline mr-3' />
+                    동물
+                </a>
+            </li>
+            <li>
+                <a href='/?category=날씨%2F기후' className='hover:underline'>
+                    <FaCloud className='inline mr-3' />
+                    날씨/기후
+                </a>
+            </li>
+            <li>
+                <a href='/?category=자연재해' className='hover:underline'>
+                    <FaBoltLightning className='inline mr-3' />
+                    자연재해
+                </a>
+            </li>
+            <li>
                 <a href='/?category=자유' className='hover:underline'>
                     <FaComments className='inline mr-3' />
-                    자유
+                    커뮤니티: 자유
                 </a>
             </li>
             <li>
                 <a href='/?category=질문' className='hover:underline'>
                     <FaQuestionCircle className='inline mr-3' />
-                    질문
+                    커뮤니티: 질문
                 </a>
             </li>
             <li>
                 <a href='/?category=정보' className='hover:underline'>
                     <FaInfoCircle className='inline mr-3' />
-                    정보
+                    커뮤니티: 정보
                 </a>
             </li>
         </ul>

@@ -39,6 +39,10 @@ export class PostsService {
         const hashedPassword = await bcrypt.hash(createPostDto.password, 10)
         const id = await this.nextId()
 
+        if (createPostDto.category === '전체') {
+            return new Invalid('전체는 카테고리로 사용할 수 없습니다.')
+        }
+
         const post = {
             pk: 'posts',
             id,
