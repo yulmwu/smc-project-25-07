@@ -137,7 +137,7 @@ export default function Home() {
 
     return (
         <>
-            {/* <title>조선인사이드</title>  */}
+            <title>조선인사이드 - 홈</title> 
             <div className='flex justify-between items-center mb-5'>
                 <h1 className='text-2xl sm:text-3xl md:text-4xl font-bold text-center'>
                     {selectedCategory === '전체' ? '조선인사이드: 전체 글' : `${selectedCategory}`}

@@ -69,9 +69,9 @@ export default function NewPost() {
     }
 
     return (
-        <div>
+        <>
             <title>조선인사이드 - 게시글 작성</title>
-            <div className='max-w-3xl mx-auto p-6'>
+            <div className='mx-auto p-1'>
                 <h1 className='text-3xl font-bold mb-8 text-gray-900'>새 글 작성</h1>
                 <form onSubmit={handleSubmit} className='space-y-6 bg-white p-8 rounded-2xl shadow-lg'>
                     <input
@@ -161,6 +161,6 @@ export default function NewPost() {
                     </button>
                 </form>
             </div>
-        </div>
+        </>
     )
 }

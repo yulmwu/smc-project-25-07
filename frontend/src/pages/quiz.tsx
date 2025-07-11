@@ -77,6 +77,7 @@ const QuizPage = () => {
 
         return (
             <>
+                <title>조선인사이드 - 퀴즈</title>
                 <div className='container mx-auto p-4 max-w-2xl bg-white rounded-lg shadow-lg'>
                     <h1 className='text-3xl font-bold mb-4 text-center text-gray-800'>퀴즈 결과</h1>
                     <h2 className='text-2xl font-bold mb-4 text-center text-gray-700'>
