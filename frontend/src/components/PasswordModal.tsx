@@ -40,13 +40,13 @@ const PasswordModal = ({ isOpen, onClose, onConfirm, title, description, errorMe
                 <div className="flex justify-end space-x-4">
                     <button
                         onClick={handleClose}
-                        className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+                        className="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
                     >
                         취소
                     </button>
                     <button
                         onClick={handleConfirm}
-                        className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+                        className="px-5 py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition cursor-pointer"
                     >
                         확인
                     </button>

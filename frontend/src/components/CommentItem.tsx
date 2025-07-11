@@ -3,6 +3,7 @@ import { Comment, updateComment, deleteComment } from '@/lib/api'
 import { useRouter } from 'next/router'
 import PasswordModal from '@/components/PasswordModal'
 import dayjs from 'dayjs'
+import Markdown from './Markdown'
 
 export default function CommentItem({ comment }: { comment: Comment }) {
     const router = useRouter()
@@ -14,10 +15,6 @@ export default function CommentItem({ comment }: { comment: Comment }) {
     const handlePasswordConfirm = async (password: string) => {
         try {
             if (modalAction === 'delete') {
-                if (!confirm('정말 삭제하시겠습니까?')) {
-                    setShowPasswordModal(false)
-                    return
-                }
                 await deleteComment(comment.id, password)
                 router.reload()
             }
@@ -32,6 +29,8 @@ export default function CommentItem({ comment }: { comment: Comment }) {
         }
     }
 
+    console.log(comment)
+
     return (
         <li className='bg-white p-8 rounded-lg shadow mb-4'>
             <div className='flex justify-between text-sm text-gray-400'>
@@ -41,7 +40,9 @@ export default function CommentItem({ comment }: { comment: Comment }) {
                 <p className='text-gray-400'>{dayjs(comment.createdAt).format('YYYY-MM-DD HH:mm')}</p>
             </div>
             <hr className='border-gray-200 mb-3 mt-3' />
-            <p className='text-gray-800 whitespace-pre-wrap mb-5'>{comment.content}</p>
+            <div className='mb-5'>
+                <Markdown content={comment.content} />
+            </div>
             <div className='flex items-center space-x-3'>
                 <button
                     onClick={() => {

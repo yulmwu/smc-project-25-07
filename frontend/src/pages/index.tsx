@@ -185,13 +185,13 @@ export default function Home() {
                                     </div>
                                 )}
                                 <div className='flex-1'>
-                                    <p className='text-blue-500 text-sm mb-1'>
+                                    <p className='text-blue-500 text-sm mb-1.5'>
                                         {post.category ? `${post.category}` : '분류 없음'}
                                     </p>
-                                    <h3 className='text-lg font-semibold'>
+                                    <h3 className='text-lg font-semibold mb-1.5'>
                                         {post.title}
                                         {post.commentCount && post.commentCount > 0 ? (
-                                            <span className='text-gray-500 ml-2'>[{post.commentCount}]</span>
+                                            <span className='text-gray-400 ml-2'>[{post.commentCount}]</span>
                                         ) : (
                                             ''
                                         )}
@@ -200,7 +200,7 @@ export default function Home() {
                                         <p className='text-gray-600 mt-1 line-clamp-2'>{post.description}</p>
                                     )}
                                     {(post.tags ?? []).length > 0 && (
-                                        <div className='mt-5 flex flex-wrap gap-2'>
+                                        <div className='mt-6 flex flex-wrap gap-2'>
                                             {post.tags!.map((tag) => (
                                                 <span
                                                     key={tag}

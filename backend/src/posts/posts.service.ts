@@ -43,6 +43,8 @@ export class PostsService {
             return new Invalid('전체는 카테고리로 사용할 수 없습니다.')
         }
 
+        createPostDto.tags = createPostDto.tags?.filter((tag) => tag.trim() !== '')
+
         const post = {
             pk: 'posts',
             id,
@@ -217,7 +219,8 @@ export class PostsService {
             expressionAttributeValues[':thumbnailUrl'] = dto.thumbnailUrl
         }
 
-        if (dto.description !== undefined) { // Allow description to be updated to an empty string
+        if (dto.description !== undefined) {
+            // Allow description to be updated to an empty string
             updateExpressionParts.push('description = :description')
             expressionAttributeValues[':description'] = dto.description
         }

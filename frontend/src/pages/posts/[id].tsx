@@ -25,10 +25,6 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
     const handlePasswordConfirm = async (password: string) => {
         try {
             if (modalAction === 'delete') {
-                if (!confirm('정말 삭제하시겠습니까?')) {
-                    setShowPasswordModal(false)
-                    return
-                }
                 await deletePost(post.id, password)
                 router.push('/?refresh=true')
             }
@@ -61,8 +57,8 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                             </a>
                         </div>
                     )}
+                    <p className='text-blue-500 text-xl mb-2'>{post.category ? `${post.category}` : '분류 없음'}</p>
                     <h1 className='text-3xl font-bold text-gray-900 mb-5'>
-                        <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
                         <span>{post.title}</span>
                     </h1>
                     <div className='text-gray-600 text-sm flex justify-between items-center'>
@@ -88,8 +84,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                         <Markdown content={post.content} />
                     </section>
                     {post.tags && post.tags.length > 0 && (
-                        <div className='mt-5'>
-                            <span className='text-gray-500'>태그: </span>
+                        <div className='mt-10'>
                             {post.tags.map((tag) => (
                                 <span
                                     key={tag}

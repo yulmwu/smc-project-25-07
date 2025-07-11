@@ -77,11 +77,10 @@ export default function NewPost() {
                 <form onSubmit={handleSubmit} className='space-y-6 bg-white p-8 rounded-2xl shadow-lg'>
                     <input
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                        placeholder='작성자'
-                        value={form.author}
-                        onChange={(e) => setForm({ ...form, author: e.target.value })}
+                        placeholder='제목'
+                        value={form.title}
+                        onChange={(e) => setForm({ ...form, title: e.target.value })}
                     />
-                    {/* Category selection dropdown */}
                     <select
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                         value={form.category}
@@ -89,17 +88,15 @@ export default function NewPost() {
                     >
                         {categories.map((category) => (
                             <option key={category} value={category}>
-                                {category === '역사 알아가기'
-                                    ? '역사 알아가기 - 추후 작성할 수 없는 카테고리입니다.'
-                                    : category}
+                                {category}
                             </option>
                         ))}
                     </select>
                     <input
-                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                        placeholder='제목'
-                        value={form.title}
-                        onChange={(e) => setForm({ ...form, title: e.target.value })}
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
+                        placeholder='설명'
+                        value={form.description}
+                        onChange={(e) => setForm({ ...form, description: e.target.value })}
                     />
                     <textarea
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
@@ -108,13 +105,6 @@ export default function NewPost() {
                         onChange={(e) => setForm({ ...form, content: e.target.value })}
                         rows={8}
                     />
-                    <textarea
-                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
-                        placeholder='설명'
-                        value={form.description}
-                        onChange={(e) => setForm({ ...form, description: e.target.value })}
-                        rows={3}
-                    />
                     <input
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                         placeholder='태그 (쉼표로 구분)'
@@ -122,7 +112,7 @@ export default function NewPost() {
                         onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
                     />
                     <input
-                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                        className='bg-red-200 w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                         placeholder='ISO 8601 형식 날짜 (개발용)'
                         onChange={(e) => setForm({ ...form, forDevelopmentCreateAtDate: e.target.value })}
                         value={form.forDevelopmentCreateAtDate}
@@ -152,6 +142,15 @@ export default function NewPost() {
                             {thumbnailError && <p className='text-red-500 text-sm mt-1'>{thumbnailError}</p>}
                         </div>
                     )}
+
+                    <hr className='border-gray-200 mb-5 mt-5' />
+
+                    <input
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                        placeholder='작성자'
+                        value={form.author}
+                        onChange={(e) => setForm({ ...form, author: e.target.value })}
+                    />
 
                     <input
                         type='password'

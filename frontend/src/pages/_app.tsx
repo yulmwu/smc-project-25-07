@@ -157,8 +157,6 @@ export default function App({ Component, pageProps }: AppProps) {
         fetchLatestPosts()
     }, [])
 
-    const router = useRouter()
-
     return (
         <div className='bg-gray-100 text-gray-900 min-h-screen'>
             {/* 모바일 왼쪽 사이드바 오버레이 */}
@@ -186,6 +184,9 @@ export default function App({ Component, pageProps }: AppProps) {
                     <button className='lg:hidden p-2 rounded hover:bg-gray-200' onClick={() => toggleSidebar(true)}>
                         <FaList className='text-gray-600' />
                     </button>
+                    <a href='/'>
+                        <img src='/chosun32.png' alt='조선인사이드 로고' className='h-8 w-auto rounded-sm' />
+                    </a>
                     <div className='text-xl font-bold ml-3 flex items-center gap-5'>
                         <a href='/' className='text-gray-600 hover:text-gray-900 flex items-center gap-1'>
                             조선인사이드
