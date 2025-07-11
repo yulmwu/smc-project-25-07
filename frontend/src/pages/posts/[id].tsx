@@ -61,7 +61,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                         <span className='text-blue-500'>{post.category ? `[${post.category}] ` : '[분류 없음] '}</span>
                         <span>{post.title}</span>
                     </h1>
-                    <div className='text-gray-600 mb-6 text-sm flex justify-between items-center'>
+                    <div className='text-gray-600 text-sm flex justify-between items-center'>
                         <div>
                             <span>
                                 작성자: <strong>{post.author}</strong>
@@ -72,11 +72,25 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                             <span className='ml-3'>조회수: {post.views ?? 0}</span>
                         </p>
                     </div>
-                    <hr className='border-gray-200 mb-5 mt-5' />
-                    <section className='prose prose-indigo max-w-none text-gray-800 whitespace-pre-wrap'>
-                        {post.content}
+                    <section className='prose prose-indigo max-w-none mt-5 mb-5'>
+                        <p className='text-gray-800 whitespace-pre-wrap line-clamp-2'>{(post.description ?? '').replace(/\n/g, ' ')}</p>
                     </section>
-                    <div className='mt-8 flex justify-end space-x-3'>
+                    <hr className='border-gray-200 mb-5 mt-5' />
+                    <section className='prose prose-indigo max-w-none'>
+                        <p className='text-gray-800 whitespace-pre-wrap'>{post.content}</p>
+                    </section>
+                    <div className='mt-10'>
+                        {post.tags &&
+                            post.tags.map((tag) => (
+                                <span
+                                    key={tag}
+                                    className='inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2 cursor-pointer hover:bg-gray-300 transition duration-200'
+                                >
+                                    #{tag}
+                                </span>
+                            ))}
+                    </div>
+                    <div className='mt-3 flex justify-end space-x-3'>
                         <button
                             onClick={() => {
                                 setModalAction('delete')

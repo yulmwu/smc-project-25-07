@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { createPost, validateImageUrl } from '@/lib/api'
+import { createPost, Post, validateImageUrl } from '@/lib/api'
 
 export default function NewPost() {
     const router = useRouter()
-    const [form, setForm] = useState({
+    const [form, setForm] = useState<Omit<Post, 'id'>>({
         author: '',
         password: '',
         title: '',
         content: '',
+        description: '',
         category: '자유',
+        tags: [],
         thumbnailUrl: '',
     })
     const [useThumbnail, setUseThumbnail] = useState(false)
@@ -104,6 +106,19 @@ export default function NewPost() {
                         value={form.content}
                         onChange={(e) => setForm({ ...form, content: e.target.value })}
                         rows={8}
+                    />
+                    <textarea
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
+                        placeholder='설명'
+                        value={form.description}
+                        onChange={(e) => setForm({ ...form, description: e.target.value })}
+                        rows={3}
+                    />
+                    <input
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                        placeholder='태그 (쉼표로 구분)'
+                        value={(form.tags ?? []).join(', ')}
+                        onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
                     />
 
                     <div className='flex items-center space-x-2'>

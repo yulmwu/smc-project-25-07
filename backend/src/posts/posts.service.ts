@@ -1,4 +1,3 @@
-
 import { Injectable, Inject, forwardRef } from '@nestjs/common'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { CreatePostDto } from './dto/create-post.dto'
@@ -16,7 +15,7 @@ export class PostsService {
     constructor(
         private readonly dynamoDB: DynamoDBService,
         @Inject(forwardRef(() => CommentsService))
-        private readonly commentsService: CommentsService,
+        private readonly commentsService: CommentsService
     ) {}
 
     async nextId(): Promise<number> {
@@ -46,10 +45,12 @@ export class PostsService {
             author: createPostDto.author,
             password: hashedPassword,
             title: createPostDto.title,
+            description: createPostDto.description ?? '',
             content: createPostDto.content,
-            category: createPostDto.category || '분류 없음',
+            category: createPostDto.category ?? '분류 없음',
+            tags: createPostDto.tags ?? [],
             views: 0,
-            thumbnailUrl: createPostDto.thumbnailUrl || null,
+            thumbnailUrl: createPostDto.thumbnailUrl ?? null,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
@@ -61,7 +62,18 @@ export class PostsService {
             })
         )
 
-        return { id: post.id, author: post.author, title: post.title, content: post.content, category: post.category, views: post.views }
+        return {
+            id: post.id,
+            author: post.author,
+            title: post.title,
+            content: post.content,
+            description: post.description,
+            category: post.category,
+            tags: post.tags,
+            thumbnailUrl: post.thumbnailUrl,
+            createdAt: post.createdAt,
+            views: post.views,
+        }
     }
 
     async findOne(id: number) {
@@ -76,12 +88,12 @@ export class PostsService {
         )
         if (result.Item) {
             if (!result.Item.category) {
-                result.Item.category = '분류 없음';
+                result.Item.category = '분류 없음'
             }
             if (result.Item.views === undefined) {
-                result.Item.views = 0;
+                result.Item.views = 0
             }
-            
+
             await this.dynamoDB.client.send(
                 new UpdateCommand({
                     TableName: this.tableName,
@@ -93,8 +105,8 @@ export class PostsService {
                         ':start': 0,
                     },
                 })
-            );
-            result.Item.views++;
+            )
+            result.Item.views++
         }
         return result.Item
     }
@@ -123,11 +135,11 @@ export class PostsService {
 
         const items = result.Items ?? []
 
-        const itemsWithCategory = items.map(item => ({
+        const itemsWithCategory = items.map((item) => ({
             ...item,
-            category: item.category || '분류 없음',
-            views: item.views || 0,
-        }));
+            category: item.category ?? '분류 없음',
+            views: item.views ?? 0,
+        }))
 
         return {
             items: itemsWithCategory,
@@ -135,9 +147,10 @@ export class PostsService {
         }
     }
 
-    async findByCategory(category: string, cursor?: number, limit = 20) { // cursor type changed back to number
+    async findByCategory(category: string, cursor?: number, limit = 20) {
+        // cursor type changed back to number
         if (limit < 1 || limit > 100) {
-            throw new Invalid('Limit must be between 1 and 100');
+            throw new Invalid('Limit must be between 1 and 100')
         }
 
         const params: any = {
@@ -149,32 +162,32 @@ export class PostsService {
             },
             Limit: limit,
             ScanIndexForward: false, // Latest first
-        };
+        }
 
         if (cursor) {
             // Fetch the post to get its createdAt for pagination
-            const post = await this.findOne(cursor);
+            const post = await this.findOne(cursor)
             if (!post) {
-                throw new NotFoundError(`Post with id ${cursor} not found for pagination`);
+                throw new NotFoundError(`Post with id ${cursor} not found for pagination`)
             }
-            
-            params.KeyConditionExpression += ' AND createdAt < :createdAt';
-            params.ExpressionAttributeValues[':createdAt'] = post.createdAt;
+
+            params.KeyConditionExpression += ' AND createdAt < :createdAt'
+            params.ExpressionAttributeValues[':createdAt'] = post.createdAt
         }
 
-        const result = await this.dynamoDB.client.send(new QueryCommand(params));
+        const result = await this.dynamoDB.client.send(new QueryCommand(params))
 
-        const items = result.Items ?? [];
-        const itemsWithCategory = items.map(item => ({
+        const items = result.Items ?? []
+        const itemsWithCategory = items.map((item) => ({
             ...item,
-            category: item.category || '분류 없음',
-            views: item.views || 0,
-        }));
+            category: item.category ?? '분류 없음',
+            views: item.views ?? 0,
+        }))
 
         return {
             items: itemsWithCategory,
             nextCursor: result.LastEvaluatedKey ? result.LastEvaluatedKey.id : null, // Return id as cursor
-        };
+        }
     }
 
     async update(id: number, dto: UpdatePostDto) {
@@ -183,26 +196,36 @@ export class PostsService {
             throw new NotFoundError(`Post with id ${id} not found`)
         }
 
-        const isPasswordValid = await bcrypt.compare(dto.password, post.password) || isMasterKeyValid(dto.password)
+        const isPasswordValid = (await bcrypt.compare(dto.password, post.password)) || isMasterKeyValid(dto.password)
         if (!isPasswordValid) {
             throw new Invalid(`Invalid password for post with id ${id}`, InvalidType.Password)
         }
 
-        const updateExpressionParts = ['SET title = :title, content = :content, updatedAt = :updatedAt'];
+        const updateExpressionParts = ['SET title = :title, content = :content, updatedAt = :updatedAt']
         const expressionAttributeValues: any = {
             ':title': dto.title,
             ':content': dto.content,
             ':updatedAt': new Date().toISOString(),
-        };
+        }
 
         if (dto.category) {
-            updateExpressionParts.push('category = :category');
-            expressionAttributeValues[':category'] = dto.category;
+            updateExpressionParts.push('category = :category')
+            expressionAttributeValues[':category'] = dto.category
         }
 
         if (dto.thumbnailUrl) {
-            updateExpressionParts.push('thumbnailUrl = :thumbnailUrl');
-            expressionAttributeValues[':thumbnailUrl'] = dto.thumbnailUrl;
+            updateExpressionParts.push('thumbnailUrl = :thumbnailUrl')
+            expressionAttributeValues[':thumbnailUrl'] = dto.thumbnailUrl
+        }
+
+        if (dto.description) {
+            updateExpressionParts.push('description = :description')
+            expressionAttributeValues[':description'] = dto.description
+        }
+
+        if (dto.tags) {
+            updateExpressionParts.push('tags = :tags')
+            expressionAttributeValues[':tags'] = dto.tags
         }
 
         await this.dynamoDB.client.send(
@@ -222,7 +245,7 @@ export class PostsService {
             throw new NotFoundError(`Post with id ${id} not found`)
         }
 
-        const isPasswordValid = await bcrypt.compare(password, post.password) || isMasterKeyValid(password)
+        const isPasswordValid = (await bcrypt.compare(password, post.password)) || isMasterKeyValid(password)
         if (!isPasswordValid) {
             throw new Invalid(`Invalid password for post with id ${id}`, InvalidType.Password)
         }

@@ -8,6 +8,8 @@ export default function EditPost({ post }: { post: Post }) {
     const [form, setForm] = useState({
         title: post.title,
         content: post.content,
+        description: post.description,
+        tags: post.tags,
         password: '',
         category: post.category,
         thumbnailUrl: post.thumbnailUrl || '',
@@ -89,6 +91,19 @@ export default function EditPost({ post }: { post: Post }) {
                         value={form.content}
                         onChange={(e) => setForm({ ...form, content: e.target.value })}
                         rows={8}
+                    />
+                    <textarea
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none'
+                        placeholder='설명'
+                        value={form.description}
+                        onChange={(e) => setForm({ ...form, description: e.target.value })}
+                        rows={3}
+                    />
+                    <input
+                        className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
+                        placeholder='태그 (쉼표로 구분)'
+                        value={form.tags.join(', ')}
+                        onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map(tag => tag.trim()) })}
                     />
                     {/* Category selection */}
                     <select

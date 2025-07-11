@@ -2,6 +2,8 @@ export class UpdatePostDto {
     password: string
     title?: string
     content?: string
-    category?: string;
-    thumbnailUrl?: string;
+    description?: string
+    category?: string
+    tags?: string[]
+    thumbnailUrl?: string
 }

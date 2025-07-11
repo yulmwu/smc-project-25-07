@@ -1,0 +1,6 @@
+const posts = [
+    {
+        title: '',
+        description: '',
+    },
+]

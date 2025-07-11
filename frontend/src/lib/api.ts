@@ -1,11 +1,40 @@
 import axios from 'axios'
 
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  options: string[];
+}
+
+export interface SubmitQuizDto {
+  username: string;
+  answers: {
+    id: number;
+    answer: string;
+  }[];
+}
+
+export interface QuizResult {
+  score: number;
+  total: number;
+  correctAnswers: { id: number; answer: string }[];
+  wrongAnswers: { id: number; answer: string }[];
+}
+
+export interface RankingEntry {
+  username: string;
+  score: number;
+}
+
+
 export type Post = {
     id: number
     author: string
     title: string
     content: string
+    description?: string
     category: string
+    tags?: string[]
     createdAt?: string
     updatedAt?: string
     password?: string
@@ -97,3 +126,5 @@ export async function deleteComment(id: string, password: string) {
     const res = await api.delete<Comment>(`/comments/${id}`, { data: { password } })
     return res.data
 }
+
+export default api;

@@ -3,7 +3,9 @@ export class CreatePostDto {
     password: string
     title: string
     content: string
-    category: string;
-    views: number;
-    thumbnailUrl?: string;
+    description?: string
+    category: string
+    tags?: string[]
+    views: number
+    thumbnailUrl?: string
 }

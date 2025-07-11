@@ -10,7 +10,7 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [isNavigating, setIsNavigating] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState<string>('전체')
+    const [selectedCategory, setSelectedCategory] = useState<string>('역사 알아가기')
 
     const categories = ['전체', '역사 알아가기', '자유', '질문', '정보']
 
@@ -196,6 +196,21 @@ export default function Home() {
                                             ''
                                         )}
                                     </h3>
+                                    {post.description && (
+                                        <p className='text-gray-600 mt-1 line-clamp-2'>{post.description}</p>
+                                    )}
+                                    {post.tags && post.tags.length > 0 && (
+                                        <div className='mt-5 flex flex-wrap gap-2'>
+                                            {post.tags.map((tag) => (
+                                                <span
+                                                    key={tag}
+                                                    className='inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-300 transition duration-200'
+                                                >
+                                                    #{tag}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 
