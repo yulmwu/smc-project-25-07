@@ -7,6 +7,7 @@ import CommentItem from '@/components/CommentItem'
 import PasswordModal from '@/components/PasswordModal'
 import dayjs from 'dayjs'
 import Head from 'next/head'
+import Markdown from '@/components/Markdown'
 
 export default function PostDetail({ post, comments }: { post: Post; comments: Comment[] }) {
     const router = useRouter()
@@ -45,7 +46,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
     return (
         <>
             <Head>
-                <title>조선인사이드 - {post.title}</title>
+                <title>{`조선인사이드 - ${post.title}`}</title>
             </Head>
             <div className='mx-auto p-1'>
                 <article className='bg-white rounded-2xl shadow-lg p-8 mb-10'>
@@ -75,14 +76,14 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                             <span className='ml-3'>조회수: {post.views ?? 0}</span>
                         </p>
                     </div>
-                    <section className='prose prose-indigo max-w-none mt-5 mb-5'>
+                    <section className='max-w-none mt-5 mb-5'>
                         <p className='text-gray-800 whitespace-pre-wrap line-clamp-2'>
                             {(post.description ?? '').replace(/\n/g, ' ')}
                         </p>
                     </section>
                     <hr className='border-gray-200 mb-5 mt-5' />
-                    <section className='prose prose-indigo max-w-none'>
-                        <p className='text-gray-800 whitespace-pre-wrap'>{post.content}</p>
+                    <section className='max-w-none'>
+                        <Markdown content={post.content} />
                     </section>
                     <div className='mt-10'>
                         {post.tags &&
