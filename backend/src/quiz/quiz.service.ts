@@ -60,7 +60,7 @@ export class QuizService {
         let score = 0
         for (let i = 0; i < quizDataRaw.answers.length; i++) {
             if (answers[i] && answers[i].toLowerCase() === quizDataRaw.answers[i].toLowerCase()) {
-                score++
+                score += quizDataRaw.questions[i].score ?? 1
             }
         }
 

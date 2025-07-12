@@ -6,6 +6,7 @@ export interface QuizQuestion {
     id: number
     question: string
     options: string[]
+    score: number
 }
 
 export interface StartQuizResponseEncrypted {
@@ -15,7 +16,8 @@ export interface StartQuizResponseEncrypted {
 
 export interface StartQuizResponse {
     message: string
-    quiz: QuizQuestion[]
+    questions: QuizQuestion[]
+    answers: string[]
 }
 
 export interface SubmitQuizResponse {
@@ -144,12 +146,12 @@ export const startQuiz = async (username: string): Promise<StartQuizResponse> =>
     const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(KEY), Buffer.from(KEY.slice(0, 16)))
     const decryptedData = decipher.update(res.data.quiz, 'hex', 'utf8') + decipher.final('utf8')
 
-    const result: StartQuizResponse = {
-        message: res.data.message,
-        quiz: JSON.parse(decryptedData) as QuizQuestion[],
-    }
-
-    return result
+    return decryptedData
+        ? {
+              message: res.data.message,
+              ...JSON.parse(decryptedData),
+          }
+        : { message: 'No quiz data available', questions: [], answers: [] }
 }
 
 export const submitQuiz = async (username: string, answers: string[]): Promise<SubmitQuizResponse> => {
