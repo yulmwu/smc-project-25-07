@@ -1,10 +1,16 @@
 import axios from 'axios'
+import * as crypto from 'crypto'
 
 // Quiz Types
 export interface QuizQuestion {
     id: number
     question: string
     options: string[]
+}
+
+export interface StartQuizResponseEncrypted {
+    message: string
+    quiz: string
 }
 
 export interface StartQuizResponse {
@@ -132,8 +138,18 @@ export async function deleteComment(id: string, password: string) {
 
 // Quiz API Functions
 export const startQuiz = async (username: string): Promise<StartQuizResponse> => {
-    const res = await api.post<StartQuizResponse>('/quiz', { username })
-    return res.data
+    const res = await api.post<StartQuizResponseEncrypted>('/quiz', { username })
+
+    const KEY = 'DONT_CHEAT_BRO_______UMJUNSIK___'
+    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(KEY), Buffer.from(KEY.slice(0, 16)))
+    const decryptedData = decipher.update(res.data.quiz, 'hex', 'utf8') + decipher.final('utf8')
+
+    const result: StartQuizResponse = {
+        message: res.data.message,
+        quiz: JSON.parse(decryptedData) as QuizQuestion[],
+    }
+
+    return result
 }
 
 export const submitQuiz = async (username: string, answers: string[]): Promise<SubmitQuizResponse> => {

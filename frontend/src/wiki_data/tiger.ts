@@ -2,7 +2,7 @@ export const ko = `# 조선시대 동물: 호랑이
 
 ![image](https://i.namu.wiki/i/JLth13-t_iXWBGrN9vb11GvN0kwRjASFk5WEV8IKhRuinBfZFTlahzNeyTk2aVUxnZPoWp_A7wYgmtQfywd7br-mkzgEaXtBnij7h7SPrji-Yoi_0LiSg2EfZB-RAWVH_6C6p2orh4QwmBOMTurm-g.webp)
 
-조선시대와 비교했을 때 사라진 동물하면 **호랑이**를 뺴놓을 수 없죠. 조선왕조실록만 봐도 무려 700건 이상의 호랑이와 관련된 기록이 있습니다.
+조선시대와 비교했을 때 사라진 동물하면 **호랑이**를 빼놓을 수 없죠. 조선왕조실록만 봐도 무려 700건 이상의 호랑이와 관련된 기록이 있습니다.
 
 이렇 듯 조선시대에선 호랑이는 아주 흔한 동물이였습니다. 지금으로 따지면 아주 큰 길냥이나 다름 없었죠.
 
