@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, ConflictException } from '@nestjs/common'
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
-import { quizData } from './quiz.data'
+import { quizData, quizDataRaw } from './quiz.data'
 import { GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
 
 @Injectable()
@@ -37,7 +37,7 @@ export class QuizService {
 
         return {
             message: 'User created. Please solve the quiz.',
-            quiz: quizData.questions,
+            quiz: quizData,
         }
     }
 
@@ -58,8 +58,8 @@ export class QuizService {
         }
 
         let score = 0
-        for (let i = 0; i < quizData.answers.length; i++) {
-            if (answers[i] && answers[i].toLowerCase() === quizData.answers[i].toLowerCase()) {
+        for (let i = 0; i < quizDataRaw.answers.length; i++) {
+            if (answers[i] && answers[i].toLowerCase() === quizDataRaw.answers[i].toLowerCase()) {
                 score++
             }
         }
