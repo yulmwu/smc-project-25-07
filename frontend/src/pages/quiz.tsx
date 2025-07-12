@@ -190,12 +190,11 @@ const QuizPage = () => {
             <div className='container mx-auto p-4 text-center bg-white rounded-lg shadow-lg'>
                 <h1 className='text-3xl font-bold mb-6 mt-3 text-gray-800'>퀴즈 시작하기</h1>
                 <p className='text-lg text-gray-600 mb-4'>
-                    {/* 역사 알아가기 동물 날씨/기후 자연재해 */}
                     조선인사이드의{' '}
-                    <a href='/?category=역사+알아가기' className='text-indigo-600 hover:underline'>
-                        역사 알아가기
+                    <a href='/wiki' className='text-indigo-600 hover:underline'>
+                        위키
                     </a>
-                    ,{' '}
+                    와{' '}
                     <a href='/?category=동물' className='text-indigo-600 hover:underline'>
                         동물
                     </a>

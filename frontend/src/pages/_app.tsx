@@ -27,12 +27,6 @@ export const SidebarContent = () => (
                 </a>
             </li>
             <li>
-                <a href='/?category=역사+알아가기' className='hover:underline'>
-                    <FaBook className='inline mr-3' />
-                    역사 알아가기
-                </a>
-            </li>
-            <li>
                 <a href='/?category=동물' className='hover:underline'>
                     <FaDog className='inline mr-3' />
                     동물

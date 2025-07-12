@@ -10,9 +10,9 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [isNavigating, setIsNavigating] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState<string>('역사 알아가기')
+    const [selectedCategory, setSelectedCategory] = useState<string>('전체')
 
-    const categories = ['전체', '역사 알아가기', '동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
+    const categories = ['전체', '동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
 
     const fetchPosts = useCallback(async (category: string, cursor?: number | null) => {
         setIsLoading(true)

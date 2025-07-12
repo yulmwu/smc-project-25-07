@@ -20,7 +20,7 @@ export default function EditPost({ post }: { post: Post }) {
     const [thumbnailError, setThumbnailError] = useState('')
     const [error, setError] = useState('')
 
-    const categories = ['역사 알아가기', '동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
+    const categories = ['동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
 
     const handleThumbnailUrlChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const url = e.target.value
@@ -165,7 +165,7 @@ export default function EditPost({ post }: { post: Post }) {
                         {error && <p className='text-red-500 text-center'>{error}</p>} {/* Display error */}
                         <button
                             type='submit'
-                            className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow'
+                            className='bg-indigo-600 hover:bg-indigo-700 transition text-white px-8 py-4 rounded-2xl font-semibold shadow cursor-pointer'
                         >
                             수정하기
                         </button>

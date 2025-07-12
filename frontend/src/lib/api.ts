@@ -90,8 +90,8 @@ export const getPosts = async (
     return res.data
 }
 
-export async function getPost(id: number): Promise<Post> {
-    const res = await api.get<Post>(`/posts/${id}`)
+export async function getPost(id: number, incViews: boolean = false): Promise<Post> {
+    const res = await api.get<Post>(`/posts/${id}${incViews ? '?incViews=true' : ''}`)
     return res.data
 }
 

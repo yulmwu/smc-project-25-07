@@ -57,7 +57,14 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                             </a>
                         </div>
                     )}
-                    <p className='text-blue-500 text-xl mb-2'>{post.category ? `${post.category}` : '분류 없음'}</p>
+                    <p className='text-blue-500 text-xl mb-2'>
+                        <a
+                            href={`/?category=${encodeURIComponent(post.category ?? '전체')}`}
+                            className='hover:underline'
+                        >
+                            {post.category ? `${post.category}` : '분류 없음'}
+                        </a>
+                    </p>
                     <h1 className='text-3xl font-bold text-gray-900 mb-5'>
                         <span>{post.title}</span>
                     </h1>
@@ -102,13 +109,13 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
                                 setShowPasswordModal(true)
                                 setModalError('')
                             }}
-                            className='bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow'
+                            className='bg-red-600 hover:bg-red-700 transition text-white px-5 py-2 rounded-lg font-semibold shadow cursor-pointer'
                         >
                             삭제
                         </button>
                         <button
                             onClick={() => router.push(`/posts/${post.id}/edit`)}
-                            className='border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition px-5 py-2 rounded-lg font-semibold'
+                            className='border border-indigo-600 text-indigo-600 hover:bg-indigo-50 transition px-5 py-2 rounded-lg font-semibold cursor-pointer'
                         >
                             수정
                         </button>
@@ -144,7 +151,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const id = Number(context.params?.id)
-    const post = await getPost(id)
+    const post = await getPost(id, true)
     const comments = await getComments(id)
     return { props: { post, comments } }
 }

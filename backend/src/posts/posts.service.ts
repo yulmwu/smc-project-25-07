@@ -83,7 +83,7 @@ export class PostsService {
         }
     }
 
-    async findOne(id: number) {
+    async findOne(id: number, incViews = false) {
         const result = await this.dynamoDB.client.send(
             new GetCommand({
                 TableName: this.tableName,
@@ -101,19 +101,21 @@ export class PostsService {
                 result.Item.views = 0
             }
 
-            await this.dynamoDB.client.send(
-                new UpdateCommand({
-                    TableName: this.tableName,
-                    Key: { pk: 'posts', id },
-                    UpdateExpression: 'SET #v = if_not_exists(#v, :start) + :inc',
-                    ExpressionAttributeNames: { '#v': 'views' },
-                    ExpressionAttributeValues: {
-                        ':inc': 1,
-                        ':start': 0,
-                    },
-                })
-            )
-            result.Item.views++
+            if (incViews) {
+                await this.dynamoDB.client.send(
+                    new UpdateCommand({
+                        TableName: this.tableName,
+                        Key: { pk: 'posts', id },
+                        UpdateExpression: 'SET #v = if_not_exists(#v, :start) + :inc',
+                        ExpressionAttributeNames: { '#v': 'views' },
+                        ExpressionAttributeValues: {
+                            ':inc': 1,
+                            ':start': 0,
+                        },
+                    })
+                )
+                result.Item.views++
+            }
         }
         return result.Item
     }

@@ -29,8 +29,6 @@ export default function CommentItem({ comment }: { comment: Comment }) {
         }
     }
 
-    console.log(comment)
-
     return (
         <li className='bg-white p-8 rounded-lg shadow mb-4'>
             <div className='flex justify-between text-sm text-gray-400'>

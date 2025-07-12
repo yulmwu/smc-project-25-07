@@ -31,8 +31,8 @@ export class PostsController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.postsService.findOne(parseInt(id, 10))
+    findOne(@Param('id') id: string, @Query('incViews') incViews?: string) {
+        return this.postsService.findOne(parseInt(id, 10), incViews === 'true')
     }
 
     @Put(':id')
