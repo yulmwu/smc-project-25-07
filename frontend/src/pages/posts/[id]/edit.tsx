@@ -14,7 +14,6 @@ export default function EditPost({ post }: { post: Post }) {
         password: '',
         category: post.category,
         thumbnailUrl: post.thumbnailUrl ?? '',
-        forDevelopmentUpdateAtDate: post.createdAt ?? new Date().toISOString(),
     })
     const [useThumbnail, setUseThumbnail] = useState(!!post.thumbnailUrl)
     const [thumbnailError, setThumbnailError] = useState('')
@@ -114,16 +113,9 @@ export default function EditPost({ post }: { post: Post }) {
                         <input
                             className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                             placeholder='태그 (쉼표로 구분)'
-                            value={(form.tags ?? []).join(', ')}
                             onChange={(e) =>
                                 setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })
                             }
-                        />
-                        <input
-                            className='bg-red-200 w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                            placeholder='ISO 8601 형식 날짜 (개발용)'
-                            onChange={(e) => setForm({ ...form, forDevelopmentUpdateAtDate: e.target.value })}
-                            value={form.forDevelopmentUpdateAtDate}
                         />
                         <div className='flex items-center space-x-2'>
                             <input
@@ -131,9 +123,9 @@ export default function EditPost({ post }: { post: Post }) {
                                 id='useThumbnail'
                                 checked={useThumbnail}
                                 onChange={(e) => setUseThumbnail(e.target.checked)}
-                                className='form-checkbox h-5 w-5 text-indigo-600'
+                                className='form-checkbox h-5 w-5 text-indigo-600 cursor-pointer'
                             />
-                            <label htmlFor='useThumbnail' className='text-gray-700'>
+                            <label htmlFor='useThumbnail' className='text-gray-700 cursor-pointer'>
                                 썸네일 이미지 사용
                             </label>
                         </div>

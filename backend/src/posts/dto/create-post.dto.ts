@@ -8,5 +8,4 @@ export class CreatePostDto {
     tags?: string[]
     views: number
     thumbnailUrl?: string
-    forDevelopmentCreateAtDate?: string
 }

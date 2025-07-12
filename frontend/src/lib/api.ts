@@ -46,7 +46,6 @@ export type Post = {
     commentCount?: number
     views?: number
     thumbnailUrl?: string
-    forDevelopmentCreateAtDate?: string // For development purposes, allow setting a custom createdAt date
 }
 
 export async function validateImageUrl(url: string): Promise<boolean> {

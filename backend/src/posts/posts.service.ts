@@ -57,8 +57,7 @@ export class PostsService {
             tags: createPostDto.tags ?? [],
             views: 0,
             thumbnailUrl: createPostDto.thumbnailUrl ?? null,
-            // createdAt: new Date().toISOString(),
-            createdAt: createPostDto.forDevelopmentCreateAtDate ?? new Date().toISOString(), // For development purposes, allow setting a custom createdAt date
+            createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         }
 
@@ -232,11 +231,6 @@ export class PostsService {
         if (dto.tags !== undefined) {
             updateExpressionParts.push('tags = :tags')
             expressionAttributeValues[':tags'] = dto.tags
-        }
-
-        if (dto.forDevelopmentUpdateAtDate) {
-            updateExpressionParts.push('createdAt = :createdAt')
-            expressionAttributeValues[':createdAt'] = dto.forDevelopmentUpdateAtDate
         }
 
         await this.dynamoDB.client.send(

@@ -10,6 +10,10 @@ import Head from 'next/head'
 import Markdown from '@/components/Markdown'
 
 export default function PostDetail({ post, comments }: { post: Post; comments: Comment[] }) {
+    if (!post) {
+        return <div className='text-center text-gray-500 mt-10'>게시글을 찾을 수 없습니다.</div>
+    }
+
     const router = useRouter()
     const [showPasswordModal, setShowPasswordModal] = useState(false)
     const [modalAction, setModalAction] = useState<'delete' | 'edit' | null>(null)
@@ -152,6 +156,7 @@ export default function PostDetail({ post, comments }: { post: Post; comments: C
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const id = Number(context.params?.id)
     const post = await getPost(id, true)
+
     const comments = await getComments(id)
     return { props: { post, comments } }
 }

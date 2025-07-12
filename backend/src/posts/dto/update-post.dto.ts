@@ -6,5 +6,4 @@ export class UpdatePostDto {
     category?: string
     tags?: string[]
     thumbnailUrl?: string
-    forDevelopmentUpdateAtDate?: string
 }

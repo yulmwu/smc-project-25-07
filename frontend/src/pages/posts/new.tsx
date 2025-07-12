@@ -13,7 +13,6 @@ export default function NewPost() {
         category: '자유',
         tags: [],
         thumbnailUrl: '',
-        forDevelopmentCreateAtDate: new Date().toISOString(),
     })
     const [useThumbnail, setUseThumbnail] = useState(false)
     const [thumbnailError, setThumbnailError] = useState('')
@@ -108,14 +107,7 @@ export default function NewPost() {
                     <input
                         className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                         placeholder='태그 (쉼표로 구분)'
-                        value={(form.tags ?? []).join(', ')}
                         onChange={(e) => setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })}
-                    />
-                    <input
-                        className='bg-red-200 w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                        placeholder='ISO 8601 형식 날짜 (개발용)'
-                        onChange={(e) => setForm({ ...form, forDevelopmentCreateAtDate: e.target.value })}
-                        value={form.forDevelopmentCreateAtDate}
                     />
 
                     <div className='flex items-center space-x-2'>
@@ -124,9 +116,9 @@ export default function NewPost() {
                             id='useThumbnail'
                             checked={useThumbnail}
                             onChange={(e) => setUseThumbnail(e.target.checked)}
-                            className='form-checkbox h-5 w-5 text-indigo-600'
+                            className='form-checkbox h-5 w-5 text-indigo-600 cursor-pointer'
                         />
-                        <label htmlFor='useThumbnail' className='text-gray-700'>
+                        <label htmlFor='useThumbnail' className='text-gray-700 cursor-pointer'>
                             썸네일 이미지 사용
                         </label>
                     </div>
