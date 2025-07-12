@@ -13,7 +13,6 @@ export default function Markdown({ content }: { content: string }) {
                 p: ({ children }) => <p className='text-base md:text-lg mb-4'>{children}</p>,
                 ul: ({ children }) => <ul className='list-disc list-inside mb-3 pl-1'>{children}</ul>,
                 ol: ({ children }) => <ol className='list-decimal list-inside mb-3'>{children}</ol>,
-                li: ({ children }) => <li className='mb-3'>{children}</li>,
                 strong: ({ children }) => <strong className='font-bold'>{children}</strong>,
                 em: ({ children }) => <em className='italic'>{children}</em>,
                 code: ({ children }) => <code className='bg-gray-100 p-1 rounded'>{children}</code>,

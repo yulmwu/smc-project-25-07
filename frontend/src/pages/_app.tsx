@@ -174,7 +174,10 @@ export default function App({ Component, pageProps }: AppProps) {
             {/* 헤더 */}
             <header className='bg-white shadow px-4 py-3 sticky top-0 z-20 flex justify-between items-center'>
                 <div className='flex items-center gap-2'>
-                    <button className='lg:hidden p-2 rounded hover:bg-gray-200 cursor-pointer' onClick={() => toggleSidebar(true)}>
+                    <button
+                        className='lg:hidden p-2 rounded hover:bg-gray-200 cursor-pointer'
+                        onClick={() => toggleSidebar(true)}
+                    >
                         <FaList className='text-gray-600' />
                     </button>
                     <a href='/'>
@@ -197,35 +200,19 @@ export default function App({ Component, pageProps }: AppProps) {
             </header>
 
             {/* 메인 레이아웃 */}
-            <main className='flex flex-col lg:flex-row max-w-screen-2xl mx-auto px-4 py-6 gap-4'>
-                {/* 데스크탑 왼쪽 사이드바 */}
-                <aside className='hidden lg:block w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0'>
-                    <div className='sticky top-20 bg-white rounded-lg shadow pl-5 pr-4 pt-4 pb-4'>
+            <main className='max-w-screen-2xl mx-auto flex flex-col lg:flex-row px-4 py-6'>
+                <aside className='hidden lg:block w-[280px] flex-shrink-0 pr-4'>
+                    <div className='sticky top-20 bg-white rounded-lg shadow p-4'>
                         <SidebarContent />
-                        <div className='p-2 mt-6 text-xs text-gray-500'>
-                            <p>
-                                ❤️ Made by{' '}
-                                <a
-                                    href='https://github.com/yulmwu'
-                                    className='text-blue-500 hover:underline'
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                >
-                                    Kim Jun Young
-                                </a>
-                            </p>
-                        </div>
                     </div>
                 </aside>
 
-                {/* 본문 (게시글 리스트) */}
-                <section className='container mx-auto'>
+                <section className='flex-1'>
                     <Component {...pageProps} />
                 </section>
 
-                {/* 데스크탑 오른쪽 사이드바 */}
-                <aside className='hidden xl:block w-[280px] min-w-[280px] max-w-[280px] flex-shrink-0'>
-                    <div className='fixed top-20 bg-white rounded-lg shadow p-4'>
+                <aside className='hidden xl:block w-[280px] flex-shrink-0 pl-4'>
+                    <div className='sticky top-20 bg-white rounded-lg shadow p-4'>
                         <h2 className='text-lg font-semibold mb-3'>최신 게시글 목록 (10개)</h2>
                         <ul className='space-y-2.5 text-sm'>
                             {latestPosts.map((post) => (

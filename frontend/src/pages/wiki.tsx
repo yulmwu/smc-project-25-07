@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Markdown from '@/components/Markdown'
-import { wikiContent } from '@/wiki.data'
+import { wikiContent } from '@/wiki_data'
+
+const defaultTab = 'tiger'
 
 const WikiPage: React.FC = () => {
     const router = useRouter()
     const { tab, lang } = router.query
-    const [activeTab, setActiveTab] = useState<string>((tab as string) || 'animal')
+    const [activeTab, setActiveTab] = useState<string>((tab as string) || defaultTab)
     const [currentLang, setCurrentLang] = useState<'ko' | 'en'>((lang as 'ko' | 'en') || 'ko')
 
     useEffect(() => {
@@ -16,7 +18,7 @@ const WikiPage: React.FC = () => {
             if (tab && typeof tab === 'string' && wikiContent[tab]) {
                 setActiveTab(tab)
             } else {
-                setActiveTab('animal') // Default to 'animal' if tab is not valid or not present
+                setActiveTab(defaultTab)
             }
             if (lang === 'en') {
                 setCurrentLang('en')
@@ -37,7 +39,11 @@ const WikiPage: React.FC = () => {
         router.push(`/wiki?tab=${activeTab}&lang=${newLang}`, undefined, { shallow: true })
     }
 
-    const currentContent = wikiContent[activeTab]?.[currentLang] || wikiContent.animal[currentLang]
+    const currentContent = wikiContent[activeTab]?.[currentLang] || wikiContent[defaultTab]?.[currentLang]
+    
+    if (!currentContent) {
+        return <div className='text-center text-red-500'>해당 위키 항목을 찾을 수 없습니다.</div>
+    }
 
     return (
         <>
