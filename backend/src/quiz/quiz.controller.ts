@@ -9,12 +9,12 @@ export class QuizController {
 
     @Post()
     startQuiz(@Body() createQuizDto: CreateQuizDto) {
-        return this.quizService.startQuiz(createQuizDto.username)
+        return this.quizService.startQuiz(createQuizDto)
     }
 
     @Post('submit')
     submitQuiz(@Body() submitQuizDto: SubmitQuizDto) {
-        return this.quizService.submitQuiz(submitQuizDto.username, submitQuizDto.answers)
+        return this.quizService.submitQuiz(submitQuizDto)
     }
 
     @Get('rankings')

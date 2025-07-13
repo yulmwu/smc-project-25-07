@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
-import { startQuiz, submitQuiz, getRankings, QuizQuestion, Ranking } from '../lib/api'
+import { startQuiz, submitQuiz, getRankings, QuizQuestion, Ranking, SubmitQuizResponse } from '../lib/api'
 import { shuffleArray } from '../utils/shuffle'
 
 const QuizPage = () => {
@@ -13,7 +13,7 @@ const QuizPage = () => {
     const [questions, setQuestions] = useState<QuizQuestion[]>([])
     const [current, setCurrent] = useState(0)
     const [answers, setAnswers] = useState<string[]>([])
-    const [result, setResult] = useState<{ score: number; rank: number } | null>(null)
+    const [result, setResult] = useState<SubmitQuizResponse | null>(null)
     const [rankings, setRankings] = useState<Ranking[]>([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
@@ -111,7 +111,7 @@ const QuizPage = () => {
                             type='text'
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
-                            placeholder='이름을 입력하세요'
+                            placeholder='학번/이름으로 입력해주시면 감사드리겠습니다.'
                             className='border p-3 w-full rounded-lg focus:ring-2 focus:ring-indigo-500 transition mb-4'
                         />
                         <button
@@ -188,8 +188,9 @@ const QuizPage = () => {
             {step === 'result' && result && (
                 <div className='container mx-auto p-4 max-w-2xl bg-white rounded-lg shadow-lg'>
                     <h1 className='text-3xl font-bold mb-4 text-center text-gray-800'>퀴즈 결과</h1>
+                    <h1 className='text-xl mb-4 text-center text-gray-500'><span className='text-gray-800'>{result.duration}</span>초가 소요되었습니다.</h1>
                     <h2 className='text-2xl font-bold mb-4 text-center text-gray-700'>
-                        점수: {result.score} ({result.rank}위)
+                        점수: {result.score}점 ({result.rank}위)
                     </h2>
                     <ul className='list-none p-0 mt-4'>
                         {rankings.slice(0, 3).map((r) => (

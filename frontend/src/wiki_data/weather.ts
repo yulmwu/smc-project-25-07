@@ -79,4 +79,96 @@ export const ko = `# 현대의 기후
 > - [한국보험학회 - 조선후기 자연재해와 계의 보장 내용 및 수준의 연관성](https://kiss.kstudy.com/Detail/Ar?key=4036173)
 `
 
-export const en = ``
+export const en = `# Modern Climate
+
+Shall we think about today’s weather? As of July 12, the daytime high is 34 degrees Celsius, and the perceived temperature is likely even higher.  
+But doesn’t it feel strange? Just a few years ago, around this time, temperatures seemed to be around 30 degrees.  
+It felt like only in late July to early August, the height of summer, the highs would reach about 35 degrees.
+
+At some point, summers became hotter.  
+There was even a time when it made headlines that chicks hatched from eggs left outside.  
+This is something unprecedented in human history.
+
+![image](https://cdn.discordapp.com/attachments/1393236523045879898/1393416656990244904/image.png?ex=687317e3&is=6871c663&hm=b3c460919e3c8d88d674e331339288199f5b2b9328a767177aace4ce2897f47d&)
+
+The same goes for winter.  
+I remember going outside in the winter to have snowball fights and build snowmen with friends.  
+But what about these days? It hardly snows in winter, and rather than playing outside, the cold is so severe that it’s even scary to go out.
+
+Spring and autumn, the most pleasant seasons to live in, are becoming shorter and shorter.  
+There’s even a saying that spring and autumn have disappeared.
+
+![image](https://i.namu.wiki/i/fFgtHlfWD0byztd7NZTaSl5sq1I_Lu2gyfisXNKlSxKriURk0XTZjAHYtEhkUmQm5JfrCdHU8IPp09t4vfMhdKKMHzKip8y7umuktwVKKTWAe2iS1egqy00jaBvyAgygWqJq99JXFWWRc2mzLeEJUw.webp)
+
+In March 2025, wildfires broke out across the country, causing significant damage and tragic loss of life.  
+Not only in Korea, but in the southern U.S., California wildfires resulted in damages estimated at around 400 trillion KRW.
+
+The key point is that these wildfires do not easily extinguish and are large-scale fires that cannot be found in history, suddenly appearing in modern times.
+
+This is not mere coincidence. It’s because of climate change.  
+And when talking about climate change, we cannot leave out the story of **average temperature**.
+
+## Climate Crisis: The Rise in Average Temperature
+
+The main culprit in raising the average temperature is **carbon dioxide (CO2)**.  
+In fact, carbon dioxide is a very common substance in nature.
+
+It’s produced when we breathe, when plants photosynthesize, and even when volcanoes erupt.  
+But in the design of the Earth, this amount of carbon dioxide posed no problem.
+
+The problem began when humanity went through the Industrial Revolution, with the development of large factories and means of transportation like automobiles, leading to massive emissions of carbon dioxide.
+
+![image](https://cdn.redian.org/news/photo/202309/173865_55776_1306.jpg)
+
+Extracting coal from underground, burning it, and using it to manufacture things or generate electricity—this was not something considered in Earth’s design.
+
+Because of this carbon dioxide, the Earth’s average temperature is rising very rapidly.
+
+![image](https://upload.wikimedia.org/wikipedia/commons/3/3a/Common_Era_Temperature.svg)
+
+The graph above shows the change in the Earth’s average temperature.  
+You can clearly see that after the Industrial Revolution, the temperature sharply increased.
+
+Since the Industrial Revolution, the Earth’s average temperature has risen by about 1.2 degrees Celsius.  
+1.2 degrees may sound like a small number.
+
+Let’s change our perspective. How much energy is required to raise the Earth’s average temperature by about 1.2 degrees?
+
+To achieve this level of warming, it would take detonating about 350,000 atomic bombs every day from the Industrial Revolution until now.
+
+In the past, it was often said that tropical rainforests like the Amazon absorbed carbon dioxide and cooled the Earth, so there was no problem.  
+Of course, that’s not considering the variable of cutting down and destroying the trees in the rainforest.
+
+# Climate of the Joseon Dynasty
+
+The climate crisis explained above is a global problem, and even in the Joseon Dynasty, there were abnormal climates and natural disasters.  
+However, it was not like today’s extremely hot summers.
+
+Natural disasters in the Joseon Dynasty due to abnormal climate were mainly droughts and floods.  
+Since agriculture was the main economic activity during Joseon, droughts and floods caused significant damage to crops.
+
+You can find more about natural disasters in the “Natural Disasters” section, but here we’ll focus on the climate of the Joseon period.
+
+Overall, the Joseon Dynasty had a mild climate, but it also corresponded to the **Little Ice Age**, which was relatively cooler and drier.  
+Summers were cool, and winters were cold.
+
+Abnormal weather events in the Joseon Dynasty mainly involved severe droughts and severe floods, appearing alternately by year.
+
+## The Gyeongsin Famine
+
+A representative example of abnormal climate in Joseon is the Gyeongsin Famine.
+
+The Gyeongsin Famine, which occurred in the 11th to 12th years of King Hyeonjong’s reign (1670–1671), was one of the representative climate disasters of the Joseon period.  
+Around the 17th century, the Little Ice Age arrived. Although other countries also suffered, the damage in Joseon was considerable.
+
+![image](https://i.namu.wiki/i/XvYMHah3ObWoRxhje36SFhus6WR1oKmxETKfSEv38cX_NWF_H2C2ryPsmUvHxWn6Rb7WM3e_83KB2gxsYyrAdZgZVOYrUtfmSu71K8F_bcwjyxbIhhagZM18zoRCx6HsF1vQ3h3nO4ldlE1tqZck7A.webp)
+
+You can see that around the 17th century, the concentration of carbon dioxide, the main culprit of the greenhouse effect, dropped sharply, and then increased rapidly after the Industrial Revolution.  
+As a result, in Joseon, there were about one million deaths due to starvation and disease caused by food shortages, and epidemics spread.
+
+Other than this, there were not many climate disasters.  
+Of course, droughts and floods occurred frequently, but they were not at a level that could be called abnormal climates compared to today.
+
+> Source:
+> - [Korean Insurance Association - Relationship Between Natural Disasters in Late Joseon and the Content & Level of Protection by Gye (mutual aid groups)](https://kiss.kstudy.com/Detail/Ar?key=4036173)
+`

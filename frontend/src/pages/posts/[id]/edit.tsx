@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { GetServerSideProps } from 'next'
 import { getPost, updatePost, Post, validateImageUrl } from '@/lib/api'
@@ -19,7 +19,7 @@ export default function EditPost({ post }: { post: Post }) {
     const [thumbnailError, setThumbnailError] = useState('')
     const [error, setError] = useState('')
 
-    const categories = ['동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
+    const categories = ['자유', '질문', '정보', '기타']
 
     const handleThumbnailUrlChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const url = e.target.value
@@ -113,6 +113,7 @@ export default function EditPost({ post }: { post: Post }) {
                         <input
                             className='w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500'
                             placeholder='태그 (쉼표로 구분)'
+                            value={form.tags!.join(', ')}
                             onChange={(e) =>
                                 setForm({ ...form, tags: e.target.value.split(',').map((tag) => tag.trim()) })
                             }

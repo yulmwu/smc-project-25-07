@@ -81,7 +81,7 @@ const WikiPage: React.FC = () => {
                 <h2 className='text-2xl sm:text-3xl font-bold mb-6 text-gray-800 border-b pb-4'>
                     {currentContent.title}
                 </h2>
-                <div className='prose prose-lg max-w-none text-gray-700 leading-relaxed'>
+                <div className='max-w-none text-gray-700 leading-relaxed'>
                     <Markdown content={currentContent.content} />
                 </div>
             </div>

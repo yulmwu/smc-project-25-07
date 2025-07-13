@@ -15,4 +15,19 @@ export const ko = `# 조선시대 동물: 표범, 반달가슴곰
 > - [한겨레 - ‘멸종위기’ 뗀 지리산 반달곰…이젠 복원 넘어 공존법 찾는다](https://www.hani.co.kr/arti/animalpeople/wild_animal/1164884.html)
 `
 
-export const en = ''
+export const en = `# Animals in Joseon Dynasty: Leopard and Asiatic Black Bear
+
+In the Joseon Dynasty, leopards were known to inhabit the region alongside tigers. Historical records indicate that leopard skins were presented as gifts to the royal court. However, like tigers, leopards also faced extinction due to pest control measures implemented during the Japanese colonial period.
+
+![image](https://i.namu.wiki/i/AhArcI-l4T6Ktui_DSk-9GSVMfuoBWPpFtS0VAlafCDfmHF3Az4-t7X3rBzikOtueLhi7gAfQLhsk7X02MGVIQ.jpg)
+
+Additionally, the Asiatic black bear, commonly known as the moon bear, was also targeted in pest control campaigns. It is estimated that over a thousand bears were hunted until the 1940s, leading to a significant decline in their population on the Korean Peninsula.
+
+Fortunately, in 2004, the South Korean government allocated 16.5 billion won (approximately $14 million) to initiate a restoration project for the Asiatic black bear. As a result, these bears have started to reinhabit areas like Jirisan National Park, and efforts to restore their population continue.
+
+![image](https://flexible.img.hani.co.kr/flexible/normal/680/453/imgdb/original/2024/1029/20241029502994.jpg)
+
+> Sources:
+> - [Hankyoreh - ‘Endangered’ Jirisan Moon Bears: From Restoration to Finding Coexistence](https://www.hani.co.kr/arti/animalpeople/wild_animal/1164884.html)
+`
+

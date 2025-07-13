@@ -37,17 +37,27 @@ const RankingPage = () => {
                     <table className='w-full border-collapse'>
                         <thead>
                             <tr className='bg-gray-200'>
-                                <th className='p-3 text-left text-sm font-semibold text-gray-600'>순위</th>
+                                <th className='p-3 text-center text-sm font-semibold text-gray-600'>순위</th>
                                 <th className='p-3 text-left text-sm font-semibold text-gray-600'>이름</th>
-                                <th className='p-3 text-left text-sm font-semibold text-gray-600'>점수</th>
+                                <th className='p-3 text-center text-sm font-semibold text-gray-600'>점수</th>
+                                <th className='p-3 text-center text-sm font-semibold text-gray-600'>소요 시간</th>
                             </tr>
                         </thead>
                         <tbody>
                             {rankings.map((r) => (
-                                <tr key={r.rank} className='border-b border-gray-200 hover:bg-gray-50'>
-                                    <td className='p-3 text-center font-bold text-indigo-600'>{r.rank}</td>
+                                <tr
+                                    key={r.rank}
+                                    className='border-b border-gray-200 bg-white hover:bg-gray-50 cursor-pointer'
+                                >
+                                    <td className='p-3 text-center font-bold text-indigo-600'>
+                                        <span className='text-xl mr-2'>
+                                            {r.rank === 1 ? '🥇' : r.rank === 2 ? '🥈' : r.rank === 3 ? '🥉' : ''}
+                                        </span>
+                                        {r.rank}
+                                    </td>
                                     <td className='p-3 text-gray-800'>{r.username}</td>
                                     <td className='p-3 text-center font-semibold'>{r.score}</td>
+                                    <td className='p-3 text-center text-gray-600'>{r.duration}초</td>
                                 </tr>
                             ))}
                         </tbody>

@@ -47,4 +47,60 @@ export const ko = `# 조선시대 동물: 호랑이
 > -   [한겨레 - 한국호랑이는 언제, 왜 사라졌을까](https://www.hani.co.kr/arti/society/environment/396050.html)
 `
 
-export const en = ''
+export const en = `# Animals of the Joseon Dynasty: Tigers
+
+![image](https://i.namu.wiki/i/JLth13-t_iXWBGrN9vb11GvN0kwRjASFk5WEV8IKhRuinBfZFTlahzNeyTk2aVUxnZPoWp_A7wYgmtQfywd7br-mkzgEaXtBnij7h7SPrji-Yoi_0LiSg2EfZB-RAWVH_6C6p2orh4QwmBOMTurm-g.webp)
+
+When talking about animals that disappeared compared to the Joseon Dynasty, **tigers** cannot be left out.  
+Even in the Annals of the Joseon Dynasty (Joseon Wangjo Sillok), there are over 700 records related to tigers.
+
+Thus, during the Joseon period, tigers were very common animals.  
+In today’s terms, they were like very large stray cats.
+
+They inhabited the entire Korean Peninsula, and especially in the mountainous terrain of Korea, it was an even more favorable environment for tigers.
+
+In fact, there are many records of people being attacked by tigers, and these situations were referred to as **hohwan** (虎患, tiger calamities).  
+Because of this, in the Joseon period, there were even professional tiger hunters known as **chakho gapsa** (捉虎甲士), who specialized in hunting tigers and other wild beasts.
+
+## Tigers in Culture
+
+Tigers, which held a position similar to today’s stray cats, were also the main characters in many cultural stories at that time, as much as they caused harm. There is this familiar Korean idiomatic expression:
+
+> _“Back when tigers smoked pipes...”_
+
+Of course, tigers didn’t actually smoke pipes, but the existence of such expressions even back then shows that tigers had been familiar animals to people since ancient times.
+
+![image](https://cdn.discordapp.com/attachments/1393236523045879898/1393242299575832586/image.png?ex=68727581&is=68712401&hm=ab86209edd9fbe35f3d66db37342dbd27bc436141432a8e2e96af42e2ab4768c&)
+
+In fact, famous painters of the Joseon period like Kim Hong-do left many works depicting tigers.  
+The painting above is Kim Hong-do’s **“Songha Menghodo”** (Tiger Under Pine Tree).
+
+In Joseon culture, tigers were regarded as kings of the mountains, mountain spirits, or guardian deities.  
+Even without delving into many details, it can be seen that tigers were familiar animals to people from the culture of the Joseon period.
+
+## Tigers Today
+
+Today, when we think of “tigers,” it feels as though we are looking at a legendary animal.  
+Where did all those numerous tigers go?
+
+It was during the late Joseon period, around the 1910s when Korea came under Japanese influence, that they began to hunt tigers under the pretext of eliminating "**harmful beasts**." (**Haesu Guje Project**)
+
+![image](https://flexible.img.hani.co.kr/flexible/normal/590/339/imgdb/resize/2009/1230/126207010764_20091230.webp)
+
+Especially the Japanese, who led these campaigns, extensively hunted harmful beasts throughout the 1910s and 1920s.  
+As a result, they completed large-scale hunting operations, killing 24 tigers, 136 leopards, 429 bears, and 228 wolves.
+
+Of course, tigers continued to inhabit the peninsula even after that.  
+However, during the 1950s Korean War (6.25 War) and the rapid development that followed—namely the Miracle on the Han River—urbanization progressed quickly, habitats were destroyed, and tigers gradually disappeared.
+
+The last tiger captured in the southern part of Korea was caught in Hoengseong County, Gangwon Province, in 1924.  
+There might have been some after that, but only ambiguous records remain, and it is said that tigers on the Korean Peninsula effectively went extinct in the 1920s.
+
+Subsequent efforts were made to restore tigers, but ultimately they did not succeed.  
+Currently, wild tigers are known to survive only in regions such as Russia.
+
+> Source:
+>
+> -   [Wikipedia - Tigers in Korean Culture](https://ko.wikipedia.org/wiki/%ED%95%9C%EA%B5%AD_%EB%AC%B8%ED%99%94_%EC%86%8D%EC%9D%98_%ED%98%B8%EB%9E%91%EC%9D%B4)
+> -   [Hankyoreh - When and Why Did Korean Tigers Disappear?](https://www.hani.co.kr/arti/society/environment/396050.html)
+`

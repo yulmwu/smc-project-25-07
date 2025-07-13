@@ -2,6 +2,8 @@ import { Injectable, NotFoundException, ConflictException } from '@nestjs/common
 import { DynamoDBService } from '../common/dynamodb/dynamodb.service'
 import { quizData, quizDataRaw } from './quiz.data'
 import { GetCommand, PutCommand, ScanCommand } from '@aws-sdk/lib-dynamodb'
+import { SubmitQuizDto } from './dto/submit-quiz.dto'
+import { CreateQuizDto } from './dto/create-quiz.dto'
 
 @Injectable()
 export class QuizService {
@@ -9,11 +11,11 @@ export class QuizService {
 
     constructor(private readonly dynamoDBService: DynamoDBService) {}
 
-    async startQuiz(username: string) {
+    async startQuiz(startQuizDto: CreateQuizDto) {
         const existingUser = await this.dynamoDBService.client.send(
             new GetCommand({
                 TableName: this.tableName,
-                Key: { username },
+                Key: { username: startQuizDto.username },
             })
         )
 
@@ -22,9 +24,10 @@ export class QuizService {
         }
 
         const newUser = {
-            username,
+            username: startQuizDto.username,
             score: 0,
             submitted: false,
+            createdAt: new Date().toISOString(),
             submittedAt: null,
         }
 
@@ -41,11 +44,11 @@ export class QuizService {
         }
     }
 
-    async submitQuiz(username: string, answers: string[]) {
+    async submitQuiz(submitQuizDto: SubmitQuizDto) {
         const userResult = await this.dynamoDBService.client.send(
             new GetCommand({
                 TableName: this.tableName,
-                Key: { username },
+                Key: { username: submitQuizDto.username },
             })
         )
 
@@ -59,7 +62,10 @@ export class QuizService {
 
         let score = 0
         for (let i = 0; i < quizDataRaw.answers.length; i++) {
-            if (answers[i] && answers[i].toLowerCase() === quizDataRaw.answers[i].toLowerCase()) {
+            if (
+                submitQuizDto.answers[i] &&
+                submitQuizDto.answers[i].toLowerCase() === quizDataRaw.answers[i].toLowerCase()
+            ) {
                 score += quizDataRaw.questions[i].score ?? 1
             }
         }
@@ -68,6 +74,7 @@ export class QuizService {
             ...userResult.Item,
             score,
             submitted: true,
+            createdAt: userResult.Item.createdAt,
             submittedAt: new Date().toISOString(),
         }
 
@@ -79,12 +86,18 @@ export class QuizService {
         )
 
         const rankings = await this.getRankings()
-        const userRank = rankings.findIndex((rank) => rank.username === username) + 1
+        const userRank = rankings.findIndex((rank) => rank.username === submitQuizDto.username) + 1
+
+        const duration =
+            (new Date(updatedUser.submittedAt).getTime() - new Date(updatedUser.createdAt).getTime()) / 1000
 
         return {
             message: 'Quiz submitted successfully.',
             score,
             rank: userRank,
+            createdAt: updatedUser.createdAt,
+            submittedAt: updatedUser.submittedAt,
+            duration: Math.round(duration),
         }
     }
 
@@ -101,11 +114,17 @@ export class QuizService {
 
         const sortedUsers = (scanResult.Items ?? [])
             .sort((a, b) => b.score - a.score)
-            .map((item, index) => ({
-                rank: index + 1,
-                username: item.username,
-                score: item.score,
-            }))
+            .map((item, index) => {
+                const duration = (new Date(item.submittedAt).getTime() - new Date(item.createdAt).getTime()) / 1000
+                return {
+                    rank: index + 1,
+                    username: item.username,
+                    score: item.score,
+                    createdAt: item.createdAt,
+                    submittedAt: item.submittedAt,
+                    duration: Math.round(isNaN(duration) ? 0 : duration),
+                }
+            })
 
         return sortedUsers
     }

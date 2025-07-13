@@ -39,4 +39,42 @@ export const ko = `# 조선시대의 자연재해
 > [조선시대의 가뭄 및 대처 방법](https://universitystudent.tistory.com/15)
 `
 
-export const en = ''
+export const en = `# Natural Disasters in the Joseon Dynasty
+
+Before reading this article, we recommend that you first read [The Climate of the Joseon Dynasty](/).
+
+When we talk about abnormal weather and natural disasters in the Joseon Dynasty, there are largely two types: droughts and floods. These two accounted for most of the natural disasters during the Joseon period.
+
+According to the Annals of the Joseon Dynasty (Joseon Wangjo Sillok), there were about **3,400 records of droughts** and **1,300 records of floods**, showing that droughts were more common and frequent. Droughts and floods were such significant issues that a rain gauge (cheugugi) was invented during the Joseon period to measure rainfall.
+
+## Drought
+
+The Joseon Dynasty was primarily an agrarian society, so droughts caused substantial damage to crops. When a drought occurred, crops withered and died or yields decreased, leading to famine.
+
+In such situations, they performed rain rituals (giuje) to pray for rain. Most of the time, they offered animals as sacrifices, but records show that in severe cases, humans were also sacrificed.
+
+The famous Gyeongsin Famine also resulted in heavy damage due to drought. Around one million people starved to death, and infectious diseases spread.
+
+These natural disasters also had strong religious elements, as seen in the rain rituals. The first record related to drought in the Annals of the Joseon Dynasty appears in the first year of King Taejo (the founding monarch) in 1392.
+
+> [**"When Taejo ascended the throne, rain fell after a drought."**](https://sillok.history.go.kr/id/kaa_10107018_001)
+> 
+> It rained. Previously, there had been a long drought, but when the king ascended the throne, it poured, greatly delighting the people.
+> 
+> _- Annals of Taejo, Volume 1, 1st year of Taejo, July 18th Jeongyu / 1392, Hongwu 25 of Ming -_
+
+As such, droughts in the Joseon Dynasty were strongly tied to religious beliefs related to the king’s rule. People believed that if the king ruled well, rain would fall and the people would prosper.
+
+## Floods (Monsoon)
+
+**Floods** during the monsoon season were also a major problem in the Joseon period. Floods caused by long summer monsoons also had religious or spiritual elements.
+
+When the monsoon lasted too long, there was a custom of marrying off bachelors and old maids, as people believed that the resentment of unmarried young men and women prolonged the monsoon.
+
+They also opened the Sungnyemun gate to achieve the harmony of yin and yang. The idea was to block the yin energy of the rain with the yang energy represented by Sungnyemun.
+
+Though unscientific, people of the Joseon Dynasty tried to prevent floods in such ways. Of course, there were also practical measures such as improving rivers or building embankments.
+
+> Source:
+> [Droughts and Countermeasures in the Joseon Dynasty](https://universitystudent.tistory.com/15)
+`

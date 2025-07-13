@@ -24,12 +24,18 @@ export interface SubmitQuizResponse {
     message: string
     score: number
     rank: number
+    createdAt: string
+    submittedAt: string
+    duration: number
 }
 
 export interface Ranking {
     rank: number
     username: string
     score: number
+    createdAt: string
+    submittedAt: string
+    duration: number
 }
 
 export type Post = {

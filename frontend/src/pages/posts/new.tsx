@@ -17,7 +17,7 @@ export default function NewPost() {
     const [useThumbnail, setUseThumbnail] = useState(false)
     const [thumbnailError, setThumbnailError] = useState('')
 
-    const categories = ['동물', '날씨/기후', '자연재해', '자유', '질문', '정보', '기타']
+    const categories = ['자유', '질문', '정보', '기타']
 
     useEffect(() => {
         if (router.query.category) {
