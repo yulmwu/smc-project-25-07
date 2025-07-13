@@ -171,7 +171,6 @@ export default function Home() {
                         className='bg-white pt-4 pb-4 pl-7 pr-7 rounded-lg shadow hover:shadow-md transition cursor-pointer'
                     >
                         <Link href={`/posts/${post.id}`} className='flex flex-col w-full h-full'>
-                            {/* 제목 + 썸네일 줄 */}
                             <div className='flex flex-col md:flex-row-reverse items-start md:items-center'>
                                 {post.thumbnailUrl && (
                                     <div className='w-full md:w-1/4 mb-5 md:mb-0 md:ml-4 flex-shrink-0'>

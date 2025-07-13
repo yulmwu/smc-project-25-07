@@ -18,7 +18,7 @@ const aboutContent = `
 ## DevOps
 배포에선 AWS를 이용하였는데, 아키텍처는 아래와 같습니다.
 
-![AWS Architecture](https://smc-secu.net/wp-content/uploads/kboard_attached/2/202507/686dc903d01689672402.png)
+![AWS Architecture](https://cdn.discordapp.com/attachments/1375080934990282934/1393865490538954773/awsar.png?ex=6874b9e5&is=68736865&hm=3c913ad5d0f7e1dbad790496a47782d5b21b8ea0d91386edd0a31e0f1dcbb234&)
 
 모두 도커를 사용하여 컨테이너화하였고, AWS ECR에 이미지를 push한 후 AWS ECS에서 Fargate를 사용하여 서버리스로 컨테이너를 실행하도록 하였습니다.
 

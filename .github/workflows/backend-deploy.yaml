@@ -3,8 +3,8 @@ name: Deploy Backend
 on:
   push:
     paths:
-      - '_backend/**' # No deploy
-      - '_.github/workflows/backend-deploy.yaml'
+      - 'backend/**'
+      - '.github/workflows/backend-deploy.yaml'
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       ECR_REPO_NAME: smc-07-project-backend-repo
       ECS_CLUSTER_NAME: smc-07-project-cluster
-      ECS_SERVICE_NAME: smc-07-project-backend-task-service-cbzvnvhk
+      ECS_SERVICE_NAME: smc-07-project-backend-task-service
 
     steps:
       - name: Checkout code

@@ -3,8 +3,8 @@ name: Deploy Frontend
 on:
   push:
     paths:
-      - '_frontend/**' # No deploy
-      - '_.github/workflows/frontend-deploy.yaml'
+      - 'frontend/**' # No deploy
+      - '.github/workflows/frontend-deploy.yaml'
 
 jobs:
   deploy:
@@ -15,7 +15,7 @@ jobs:
       AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
       ECR_REPO_NAME: smc-07-project-frontend-repo
       ECS_CLUSTER_NAME: smc-07-project-cluster
-      ECS_SERVICE_NAME: smc-07-project-frontend-task-service-m1ipwz4c
+      ECS_SERVICE_NAME: smc-07-project-frontend-task-service
 
     steps:
       - name: Checkout code
