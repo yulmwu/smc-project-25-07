@@ -221,8 +221,11 @@ export default function Home() {
                                 </p>
                                 <p>
                                     <span>{dayjs(post.createdAt).format('YYYY-MM-DD HH:mm')}</span>
-                                    <span className='ml-3'>조회수: {post.views ?? 0}</span>
+                                    <span className='ml-3 sm:inline hidden'>조회수: {post.views ?? 0}</span>
                                 </p>
+                            </div>
+                            <div className='text-sm text-gray-400 flex justify-end items-center mt-auto sm:hidden'>
+                                <p>조회수: {post.views}</p>
                             </div>
                         </Link>
                     </article>
