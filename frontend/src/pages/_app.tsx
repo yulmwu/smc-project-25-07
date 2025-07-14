@@ -114,6 +114,12 @@ export const SidebarContent = () => (
                 </a>
             </li>
             <li>
+                <a href='/ppt' className='hover:underline'>
+                    <FaDiagramProject className='inline mr-3' />
+                    발표 자료 보기
+                </a>
+            </li>
+            <li>
                 <a href='https://github.com/yulmwu/smc-project-25-07' className='hover:underline'>
                     <FaGithub className='inline mr-3' />
                     Source Code
