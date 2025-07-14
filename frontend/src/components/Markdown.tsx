@@ -10,7 +10,7 @@ export default function Markdown({ content }: { content: string }) {
                 h4: ({ children }) => <h4 className='text-lg font-semibold mt-5 mb-3'>{children}</h4>,
                 h5: ({ children }) => <h5 className='text-lg font-semibold mt-4 mb-2'>{children}</h5>,
                 h6: ({ children }) => <h6 className='text-lg font-semibold mt-3 mb-1'>{children}</h6>,
-                p: ({ children }) => <p className='text-base md:text-lg mb-7'>{children}</p>,
+                p: ({ children }) => <p className='text-base md:text-lg mb-7 break-words'>{children}</p>,
                 ul: ({ children }) => <ul className='list-disc list-inside mb-3 pl-1'>{children}</ul>,
                 ol: ({ children }) => <ol className='list-decimal list-inside mb-3'>{children}</ol>,
                 strong: ({ children }) => <strong className='font-bold'>{children}</strong>,
