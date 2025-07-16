@@ -3,8 +3,9 @@ name: Deploy Frontend
 on:
   push:
     paths:
-      - 'frontend/**' # No deploy
-      - '.github/workflows/frontend-deploy.yaml'
+    #   - 'frontend/**'
+    #   - '.github/workflows/frontend-deploy.yaml'
+      - 'NO'
 
 jobs:
   deploy:
